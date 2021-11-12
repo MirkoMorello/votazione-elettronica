@@ -16,6 +16,7 @@ public class Elettore extends Utente{
 	public Elettore(String CF, String name, String surname, LocalDate nascita, String comune, String nazione, sesso sesso) throws Exception {
 		super(name, surname);
 		this.nazione = new char[2];
+		this.voto = false;
 		this.nascita = nascita;
 		this.comune = comune;
 		if(nazione.length() != 2) {
@@ -57,5 +58,9 @@ public class Elettore extends Utente{
 	private boolean checkCF(String CF) {
 		
 		return true;
+	}
+	
+	private void esprimiVoto() {
+		this.voto = true;
 	}
 }
