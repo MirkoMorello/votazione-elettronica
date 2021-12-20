@@ -1,8 +1,10 @@
 import java.time.LocalDate;
 import java.time.Period;
 
-public class Elettore extends Utente{
+public class Elettore{
 	
+	private String name;
+	private String surname;
 	private  char[] CF;
 	private LocalDate nascita;
 	private String comune;
@@ -12,7 +14,8 @@ public class Elettore extends Utente{
 	
 	
 	public Elettore(String CF, String name, String surname, LocalDate nascita, String comune, String nazione, char sesso) throws Exception {
-		super(name, surname);
+		this.name = name;
+		this.surname = surname;
 		this.voto = false;
 		this.nascita = LocalDate.of(nascita.getYear(), nascita.getMonth(), nascita.getDayOfMonth());
 		this.comune = comune;
@@ -20,6 +23,15 @@ public class Elettore extends Utente{
 		this.sesso = Character.toLowerCase(sesso);
 		setCF(CF);
 	}
+	
+	public String getName() {
+		return this.name;
+	}
+	
+	public String getSurname() {
+		return this.surname;
+	}
+	
 	
 	public boolean canVote() {
 		int years = Period.between(nascita, LocalDate.now()).getYears();
@@ -55,7 +67,7 @@ public class Elettore extends Utente{
 		
 	}
 	
-	//@ requires this.canVote() && this.voto == false;
+	
 	private void esprimiVoto() {
 		this.voto = true;
 	}
