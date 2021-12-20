@@ -2,23 +2,13 @@ import java.time.LocalDate;
 import java.time.Period;
 
 public class Elettore extends Utente{
-	/*@ public invariant 
-	 @ (sesso == 'm' || sesso == 'f');
-	 @ (nazione.equals("italia")) ==> comune != null;
-	 @ nascita.before(LocalDate.now());
-	 @ checkCF() == true
-	 @*/
 	
-	/*
-	 * Gli attributi nome e cognome sono contenuti nella superclasse "Utente"
-	 */
-	
-	private /*@ spec_public @*/ char[] CF;
-	private /*@ spec_public @*/ LocalDate nascita;
-	private /*@ spec_public @*/ String comune;
-	private /*@ spec_public @*/ String nazione;
-	private /*@ spec_public @*/ char sesso;
-	private /*@ spec_public @*/ boolean voto;
+	private  char[] CF;
+	private LocalDate nascita;
+	private String comune;
+	private String nazione;
+	private char sesso;
+	private boolean voto;
 	
 	
 	public Elettore(String CF, String name, String surname, LocalDate nascita, String comune, String nazione, char sesso) throws Exception {
