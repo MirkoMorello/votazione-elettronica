@@ -1,8 +1,8 @@
 
 public abstract class Utente {
 	
-	private /*@ non_null @*/ String name;
-	private /*@ non_null @*/ String surname;
+	private String name;
+	private String surname;
 	
 	public Utente(String name, String surname) throws Exception {
 		this.name = name;

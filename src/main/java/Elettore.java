@@ -21,7 +21,7 @@ public class Elettore extends Utente{
 		setCF(CF);
 	}
 	
-	public /*@ pure @*/ boolean canVote() {
+	public boolean canVote() {
 		int years = Period.between(nascita, LocalDate.now()).getYears();
 		return (years >= 18);
 	}
@@ -36,7 +36,7 @@ public class Elettore extends Utente{
 		}
 	}
 	
-	private /*@ pure @*/ boolean checkCF() {
+	private boolean checkCF() {
 		if(!nazione.equals("italia")) {
 			if(this.CF[11] != 'Z') {
 				return false;
