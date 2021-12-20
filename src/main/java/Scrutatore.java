@@ -1,10 +1,9 @@
 import java.time.LocalDate;
 
-public class Scrutatore extends Utente {
+public class Scrutatore extends Elettore {
 
-	public Scrutatore( String name, String surname) throws Exception {
-		super(name, surname);
-		// TODO Auto-generated constructor stub
+	public Scrutatore( String CF, String name, String surname, LocalDate nascita, String comune, String nazione, char sesso ) throws Exception {
+		super(CF, name, surname, nascita, comune, nazione, sesso);
 	}
 	
 //	public void userVoted(String CF, String name, String surname, LocalDate born, Elezione election) throws Exception {
