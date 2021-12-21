@@ -23,7 +23,7 @@ public class DaoPatternDemo {
       
       //Create a new Elettore
       
-      Elettore e = new Elettore("MRLMRK97H14I441R", "Mirko", "Morello", LocalDate.of(1997, 6, 14), "Saronno", "Italia", 'M');
+      Elettore e = new Elettore("MRCMRL67G12I4IPP", "Marco", "Marollo", LocalDate.of(1967, 5, 12), "Sbobbio", "Italia", 'M');
       
       //elettoreDao.addElettore(e, "password");
       
