@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -115,39 +118,36 @@ public class ElettoreDaoImpl implements ElettoreDao{
 		return false;
 	}
 
-	public boolean AddElettore(Elettore e, String password) {
+	public boolean AddElettore(Elettore e, String password) throws NoSuchAlgorithmException {
 		
 		if( c == null) {
 			this.connect();
 		}
 		
 		try {
-			//stmt = c.createStatement();
-			//ResultSet rs = stmt.executeQuery("SELECT * FROM votazioneELettronica.elettore WHERE CF ");
 			String command = "INSERT INTO \"votazioneElettronica\".elettore VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
 			PreparedStatement updatedCmd= c.prepareStatement(command);
 			updatedCmd.setString(0, e.getCF());
 			updatedCmd.setString(1, e.getName());
 			updatedCmd.setString(2, e.getSurname());
-			updatedCmd.setString(3, );
-			updatedCmd.setString(4, e.getName());
-			updatedCmd.setString(5, e.getSurname());
-			
-			
-            
-            if(isAdmin) {
-            	e = new Gestore(Code, nome, cognome, nascitald, comune, nazione, sessoChar);
-            } else {
-            	e = new Elettore(Code, nome, cognome, nascitald, comune, nazione, sessoChar);
-            }
-            
-            return e;
-			
+			MessageDigest digest = MessageDigest.getInstance("SHA-256");
+			byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
+			String hashedpassword = String.valueOf(hash);
+			updatedCmd.setString(3, hashedpassword);
+			String nascita = e.getNascita().toString();
+			updatedCmd.setString(4, nascita);
+			updatedCmd.setString(5, e.getComune());
+			updatedCmd.setString(6, e.getSesso());
+			boolean isAdmin = (e instanceof Gestore);
+			updatedCmd.setBoolean(7, isAdmin);
+			updatedCmd.setString(8, e.getNazione());
+			updatedCmd.executeQuery();
+			return true;
 			
 		} catch (SQLException ex) {
 			ex.printStackTrace();
+			return false;
 		}
-		return e;
 		
 	}
 	
