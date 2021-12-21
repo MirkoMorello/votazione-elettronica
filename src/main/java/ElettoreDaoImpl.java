@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -82,11 +83,11 @@ public class ElettoreDaoImpl implements ElettoreDao{
 		try {
 			//stmt = c.createStatement();
 			//ResultSet rs = stmt.executeQuery("SELECT * FROM votazioneELettronica.elettore WHERE CF ");
-			String command = "SELECT * FROM \"votazioneElettronica\".elettore WHERE elettore.CF = ?;";
+			String command = "SELECT * FROM \"votazioneElettronica\".elettore WHERE elettore.\"CF\" = ?;";
 			PreparedStatement updatedCmd= c.prepareStatement(command);
-			updatedCmd.setString(0, String.valueOf(CF));
+			updatedCmd.setString(1, String.valueOf(CF));
 			ResultSet rs = updatedCmd.executeQuery();
-			
+			rs.next();
 			String Code = rs.getString("CF");
             String nome = rs.getString("nome");
             String cognome = rs.getString("cognome");
@@ -97,6 +98,7 @@ public class ElettoreDaoImpl implements ElettoreDao{
             boolean isAdmin = rs.getBoolean("isAdmin");
             char sessoChar = sesso.charAt(0);
             String nazione = rs.getString("nazione");
+            
             
             if(isAdmin) {
             	e = new Gestore(Code, nome, cognome, nascitald, comune, nazione, sessoChar);
@@ -113,35 +115,43 @@ public class ElettoreDaoImpl implements ElettoreDao{
 		return e;
 	}
 
-	public boolean DeleteElettore(char[] CF) {
+	public boolean deleteElettore(char[] CF) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	public boolean AddElettore(Elettore e, String password) throws NoSuchAlgorithmException {
+	public boolean addElettore(Elettore e, String password) throws NoSuchAlgorithmException {
 		
 		if( c == null) {
 			this.connect();
 		}
 		
+		
+		//Elettore check = this.getElettore(e.getCF().toCharArray());
+		
+		
+		
 		try {
 			String command = "INSERT INTO \"votazioneElettronica\".elettore VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
 			PreparedStatement updatedCmd= c.prepareStatement(command);
-			updatedCmd.setString(0, e.getCF());
-			updatedCmd.setString(1, e.getName());
-			updatedCmd.setString(2, e.getSurname());
+			updatedCmd.setString(1, e.getCF());
+			updatedCmd.setString(2, e.getName());
+			updatedCmd.setString(3, e.getSurname());
 			MessageDigest digest = MessageDigest.getInstance("SHA-256");
-			byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
-			String hashedpassword = String.valueOf(hash);
-			updatedCmd.setString(3, hashedpassword);
+			digest.update(password.getBytes(StandardCharsets.UTF_8));
+			byte[] hash = digest.digest();
+			String hashedpassword = String.format("%064x", new BigInteger(1, hash));
+			updatedCmd.setString(4, hashedpassword);
+			System.out.print(hashedpassword);
 			String nascita = e.getNascita().toString();
-			updatedCmd.setString(4, nascita);
-			updatedCmd.setString(5, e.getComune());
-			updatedCmd.setString(6, e.getSesso());
+			updatedCmd.setDate(5, java.sql.Date.valueOf(nascita));
+			updatedCmd.setString(6, e.getComune());
+			updatedCmd.setString(7, e.getSesso());
 			boolean isAdmin = (e instanceof Gestore);
-			updatedCmd.setBoolean(7, isAdmin);
-			updatedCmd.setString(8, e.getNazione());
-			updatedCmd.executeQuery();
+			updatedCmd.setBoolean(8, isAdmin);
+			updatedCmd.setString(9, e.getNazione());
+			updatedCmd.executeUpdate();
+			
 			return true;
 			
 		} catch (SQLException ex) {
