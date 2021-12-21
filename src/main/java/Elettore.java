@@ -1,11 +1,12 @@
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.Date;
 
 public class Elettore{
 	
 	private String name;
 	private String surname;
-	private  char[] CF;
+	private char[] CF;
 	private LocalDate nascita;
 	private String comune;
 	private String nazione;
@@ -17,7 +18,7 @@ public class Elettore{
 		this.name = name;
 		this.surname = surname;
 		this.voto = false;
-		this.nascita = LocalDate.of(nascita.getYear(), nascita.getMonth(), nascita.getDayOfMonth());
+		this.nascita = nascita;
 		this.comune = comune;
 		this.nazione = nazione.toLowerCase().trim();
 		this.sesso = Character.toLowerCase(sesso);
@@ -65,6 +66,10 @@ public class Elettore{
 		}
 		return true;
 		
+	}
+	
+	public String getCF() {
+		return String.valueOf(CF);
 	}
 	
 	
