@@ -87,7 +87,9 @@ public class ElettoreDaoImpl implements ElettoreDao{
 			PreparedStatement updatedCmd= c.prepareStatement(command);
 			updatedCmd.setString(1, String.valueOf(CF));
 			ResultSet rs = updatedCmd.executeQuery();
-			rs.next();
+			if(rs.next() == false) {
+				return null;
+			}
 			String Code = rs.getString("CF");
             String nome = rs.getString("nome");
             String cognome = rs.getString("cognome");
@@ -115,21 +117,40 @@ public class ElettoreDaoImpl implements ElettoreDao{
 		return e;
 	}
 
-	public boolean deleteElettore(char[] CF) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean deleteElettore(char[] CF) throws Exception {
+		if( c == null) {
+			this.connect();
+		}
+		
+		Elettore check = getElettore(CF);
+		if(check == null) {
+			return false;
+		}
+		
+		try {
+			String command = "DELETE FROM \"votazioneElettronica\".elettore WHERE elettore.\"CF\" = ?;";
+			PreparedStatement updatedCmd= c.prepareStatement(command);
+			updatedCmd.setString(1, String.valueOf(CF));
+			updatedCmd.executeUpdate();
+			
+			return true;
+			
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+			return false;
+		}
 	}
 
-	public boolean addElettore(Elettore e, String password) throws NoSuchAlgorithmException {
+	public boolean addElettore(Elettore e, String password) throws Exception {
 		
 		if( c == null) {
 			this.connect();
 		}
 		
-		
-		//Elettore check = this.getElettore(e.getCF().toCharArray());
-		
-		
+		Elettore check = getElettore(e.getCF().toCharArray());
+		if(check != null) {
+			return false;
+		}
 		
 		try {
 			String command = "INSERT INTO \"votazioneElettronica\".elettore VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";

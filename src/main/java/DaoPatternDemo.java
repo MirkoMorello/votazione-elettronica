@@ -25,11 +25,17 @@ public class DaoPatternDemo {
       
       Elettore e = new Elettore("MRCMRL67G12I4IPP", "Marco", "Marollo", LocalDate.of(1967, 5, 12), "Sbobbio", "Italia", 'M');
       
-      //elettoreDao.addElettore(e, "password");
+      if(elettoreDao.addElettore(e, "password")) {
+    	  System.out.println("elettore inserito correttamente");
+      }else {
+    	  System.out.println("elettore già presente nel DB");
+      }
       
-      Elettore result = elettoreDao.getElettore(e.getCF().toCharArray());
+      elettoreDao.deleteElettore("MRCMRL67G12I4IPP".toCharArray());
       
-      System.out.println(result.getCF());
+      //Elettore result = elettoreDao.getElettore(e.getCF().toCharArray());
+      
+      //System.out.println(result.getCF());
       
    }
 }
