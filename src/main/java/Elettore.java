@@ -76,5 +76,21 @@ public class Elettore{
 	private void esprimiVoto() {
 		this.voto = true;
 	}
+	
+	public LocalDate getNascita() {
+		return this.nascita;
+	}
+	
+	public String getComune() {
+		return this.comune;
+	}
+	
+	public String getSesso() {
+		return String.valueOf(sesso);
+	}
+	
+	public String getNazione() {
+		return nazione;
+	}
 
 }
