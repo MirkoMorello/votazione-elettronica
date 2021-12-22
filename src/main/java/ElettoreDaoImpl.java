@@ -13,6 +13,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 
+/*
+ * Questa classe è parte della componente Model del design pattern MVC
+ * Questa è l'implementazione dell'interfaccia ElettoreDao
+ * Questa è una classe DAO
+ */
+
 
 public class ElettoreDaoImpl implements ElettoreDao{
 	
@@ -81,8 +87,6 @@ public class ElettoreDaoImpl implements ElettoreDao{
 		}
 		
 		try {
-			//stmt = c.createStatement();
-			//ResultSet rs = stmt.executeQuery("SELECT * FROM votazioneELettronica.elettore WHERE CF ");
 			String command = "SELECT * FROM \"votazioneElettronica\".elettore WHERE elettore.\"CF\" = ?;";
 			PreparedStatement updatedCmd= c.prepareStatement(command);
 			updatedCmd.setString(1, String.valueOf(CF));

@@ -13,6 +13,11 @@ public class Elettore{
 	private char sesso;
 	private boolean voto;
 	
+	/*
+	 * Questa classe è parte della componente Model del design pattern MVC
+	 * Questa è l'implementazione del data transfer object del design pattern DAO di tipo Elettore
+	 */
+	
 	
 	public Elettore(String CF, String name, String surname, LocalDate nascita, String comune, String nazione, char sesso) throws Exception {
 		this.name = name;

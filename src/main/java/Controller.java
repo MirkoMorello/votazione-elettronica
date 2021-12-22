@@ -7,6 +7,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
+/*
+ * Questa è la componente Controller del design pattern MVC
+ * Questa classe prende l'input dell'utente e aggiorna la vista a seconda di ciò che l'utente ha inserito
+ * Questa è una classe client del design pattern DAO
+ */
+
 public class Controller {
 
     @FXML

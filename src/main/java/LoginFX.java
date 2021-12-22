@@ -4,6 +4,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/*
+ * Questa classe è parte della componente View del design pattern MVC
+ * In questa classe è possibile gestire l'interfaccia grafica che l'utente visualizzerà durante una sessione di login
+ * 
+ */
+
+
 public class LoginFX extends Application  {
 	
 	@Override
