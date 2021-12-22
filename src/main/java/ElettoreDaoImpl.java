@@ -116,6 +116,7 @@ public class ElettoreDaoImpl implements ElettoreDao{
 		}
 		return e;
 	}
+	
 
 	public boolean deleteElettore(char[] CF) throws Exception {
 		if( c == null) {
@@ -180,6 +181,54 @@ public class ElettoreDaoImpl implements ElettoreDao{
 			return false;
 		}
 		
+	}
+
+	@Override
+	public Elettore loginElettore(char[] CF, String password) throws Exception {
+		Elettore e = null;
+		
+		if( c == null) {
+			this.connect();
+		}
+		
+		try {
+			MessageDigest digest = MessageDigest.getInstance("SHA-256");
+			digest.update(password.getBytes(StandardCharsets.UTF_8));
+			byte[] hash = digest.digest();
+			String hashedpassword = String.format("%064x", new BigInteger(1, hash));
+			String command = "SELECT * FROM \"votazioneElettronica\".elettore WHERE elettore.\"CF\" = ? AND elettore.\"password\" = ?;";
+			PreparedStatement updatedCmd= c.prepareStatement(command);
+			updatedCmd.setString(1, String.valueOf(CF));
+			updatedCmd.setString(2, String.valueOf(hashedpassword));
+			ResultSet rs = updatedCmd.executeQuery();
+			if(rs.next() == false) {
+				return null;
+			}
+			String Code = rs.getString("CF");
+            String nome = rs.getString("nome");
+            String cognome = rs.getString("cognome");
+            Date nascita = rs.getDate("nascita");
+            LocalDate nascitald = LocalDate.of(nascita.getYear(), nascita.getMonth(), nascita.getDay());
+            String comune = rs.getString("comune");
+            String sesso = rs.getString("sesso");
+            boolean isAdmin = rs.getBoolean("isAdmin");
+            char sessoChar = sesso.charAt(0);
+            String nazione = rs.getString("nazione");
+            
+            
+            if(isAdmin) {
+            	e = new Gestore(Code, nome, cognome, nascitald, comune, nazione, sessoChar);
+            } else {
+            	e = new Elettore(Code, nome, cognome, nascitald, comune, nazione, sessoChar);
+            }
+            
+            return e;
+			
+			
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		return e;
 	}
 	
 }
