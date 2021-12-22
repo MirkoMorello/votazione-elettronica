@@ -6,6 +6,7 @@ public interface ElettoreDao {
 	public Elettore getElettore(char[] CF) throws Exception;
 	public boolean deleteElettore(char[] CF) throws Exception;
 	public boolean addElettore(Elettore e, String password) throws NoSuchAlgorithmException, Exception;
+	public Elettore loginElettore(char[] CF, String password) throws Exception;
 	
 	
 	
