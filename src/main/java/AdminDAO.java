@@ -7,5 +7,5 @@ public interface AdminDAO {
 	public Admin getAdmin(String username) throws Exception;
 	public boolean deleteAdmin(String username) throws Exception;
 	public boolean addAdmin(String username, String password) throws NoSuchAlgorithmException, Exception;
-	public Elettore loginAdmin(String username, String password) throws Exception;
+	public Admin loginAdmin(String username, String password) throws Exception;
 }
