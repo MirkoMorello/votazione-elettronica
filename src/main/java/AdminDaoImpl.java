@@ -100,9 +100,38 @@ public class AdminDaoImpl implements AdminDAO{
 	}
 
 	@Override
-	public Elettore loginAdmin(String username, String password) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public Admin loginAdmin(String username, String password) throws Exception {
+		Admin admin = null;
+		
+		if( c == null) {
+			this.connect();
+		}
+		
+		try {
+			MessageDigest digest = MessageDigest.getInstance("SHA-256");
+			digest.update(password.getBytes(StandardCharsets.UTF_8));
+			byte[] hash = digest.digest();
+			String hashedpassword = String.format("%064x", new BigInteger(1, hash));
+			String command = "SELECT * FROM admin WHERE username = ? AND password = ?;";
+			PreparedStatement updatedCmd= c.prepareStatement(command);
+			updatedCmd.setString(1, username);
+			updatedCmd.setString(2, String.valueOf(hashedpassword));
+			ResultSet rs = updatedCmd.executeQuery();
+			if(rs.next() == false) {
+				return null;
+			}
+			int id = rs.getInt("id");
+            String user = rs.getString("username");
+            
+            admin = new Admin(id, user);
+            
+            return admin;
+			
+			
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		return admin;
 	}
 
 }

@@ -4,13 +4,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class AdminLoginFX extends Application{
+public class AdminDashboardFX extends Application{
 
 	@Override
 	public void start(Stage primaryStage) throws Exception{
-		Parent root = FXMLLoader.load(getClass().getResource("fxml/AdminLogin.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("fxml/AdminDashboard.fxml"));
 		
-		primaryStage.setTitle("Login Admin");
+		primaryStage.setTitle("Admin Dashboard");
 		primaryStage.setScene(new Scene(root, 400, 460));
 		primaryStage.show();
 	}
