@@ -51,4 +51,29 @@ public class AdminDashboardController {
     		logout.fire();
     	}
     }
+    
+
+    @FXML
+    void gestElettori(ActionEvent event) {
+
+    }
+
+    @FXML
+    void gestListe(ActionEvent event) throws IOException {
+    	Parent root = FXMLLoader.load(getClass().getResource("fxml/ListManagement.fxml"));
+		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+		scene = new Scene(root);
+		stage.setScene(scene);
+		stage.show();
+    }
+
+    @FXML
+    void gestPA(ActionEvent event) {
+
+    }
+
+    @FXML
+    void gestVotazioni(ActionEvent event) {
+
+    }
 }
