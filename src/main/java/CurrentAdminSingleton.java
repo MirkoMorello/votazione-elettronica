@@ -10,8 +10,8 @@ public final class CurrentAdminSingleton {
 		return instance;
 	}
 	
-	public void setAdmin(int id, String username) {
-		this.admin = new Admin(id, username);
+	public void setAdmin(Admin admin) {
+		this.admin = admin;
 	}
 	
 	public Admin getAdmin() {

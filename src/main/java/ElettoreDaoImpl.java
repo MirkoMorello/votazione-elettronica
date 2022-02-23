@@ -24,12 +24,10 @@ public class ElettoreDaoImpl implements ElettoreDao{
 	
 	private Connection c;
 	
-	private void connect() {
+	public void connect() {
 	      try {
-	         Class.forName("org.postgresql.Driver");
 	         this.c = DriverManager
-	            .getConnection("jdbc:postgresql://localhost:5432/postgres",
-	            "postgres", "password");
+	            .getConnection("jdbc:sqlite:votazioneelettronica.db");
 	      } catch (Exception e) {
 	         e.printStackTrace();
 	         System.err.println(e.getClass().getName()+": "+e.getMessage());
@@ -49,9 +47,10 @@ public class ElettoreDaoImpl implements ElettoreDao{
 		
 		try {
 			stmt = c.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM \"votazioneElettronica\".elettore;");
+			ResultSet rs = stmt.executeQuery("SELECT * FROM elettore;");
 			
 			while ( rs.next() ) {
+				int id = rs.getInt("id");
 	            String CF = rs.getString("CF");
 	            String nome = rs.getString("nome");
 	            String cognome = rs.getString("cognome");
@@ -59,16 +58,9 @@ public class ElettoreDaoImpl implements ElettoreDao{
 	            LocalDate nascitald = LocalDate.of(nascita.getYear(), nascita.getMonth(), nascita.getDay());
 	            String comune = rs.getString("comune");
 	            String sesso = rs.getString("sesso");
-	            boolean isAdmin = rs.getBoolean("isAdmin");
 	            char sessoChar = sesso.charAt(0);
 	            String nazione = rs.getString("nazione");
-	            Elettore e;
-	            
-	            if(isAdmin) {
-	            	e = new Gestore(CF, nome, cognome, nascitald, comune, nazione, sessoChar);
-	            } else {
-	            	e = new Elettore(CF, nome, cognome, nascitald, comune, nazione, sessoChar);
-	            }
+	            Elettore e = new Elettore(id, CF, nome, cognome, nascitald, comune, nazione, sessoChar);
 	            
 	            elettori.add(e);
 	        }
@@ -79,7 +71,7 @@ public class ElettoreDaoImpl implements ElettoreDao{
 		return elettori;
 	}
 
-	public Elettore getElettore(char[] CF) throws Exception {
+	public Elettore getElettore(Integer id) throws Exception {
 		Elettore e = null;
 		
 		if( c == null) {
@@ -87,31 +79,25 @@ public class ElettoreDaoImpl implements ElettoreDao{
 		}
 		
 		try {
-			String command = "SELECT * FROM \"votazioneElettronica\".elettore WHERE elettore.\"CF\" = ?;";
+			String command = "SELECT * FROM elettore WHERE elettore.\"id\" = ?;";
 			PreparedStatement updatedCmd= c.prepareStatement(command);
-			updatedCmd.setString(1, String.valueOf(CF));
+			updatedCmd.setString(1, String.valueOf(id));
 			ResultSet rs = updatedCmd.executeQuery();
 			if(rs.next() == false) {
 				return null;
 			}
-			String Code = rs.getString("CF");
+			String Code = rs.getString("id");
             String nome = rs.getString("nome");
             String cognome = rs.getString("cognome");
             Date nascita = rs.getDate("nascita");
             LocalDate nascitald = LocalDate.of(nascita.getYear(), nascita.getMonth(), nascita.getDay());
             String comune = rs.getString("comune");
             String sesso = rs.getString("sesso");
-            boolean isAdmin = rs.getBoolean("isAdmin");
             char sessoChar = sesso.charAt(0);
             String nazione = rs.getString("nazione");
             
-            
-            if(isAdmin) {
-            	e = new Gestore(Code, nome, cognome, nascitald, comune, nazione, sessoChar);
-            } else {
-            	e = new Elettore(Code, nome, cognome, nascitald, comune, nazione, sessoChar);
-            }
-            
+  
+            e = new Elettore(id, Code, nome, cognome, nascitald, comune, nazione, sessoChar);
             return e;
 			
 			
@@ -122,20 +108,20 @@ public class ElettoreDaoImpl implements ElettoreDao{
 	}
 	
 
-	public boolean deleteElettore(char[] CF) throws Exception {
+	public boolean deleteElettore(Integer id) throws Exception {
 		if( c == null) {
 			this.connect();
 		}
 		
-		Elettore check = getElettore(CF);
+		Elettore check = getElettore(id);
 		if(check == null) {
 			return false;
 		}
 		
 		try {
-			String command = "DELETE FROM \"votazioneElettronica\".elettore WHERE elettore.\"CF\" = ?;";
+			String command = "DELETE FROM elettore WHERE elettore.\"CF\" = ?;";
 			PreparedStatement updatedCmd= c.prepareStatement(command);
-			updatedCmd.setString(1, String.valueOf(CF));
+			updatedCmd.setString(1, String.valueOf(id));
 			updatedCmd.executeUpdate();
 			
 			return true;
@@ -152,30 +138,38 @@ public class ElettoreDaoImpl implements ElettoreDao{
 			this.connect();
 		}
 		
-		Elettore check = getElettore(e.getCF().toCharArray());
+		Elettore check = getElettore(e.getID());
 		if(check != null) {
 			return false;
 		}
 		
 		try {
-			String command = "INSERT INTO \"votazioneElettronica\".elettore VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+			String command = "INSERT INTO elettore VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
 			PreparedStatement updatedCmd= c.prepareStatement(command);
-			updatedCmd.setString(1, e.getCF());
-			updatedCmd.setString(2, e.getName());
-			updatedCmd.setString(3, e.getSurname());
+			updatedCmd.setInt(1, e.getID());
+			
 			MessageDigest digest = MessageDigest.getInstance("SHA-256");
 			digest.update(password.getBytes(StandardCharsets.UTF_8));
 			byte[] hash = digest.digest();
 			String hashedpassword = String.format("%064x", new BigInteger(1, hash));
-			updatedCmd.setString(4, hashedpassword);
-			System.out.print(hashedpassword);
+			updatedCmd.setString(2, hashedpassword);
+			
+			updatedCmd.setString(3, e.getName());
+			
+			updatedCmd.setString(4, e.getSurname());
+			
 			String nascita = e.getNascita().toString();
 			updatedCmd.setDate(5, java.sql.Date.valueOf(nascita));
+			
 			updatedCmd.setString(6, e.getComune());
+			
 			updatedCmd.setString(7, e.getSesso());
-			boolean isAdmin = (e instanceof Gestore);
-			updatedCmd.setBoolean(8, isAdmin);
-			updatedCmd.setString(9, e.getNazione());
+			
+			updatedCmd.setString(8, e.getNazione());
+			
+			updatedCmd.setString(9, e.getCF());
+			
+
 			updatedCmd.executeUpdate();
 			
 			return true;
@@ -188,7 +182,7 @@ public class ElettoreDaoImpl implements ElettoreDao{
 	}
 
 	@Override
-	public Elettore loginElettore(char[] CF, String password) throws Exception {
+	public Elettore loginElettore(Integer id, String password) throws Exception{
 		Elettore e = null;
 		
 		if( c == null) {
@@ -200,9 +194,9 @@ public class ElettoreDaoImpl implements ElettoreDao{
 			digest.update(password.getBytes(StandardCharsets.UTF_8));
 			byte[] hash = digest.digest();
 			String hashedpassword = String.format("%064x", new BigInteger(1, hash));
-			String command = "SELECT * FROM \"votazioneElettronica\".elettore WHERE elettore.\"CF\" = ? AND elettore.\"password\" = ?;";
+			String command = "SELECT * FROM elettore WHERE elettore.\"id\" = ? AND elettore.\"password\" = ?;";
 			PreparedStatement updatedCmd= c.prepareStatement(command);
-			updatedCmd.setString(1, String.valueOf(CF));
+			updatedCmd.setString(1, String.valueOf(id));
 			updatedCmd.setString(2, String.valueOf(hashedpassword));
 			ResultSet rs = updatedCmd.executeQuery();
 			if(rs.next() == false) {
@@ -215,16 +209,10 @@ public class ElettoreDaoImpl implements ElettoreDao{
             LocalDate nascitald = LocalDate.of(nascita.getYear(), nascita.getMonth(), nascita.getDay());
             String comune = rs.getString("comune");
             String sesso = rs.getString("sesso");
-            boolean isAdmin = rs.getBoolean("isAdmin");
             char sessoChar = sesso.charAt(0);
             String nazione = rs.getString("nazione");
             
-            
-            if(isAdmin) {
-            	e = new Gestore(Code, nome, cognome, nascitald, comune, nazione, sessoChar);
-            } else {
-            	e = new Elettore(Code, nome, cognome, nascitald, comune, nazione, sessoChar);
-            }
+            e = new Elettore(id, Code, nome, cognome, nascitald, comune, nazione, sessoChar);
             
             return e;
 			

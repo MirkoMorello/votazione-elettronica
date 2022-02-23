@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class Elettore{
 	
+	private Integer id;
 	private String name;
 	private String surname;
 	private char[] CF;
@@ -19,7 +20,8 @@ public class Elettore{
 	 */
 	
 	
-	public Elettore(String CF, String name, String surname, LocalDate nascita, String comune, String nazione, char sesso) throws Exception {
+	public Elettore(Integer id, String CF, String name, String surname, LocalDate nascita, String comune, String nazione, char sesso) throws Exception {
+		this.id = id;
 		this.name = name;
 		this.surname = surname;
 		this.voto = false;
@@ -71,6 +73,10 @@ public class Elettore{
 		}
 		return true;
 		
+	}
+	
+	public Integer getID() {
+		return this.id;
 	}
 	
 	public String getCF() {

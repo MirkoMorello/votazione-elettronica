@@ -11,6 +11,12 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
+/*
+ * Questa classe è parte della componente Model del design pattern MVC
+ * Questa è l'implementazione dell'interfaccia AdminDao
+ * Questa è una classe DAO
+ */
+
 public class AdminDaoImpl implements AdminDAO{
 	
 	private Connection c;

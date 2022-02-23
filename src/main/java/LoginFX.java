@@ -15,7 +15,7 @@ public class LoginFX extends Application  {
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception{
-		Parent root = FXMLLoader.load(getClass().getResource("ex.fxml"));
+		Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/ex.fxml"));
 		
 		primaryStage.setTitle("Login Votazione Elettronica");
 		primaryStage.setScene(new Scene(root, 400, 300));
