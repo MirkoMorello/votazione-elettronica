@@ -40,7 +40,7 @@ public class AdminController {
 			if(logged != null) {
 				CurrentAdminSingleton.getIstance().setAdmin(logged.getId(), logged.getUsername());
 				logresult.setText("login effettuata");				
-				Parent root = FXMLLoader.load(getClass().getResource("AdminDashBoard.fxml"));
+				Parent root = FXMLLoader.load(getClass().getResource("fxml/AdminDashBoard.fxml"));
 				stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 				scene = new Scene(root);
 				stage.setScene(scene);

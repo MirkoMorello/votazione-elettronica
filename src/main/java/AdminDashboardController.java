@@ -37,7 +37,7 @@ public class AdminDashboardController {
 
     @FXML
     void Logout(ActionEvent event) throws IOException {
-    	Parent root = FXMLLoader.load(getClass().getResource("AdminLogin.fxml"));
+    	Parent root = FXMLLoader.load(getClass().getResource("fxml/AdminLogin.fxml"));
 		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		scene = new Scene(root);
 		stage.setScene(scene);
@@ -47,5 +47,8 @@ public class AdminDashboardController {
     @FXML
     void initialize() {
     	idcode.setText(String.valueOf(CurrentAdminSingleton.getIstance().getAdmin().getId()));
+    	if(CurrentAdminSingleton.getIstance().getAdmin() == null) {
+    		logout.fire();
+    	}
     }
 }
