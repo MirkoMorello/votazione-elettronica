@@ -3,6 +3,8 @@ import java.time.LocalDate;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -53,8 +55,13 @@ public class ElettoreController {
 			if(logged != null) {
 				CurrentElettoreSingleton.getIstance().setElettore(logged);
 				System.out.println("login effettuata");
-				logresult.setText("login effettuata");	
+				logresult.setText("login effettuata");
 				
+				Parent root = FXMLLoader.load(getClass().getResource("fxml/ElettoreDashboard.fxml"));
+				stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+				scene = new Scene(root);
+				stage.setScene(scene);
+				stage.show();
 			}else {
 				logresult.setText("errore login");
 			}

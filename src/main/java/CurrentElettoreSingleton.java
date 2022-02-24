@@ -19,4 +19,8 @@ public final class CurrentElettoreSingleton {
 		return this.elettore;
 	}
 	
+	public void destroyElettore() {
+		this.elettore = null;
+	}
+	
 }

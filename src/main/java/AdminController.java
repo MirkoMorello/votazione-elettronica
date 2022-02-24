@@ -39,7 +39,8 @@ public class AdminController {
         	Admin logged = admindao.loginAdmin(user, pwd); 
 			if(logged != null) {
 				CurrentAdminSingleton.getIstance().setAdmin(logged);
-				logresult.setText("login effettuata");				
+				logresult.setText("login effettuata");
+				
 				Parent root = FXMLLoader.load(getClass().getResource("fxml/AdminDashBoard.fxml"));
 				stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 				scene = new Scene(root);
