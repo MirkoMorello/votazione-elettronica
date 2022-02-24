@@ -22,3 +22,13 @@
 /ListManagementFX.class
 /CurrentElettoreSingleton.class
 /ElettoreController.class
+/Candidato.class
+/CandidatoDao.class
+/CandidatoDaoImpl.class
+/ConnectionSingleton.class
+/CurrentListSingleton.class
+/DaoFactorySingleton.class
+/Lista.class
+/ListaDao.class
+/ListaDaoImpl.class
+/ManageCandidatesController.class
