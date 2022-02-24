@@ -130,6 +130,7 @@ public class AdminDaoImpl implements AdminDAO{
             String user = rs.getString("username");
             
             admin = new Admin(id, user);
+            c.close();
             
             return admin;
 			
@@ -137,6 +138,7 @@ public class AdminDaoImpl implements AdminDAO{
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
+		c.close();
 		return admin;
 	}
 

@@ -18,4 +18,8 @@ public final class CurrentAdminSingleton {
 		return this.admin;
 	}
 	
+	public void destroyAdmin() {
+		this.admin = null;
+	}
+	
 }
