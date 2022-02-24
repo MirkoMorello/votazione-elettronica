@@ -9,7 +9,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="490.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ManageCandidatesController">
    <children>
       <ListView fx:id="currentcandidates" layoutX="14.0" layoutY="37.0" prefHeight="438.0" prefWidth="209.0" />
@@ -29,7 +28,7 @@
             <Font size="16.0" />
          </font>
       </Button>
-      <Button fx:id="add" layoutX="470.0" layoutY="268.0" mnemonicParsing="false" onAction="#back" prefHeight="59.0" prefWidth="110.0" style="-fx-background-color: #659ff1;" text="Aggiungi" textAlignment="CENTER" textFill="WHITE">
+      <Button fx:id="add" layoutX="470.0" layoutY="268.0" mnemonicParsing="false" onAction="#add" prefHeight="59.0" prefWidth="110.0" style="-fx-background-color: #659ff1;" text="Aggiungi" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font size="16.0" />
          </font>

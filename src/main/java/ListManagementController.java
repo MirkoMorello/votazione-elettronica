@@ -105,8 +105,9 @@ public class ListManagementController {
     	esito.setText("");
     	List<Lista> lists = ld.getAllLists();
     	for(int i = 0; i < lists.size(); i++) {
-    		if(!liste.getItems().contains(lists.get(i).getName()))
-    		liste.getItems().add(lists.get(i).getName());
+    		if(!liste.getItems().contains(lists.get(i).getName())) {
+    			liste.getItems().add(lists.get(i).getName());
+    		}
     	}
     }
 

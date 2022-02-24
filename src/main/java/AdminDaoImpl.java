@@ -19,32 +19,11 @@ import java.util.List;
 
 public class AdminDaoImpl implements AdminDAO{
 	
-	private Connection c;
-	
-	public void connect() {
-	      try {
-	         this.c = DriverManager
-	            .getConnection("jdbc:sqlite:votazioneelettronica.db");
-	      } catch (Exception e) {
-	         e.printStackTrace();
-	         System.err.println(e.getClass().getName()+": "+e.getMessage());
-	         System.exit(0);
-	      }
-	      System.out.println("Opened database successfully");
-	}
-	@Override
-	public List<Admin> getAllAdmins() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	private Connection c = ConnectionSingleton.getIstance().getConnection();
 
 	@Override
 	public Admin getAdmin(String username) throws Exception {
 		Admin admin = null;
-		
-		if( c == null) {
-			this.connect();
-		}
 		
 		try {
 			String command = "SELECT * FROM admin where admin.username = ?;";
@@ -76,9 +55,6 @@ public class AdminDaoImpl implements AdminDAO{
 
 	@Override
 	public boolean addAdmin(String username, String password) throws NoSuchAlgorithmException, Exception {
-		if( c == null) {
-			this.connect();
-		}
 		
 		Admin check = getAdmin(username);
 		if(check != null) {
@@ -107,11 +83,8 @@ public class AdminDaoImpl implements AdminDAO{
 
 	@Override
 	public Admin loginAdmin(String username, String password) throws Exception {
-		Admin admin = null;
 		
-		if( c == null) {
-			this.connect();
-		}
+		Admin admin = null;
 		
 		try {
 			MessageDigest digest = MessageDigest.getInstance("SHA-256");
@@ -130,7 +103,6 @@ public class AdminDaoImpl implements AdminDAO{
             String user = rs.getString("username");
             
             admin = new Admin(id, user);
-            c.close();
             
             return admin;
 			
@@ -138,8 +110,13 @@ public class AdminDaoImpl implements AdminDAO{
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
-		c.close();
 		return admin;
+	}
+
+	@Override
+	public List<Admin> getAllAdmins() throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
