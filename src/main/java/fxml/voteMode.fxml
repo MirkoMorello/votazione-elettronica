@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="296.0" prefWidth="523.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="121.0" layoutY="43.0" text="Configura sessione di voto">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <ComboBox layoutX="183.0" layoutY="170.0" prefWidth="150.0" />
+      <Label layoutX="216.0" layoutY="94.0" text="Parte 1 di 3">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="187.0" layoutY="140.0" text="Seleziona modalità di voto" />
+      <Button fx:id="next" layoutX="399.0" layoutY="223.0" mnemonicParsing="false" onAction="#back" prefHeight="59.0" prefWidth="110.0" style="-fx-background-color: #659ff1;" text="Avanti" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

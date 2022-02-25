@@ -19,7 +19,7 @@ public class ListaDaoImpl implements ListaDao{
 	public List<Lista> getAllLists() throws Exception {
 		
 		List<Lista> lists = new ArrayList<Lista>();
-		String command = "SELECT * FROM \"lista\";";
+		String command = "SELECT * FROM \"lista\" where eliminata != 1;";
 		PreparedStatement updatedCmd= c.prepareStatement(command);
 		ResultSet rs = updatedCmd.executeQuery();
 		while(rs.next()) {
@@ -58,7 +58,7 @@ public class ListaDaoImpl implements ListaDao{
 	@Override
 	public boolean deleteList(String name) throws Exception {
 		try {
-			String command = "DELETE from \"lista\" where nome = ?;";
+			String command = "UPDATE \"lista\" set eliminata = 1 where nome = ?;";
 			PreparedStatement updatedCmd= c.prepareStatement(command);
 			updatedCmd.setString(1, name);
 			updatedCmd.executeUpdate();
@@ -80,10 +80,11 @@ public class ListaDaoImpl implements ListaDao{
 		}
 		
 		try {
-			String command = "INSERT INTO \"lista\" (nome, descrizione) VALUES ( ?, ?);";
+			String command = "INSERT INTO \"lista\" (nome, descrizione, eliminata) VALUES ( ?, ?, ?);";
 			PreparedStatement updatedCmd= c.prepareStatement(command);
 			updatedCmd.setString(1, name);
 			updatedCmd.setString(2, desc);
+			updatedCmd.setInt(3, 0);
 			updatedCmd.executeUpdate();
 			
 			return true;

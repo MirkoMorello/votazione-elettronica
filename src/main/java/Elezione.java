@@ -1,10 +1,8 @@
 import java.time.LocalTime;
 
 public abstract class Elezione {
-	private String id;
-	private LocalTime expire;
+	String titolo;
+	String descrizione;
 	
-	public LocalTime getExpirationDate(){
-		return this.expire;
-	}
+	public abstract String getVincitore();
 }

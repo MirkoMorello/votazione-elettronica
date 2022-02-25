@@ -6,7 +6,7 @@ public class DaoPatternDemo {
    public static void main(String[] args) throws Exception {
       ElettoreDao elettoreDao = new ElettoreDaoImpl();
       
-      Elettore e = new Elettore(2, "MRCMRL67G12I4IPP", "Marco", "Marollo", LocalDate.of(1967, 5, 12), "Sbobbio", "Italia", 'M');
+      Elettore e = new Elettore("MRCMRL67G12I4IPP", "Marco", "Marollo", LocalDate.of(1967, 5, 12), "Sbobbio", "Italia", 'M');
       
       if(elettoreDao.addElettore(e, "password")) {
     	  System.out.println("elettore inserito correttamente");

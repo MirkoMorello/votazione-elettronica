@@ -4,11 +4,13 @@ public class Candidato {
 	private String name; 
 	private String surname;
 	private LocalDate born;
+	private String sesso;
 	
-	public Candidato(String name, String surname, LocalDate born) {
+	public Candidato(String name, String surname, LocalDate born, String sesso) {
 		this.name = name;
 		this.surname = surname;
 		this.born = born;
+		this.sesso = sesso;
 	}
 	
 	public String getNome() {
@@ -21,5 +23,9 @@ public class Candidato {
 	
 	public LocalDate getNascita() {
 		return born;
+	}
+	
+	public String getSesso() {
+		return sesso;
 	}
 }

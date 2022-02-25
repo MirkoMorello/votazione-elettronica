@@ -3,6 +3,7 @@ public class DaoFactorySingleton {
 	private final static DaoFactorySingleton instance = new DaoFactorySingleton();
 	private ListaDao listadao = new ListaDaoImpl();
 	private CandidatoDao candidatodao = new CandidatoDaoImpl();
+	private ElezioneDao elezionedao = new ElezioneDaoImpl();
 	
 	private DaoFactorySingleton() {
 	}
@@ -17,5 +18,9 @@ public class DaoFactorySingleton {
 	
 	public CandidatoDao getCandidatoDao() {
 		return this.candidatodao;
+	}
+	
+	public ElezioneDao getElezioneDao() {
+		return this.elezionedao;
 	}
 }

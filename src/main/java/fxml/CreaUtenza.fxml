@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="660.0" prefWidth="637.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="264.0" layoutY="36.0" text="Crea Utenza">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <TextField fx:id="nome" layoutX="123.0" layoutY="124.0" prefHeight="25.0" prefWidth="174.0" promptText="Nome" />
+      <TextField fx:id="cognome" layoutX="358.0" layoutY="124.0" prefHeight="25.0" prefWidth="174.0" promptText="Cognome" />
+      <DatePicker fx:id="nascita" layoutX="123.0" layoutY="200.0" promptText="Data di nascita" />
+      <TextField fx:id="comune" layoutX="358.0" layoutY="200.0" prefHeight="25.0" prefWidth="174.0" promptText="Comune di residenza" />
+      <ComboBox fx:id="sesso" layoutX="123.0" layoutY="277.0" prefHeight="25.0" prefWidth="174.0" promptText="Sesso" />
+      <TextField fx:id="nazione" layoutX="358.0" layoutY="277.0" prefHeight="25.0" prefWidth="174.0" promptText="Nazione" />
+      <TextField fx:id="cf" layoutX="123.0" layoutY="359.0" prefHeight="25.0" prefWidth="174.0" promptText="Codice fiscale" />
+      <Button fx:id="add" layoutX="270.0" layoutY="434.0" mnemonicParsing="false" onAction="#createUtente" prefHeight="59.0" prefWidth="110.0" style="-fx-background-color: #659ff1;" text="Aggiungi&#10;Utenza" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <Button fx:id="back" layoutX="477.0" layoutY="573.0" mnemonicParsing="false" onAction="#back" prefHeight="59.0" prefWidth="110.0" style="-fx-background-color: #659ff1;" text="Indietro" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <Label fx:id="creatolabel" layoutX="167.0" layoutY="541.0" text="Creato utente:" />
+      <Label fx:id="usernamelabel" layoutX="121.0" layoutY="572.0" text="Username" />
+      <Label fx:id="passwordlabel" layoutX="123.0" layoutY="602.0" text="Password" />
+      <TextField fx:id="password" layoutX="358.0" layoutY="359.0" prefHeight="25.0" prefWidth="174.0" promptText="Password" />
+   </children>
+</AnchorPane>

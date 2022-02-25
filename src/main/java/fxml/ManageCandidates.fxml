@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
@@ -12,7 +13,7 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="490.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ManageCandidatesController">
    <children>
       <ListView fx:id="currentcandidates" layoutX="14.0" layoutY="37.0" prefHeight="438.0" prefWidth="209.0" />
-      <Label layoutX="27.0" layoutY="14.0" text="Candidati correnti:" />
+      <Label layoutX="27.0" layoutY="14.0" text="Candidati:" />
       <Label fx:id="listname" layoutX="253.0" layoutY="14.0" text="List name">
          <font>
             <Font size="24.0" />
@@ -20,9 +21,9 @@
       </Label>
       <Label fx:id="listdesc" layoutX="253.0" layoutY="77.0" text="Here should be the description of the list" />
       <Separator layoutX="231.0" layoutY="212.0" prefHeight="4.0" prefWidth="358.0" />
-      <TextField fx:id="name" layoutX="241.0" layoutY="236.0" prefHeight="25.0" prefWidth="174.0" promptText="Nome" />
-      <TextField fx:id="surname" layoutX="241.0" layoutY="285.0" prefHeight="25.0" prefWidth="174.0" promptText="Cognome" />
-      <DatePicker fx:id="date" layoutX="241.0" layoutY="333.0" prefHeight="25.0" prefWidth="174.0" promptText="Data di nascita" />
+      <TextField fx:id="name" layoutX="241.0" layoutY="241.0" prefHeight="25.0" prefWidth="174.0" promptText="Nome" />
+      <TextField fx:id="surname" layoutX="241.0" layoutY="273.0" prefHeight="25.0" prefWidth="174.0" promptText="Cognome" />
+      <DatePicker fx:id="date" layoutX="241.0" layoutY="305.0" prefHeight="25.0" prefWidth="174.0" promptText="Data di nascita" />
       <Button fx:id="back" layoutX="470.0" layoutY="411.0" mnemonicParsing="false" onAction="#back" prefHeight="59.0" prefWidth="110.0" style="-fx-background-color: #659ff1;" text="Indietro" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font size="16.0" />
@@ -33,5 +34,11 @@
             <Font size="16.0" />
          </font>
       </Button>
+      <Button fx:id="remove" layoutX="273.0" layoutY="411.0" mnemonicParsing="false" onAction="#removeCandidate" prefHeight="59.0" prefWidth="110.0" style="-fx-background-color: #d75246;" text="Rimuovi&#10;Selezione" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <ComboBox fx:id="sesso" layoutX="241.0" layoutY="337.0" prefHeight="25.0" prefWidth="174.0" />
    </children>
 </AnchorPane>

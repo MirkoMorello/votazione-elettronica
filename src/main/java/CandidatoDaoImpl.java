@@ -27,7 +27,8 @@ public class CandidatoDaoImpl implements CandidatoDao{
 			String cognome = rs.getString("cognome");
 			String nascita = rs.getString("nascita");
             LocalDate nascitald = LocalDate.parse(nascita);
-            candList.add(new Candidato(nome, cognome, nascitald));
+            String sesso = rs.getString("sesso");
+            candList.add(new Candidato(nome, cognome, nascitald, sesso));
 		}
 		return candList;
 		
@@ -53,16 +54,17 @@ public class CandidatoDaoImpl implements CandidatoDao{
 	}
 
 	@Override
-	public boolean addCandidate(String name, String surname, LocalDate nascita, String listname) throws SQLException {
+	public boolean addCandidate(String name, String surname, LocalDate nascita, String listname, String sesso) throws SQLException {
 		int listId = DaoFactorySingleton.getDaoFactory().getListaDao().getListID(listname);
 		
 		try {
-			String command = "INSERT INTO candidato (nome, cognome, nascita, listaId) values (?, ?, ?, ?)";
+			String command = "INSERT INTO candidato (nome, cognome, nascita, listaId, sesso) values (?, ?, ?, ?, ?)";
 			PreparedStatement updatedCmd= c.prepareStatement(command);
 			updatedCmd.setString(1, name);
 			updatedCmd.setString(2, surname);
 			updatedCmd.setString(3, nascita.toString());
 			updatedCmd.setInt(4, listId);
+			updatedCmd.setString(5, sesso);
 			System.out.println(updatedCmd.toString());
 			updatedCmd.executeUpdate();
 			

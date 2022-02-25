@@ -10,6 +10,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -44,6 +45,13 @@ public class ManageCandidatesController {
 
     @FXML
     private TextField surname;
+    
+    @FXML
+    private Button remove;
+    
+    @FXML
+    private ComboBox<String> sesso;
+
 
     @FXML
     void back(ActionEvent event) throws IOException {
@@ -60,12 +68,23 @@ public class ManageCandidatesController {
     	System.out.println("buba");
     	LocalDate nascita = date.getValue();
     	String lista = CurrentListSingleton.getIstance().getList().getName();
-    	Boolean result = DaoFactorySingleton.getDaoFactory().getCandidatoDao().addCandidate(name.getText(), surname.getText(), nascita, lista);
+    	Boolean result = DaoFactorySingleton.getDaoFactory().getCandidatoDao().addCandidate(name.getText(), surname.getText(), nascita, lista, sesso.getValue());
     	if(result) {
     		System.out.println("yee");
     	}else {
     		System.out.println("noooo");
     	}
+    	this.initialize();
+    }
+    
+    @FXML
+    void removeCandidate(ActionEvent event) throws Exception {
+    	String namesurname = currentcandidates.getSelectionModel().getSelectedItem();
+    	String[] splitted = namesurname.split("\\s+");
+    	String name = splitted[0];
+    	String surname = splitted[1];
+    	DaoFactorySingleton.getDaoFactory().getCandidatoDao().deleteCandidate(name, surname, CurrentListSingleton.getIstance().getList().getName());
+    	currentcandidates.getItems().remove(name + " " + surname);
     	this.initialize();
     }
     
@@ -79,6 +98,12 @@ public class ManageCandidatesController {
     		if(!currentcandidates.getItems().contains(candidates.get(i).getNome() +" " + candidates.get(i).getCognome()))
     		currentcandidates.getItems().add(candidates.get(i).getNome() + " " + candidates.get(i).getCognome());
     	}
+    	
+    	if(!sesso.getItems().contains("M"))
+    		sesso.getItems().add("M");
+    	
+    	if(!sesso.getItems().contains("F"))
+    		sesso.getItems().add("F");
     }
     
    

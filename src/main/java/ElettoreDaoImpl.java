@@ -50,7 +50,6 @@ public class ElettoreDaoImpl implements ElettoreDao{
 			ResultSet rs = stmt.executeQuery("SELECT * FROM elettore;");
 			
 			while ( rs.next() ) {
-				int id = rs.getInt("id");
 	            String CF = rs.getString("CF");
 	            String nome = rs.getString("nome");
 	            String cognome = rs.getString("cognome");
@@ -60,7 +59,7 @@ public class ElettoreDaoImpl implements ElettoreDao{
 	            String sesso = rs.getString("sesso");
 	            char sessoChar = sesso.charAt(0);
 	            String nazione = rs.getString("nazione");
-	            Elettore e = new Elettore(id, CF, nome, cognome, nascitald, comune, nazione, sessoChar);
+	            Elettore e = new Elettore( CF, nome, cognome, nascitald, comune, nazione, sessoChar);
 	            
 	            elettori.add(e);
 	        }
@@ -71,7 +70,7 @@ public class ElettoreDaoImpl implements ElettoreDao{
 		return elettori;
 	}
 
-	public Elettore getElettore(Integer id) throws Exception {
+	public Elettore getElettore(String CF) throws Exception {
 		Elettore e = null;
 		
 		if( c == null) {
@@ -79,14 +78,14 @@ public class ElettoreDaoImpl implements ElettoreDao{
 		}
 		
 		try {
-			String command = "SELECT * FROM elettore WHERE elettore.\"id\" = ?;";
+			String command = "SELECT * FROM elettore WHERE elettore.\"CF\" = ?;";
 			PreparedStatement updatedCmd= c.prepareStatement(command);
-			updatedCmd.setString(1, String.valueOf(id));
+			updatedCmd.setString(1, CF);
 			ResultSet rs = updatedCmd.executeQuery();
 			if(rs.next() == false) {
 				return null;
 			}
-			String Code = rs.getString("id");
+			String Code = rs.getString("CF");
             String nome = rs.getString("nome");
             String cognome = rs.getString("cognome");
             Date nascita = rs.getDate("nascita");
@@ -97,7 +96,7 @@ public class ElettoreDaoImpl implements ElettoreDao{
             String nazione = rs.getString("nazione");
             
   
-            e = new Elettore(id, Code, nome, cognome, nascitald, comune, nazione, sessoChar);
+            e = new Elettore(Code, nome, cognome, nascitald, comune, nazione, sessoChar);
             return e;
 			
 			
@@ -108,12 +107,12 @@ public class ElettoreDaoImpl implements ElettoreDao{
 	}
 	
 
-	public boolean deleteElettore(Integer id) throws Exception {
+	public boolean deleteElettore(String CF) throws Exception {
 		if( c == null) {
 			this.connect();
 		}
 		
-		Elettore check = getElettore(id);
+		Elettore check = getElettore(CF);
 		if(check == null) {
 			return false;
 		}
@@ -121,7 +120,7 @@ public class ElettoreDaoImpl implements ElettoreDao{
 		try {
 			String command = "DELETE FROM elettore WHERE elettore.\"CF\" = ?;";
 			PreparedStatement updatedCmd= c.prepareStatement(command);
-			updatedCmd.setString(1, String.valueOf(id));
+			updatedCmd.setString(1, CF);
 			updatedCmd.executeUpdate();
 			
 			return true;
@@ -138,36 +137,35 @@ public class ElettoreDaoImpl implements ElettoreDao{
 			this.connect();
 		}
 		
-		Elettore check = getElettore(e.getID());
+		Elettore check = getElettore(e.getCF());
 		if(check != null) {
 			return false;
 		}
 		
 		try {
-			String command = "INSERT INTO elettore VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+			String command = "INSERT INTO elettore (password, nome, cognome, nascita, comune, sesso, nazione, CF) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
 			PreparedStatement updatedCmd= c.prepareStatement(command);
-			updatedCmd.setInt(1, e.getID());
 			
 			MessageDigest digest = MessageDigest.getInstance("SHA-256");
 			digest.update(password.getBytes(StandardCharsets.UTF_8));
 			byte[] hash = digest.digest();
 			String hashedpassword = String.format("%064x", new BigInteger(1, hash));
-			updatedCmd.setString(2, hashedpassword);
+			updatedCmd.setString(1, hashedpassword);
 			
-			updatedCmd.setString(3, e.getName());
+			updatedCmd.setString(2, e.getName());
 			
-			updatedCmd.setString(4, e.getSurname());
+			updatedCmd.setString(3, e.getSurname());
 			
 			String nascita = e.getNascita().toString();
-			updatedCmd.setDate(5, java.sql.Date.valueOf(nascita));
+			updatedCmd.setString(4, nascita);
 			
-			updatedCmd.setString(6, e.getComune());
+			updatedCmd.setString(5, e.getComune());
 			
-			updatedCmd.setString(7, e.getSesso());
+			updatedCmd.setString(6, e.getSesso());
 			
-			updatedCmd.setString(8, e.getNazione());
+			updatedCmd.setString(7, e.getNazione());
 			
-			updatedCmd.setString(9, e.getCF());
+			updatedCmd.setString(8, e.getCF());
 			
 
 			updatedCmd.executeUpdate();
@@ -212,7 +210,7 @@ public class ElettoreDaoImpl implements ElettoreDao{
             char sessoChar = sesso.charAt(0);
             String nazione = rs.getString("nazione");
             
-            e = new Elettore(id, Code, nome, cognome, nascitald, comune, nazione, sessoChar);
+            e = new Elettore( Code, nome, cognome, nascitald, comune, nazione, sessoChar);
             
             return e;
 			
@@ -221,6 +219,18 @@ public class ElettoreDaoImpl implements ElettoreDao{
 			ex.printStackTrace();
 		}
 		return e;
+	}
+
+	@Override
+	public Elettore getElettore(Integer id) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean deleteElettore(Integer id) throws Exception {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 }
