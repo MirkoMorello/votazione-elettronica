@@ -30,7 +30,7 @@ public class Elettore{
 		this.voto = false;
 		this.nascita = nascita;
 		this.comune = comune;
-		this.nazione = nazione.toLowerCase().trim();
+		this.nazione = nazione.toUpperCase().trim();
 		this.sesso = Character.toLowerCase(sesso);
 		setCF(CF);
 	}
@@ -43,6 +43,31 @@ public class Elettore{
 		return this.surname;
 	}
 	
+	public String getCF() {
+		return String.valueOf(CF);
+	}
+	
+	
+	private void esprimiVoto() {
+		this.voto = true;
+	}
+	
+	public LocalDate getNascita() {
+		return this.nascita;
+	}
+	
+	public String getComune() {
+		return this.comune;
+	}
+	
+	public String getSesso() {
+		return String.valueOf(sesso);
+	}
+	
+	public String getNazione() {
+		return nazione;
+	}
+	
 	
 	public boolean canVote() {
 		int years = Period.between(nascita, LocalDate.now()).getYears();
@@ -51,8 +76,7 @@ public class Elettore{
 	
 	public void setCF(String CF) throws Exception {
 		if(!checkCF(CF)) {
-			//throw new Exception("La lunghezza del codice fiscale deve essere di 16 caratteri");
-			System.out.println("error");
+			throw new Exception("Il codice fiscale non ha passato il Check, i campi dell'elettore non corrispondono alle informazioni presenti nel codice fiscale");
 		}
 		this.CF = new char[16];
 		for(int i = 0; i < CF.length(); i++) {
@@ -60,7 +84,7 @@ public class Elettore{
 		}
 	}
 	
-	private boolean checkCF(String codice) {
+	public boolean checkCF(String codice) {
 		//0-3 cifre
 				String calculated_CF = this.surname.replaceAll("[AEIOUaeiou]", "");
 				
@@ -96,22 +120,16 @@ public class Elettore{
 				//10-11 cifre
 				calculated_CF += this.nascita.format(DateTimeFormatter.ofPattern("dd"));
 				
-				// -----------------test e debug
-				//dateFormat = new SimpleDateFormat("yyy/MMMM/dd");
-				//String test = dateFormat.format(this.nascita);
-				
-				// -----------------
-				
 				//11 cifra se estero e return
 				if (codice.length() < 15){
 					return false;
 				}
+				
 				if (!this.nazione.toUpperCase().equals("ITALIA")){
 					calculated_CF += "Z";
 					if (codice.startsWith(calculated_CF.toUpperCase())){
 						return true;
 					}
-					System.out.print("nope");
 					return false;
 				}
 				if (codice.startsWith(calculated_CF.toUpperCase())){
@@ -121,29 +139,6 @@ public class Elettore{
 		
 	}
 	
-	public String getCF() {
-		return String.valueOf(CF);
-	}
-	
-	
-	private void esprimiVoto() {
-		this.voto = true;
-	}
-	
-	public LocalDate getNascita() {
-		return this.nascita;
-	}
-	
-	public String getComune() {
-		return this.comune;
-	}
-	
-	public String getSesso() {
-		return String.valueOf(sesso);
-	}
-	
-	public String getNazione() {
-		return nazione;
-	}
+
 
 }

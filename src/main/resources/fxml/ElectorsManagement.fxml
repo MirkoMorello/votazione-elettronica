@@ -4,45 +4,56 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="575.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ElectorsManagementController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="572.0" prefWidth="1201.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ElectorsManagementController">
    <children>
-      <TextField fx:id="nation" layoutX="416.0" layoutY="190.0" prefHeight="25.0" prefWidth="200.0" promptText="Nazione" />
-      <ListView fx:id="elettori" layoutX="14.0" layoutY="41.0" prefHeight="517.0" prefWidth="366.0" />
-      <Button fx:id="add" layoutX="652.0" layoutY="131.0" mnemonicParsing="false" onAction="#addList" prefHeight="59.0" prefWidth="110.0" style="-fx-background-color: #659ff1;" text="Aggiungi&#10;Elettore" textAlignment="CENTER" textFill="WHITE">
+      <TextField fx:id="nation" layoutX="833.0" layoutY="185.0" prefHeight="25.0" prefWidth="200.0" promptText="Nazione" />
+      <Button fx:id="add" layoutX="1063.0" layoutY="131.0" mnemonicParsing="false" onAction="#addList" prefHeight="59.0" prefWidth="110.0" style="-fx-background-color: #659ff1;" text="Aggiungi&#10;Elettore" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font size="16.0" />
          </font>
       </Button>
-      <Button fx:id="back" layoutX="652.0" layoutY="375.0" mnemonicParsing="false" onAction="#back" prefHeight="59.0" prefWidth="110.0" style="-fx-background-color: #659ff1;" text="Indietro" textAlignment="CENTER" textFill="WHITE">
+      <Button fx:id="back" layoutX="1068.0" layoutY="395.0" mnemonicParsing="false" onAction="#back" prefHeight="59.0" prefWidth="110.0" style="-fx-background-color: #659ff1;" text="Indietro" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font size="16.0" />
          </font>
       </Button>
-      <Button fx:id="removeElector" layoutX="461.0" layoutY="433.0" mnemonicParsing="false" onAction="#removeElector" prefHeight="59.0" prefWidth="110.0" style="-fx-background-color: #d75246;" text="Rimuovi&#10;Elettore" textAlignment="CENTER" textFill="WHITE">
+      <Button fx:id="removeElector" layoutX="877.0" layoutY="453.0" mnemonicParsing="false" onAction="#removeElector" prefHeight="59.0" prefWidth="110.0" style="-fx-background-color: #d75246;" text="Rimuovi&#10;Elettore" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font size="16.0" />
          </font>
       </Button>
-      <Separator layoutX="380.0" layoutY="316.0" prefHeight="2.0" prefWidth="405.0" />
-      <TextField fx:id="name" layoutX="416.0" layoutY="23.0" prefHeight="25.0" prefWidth="200.0" promptText="Nome" />
-      <Label fx:id="esito" layoutX="652.0" layoutY="215.0" />
-      <Label fx:id="info" layoutX="502.0" layoutY="521.0" text="Label" />
-      <Button fx:id="manageElector" layoutX="461.0" layoutY="345.0" mnemonicParsing="false" onAction="#manageElector" prefHeight="59.0" prefWidth="110.0" style="-fx-background-color: #659ff1;" text="Modifica&#10;Elettore" textAlignment="CENTER" textFill="WHITE">
+      <Separator layoutX="796.0" layoutY="336.0" prefHeight="2.0" prefWidth="405.0" />
+      <TextField fx:id="name" layoutX="833.0" layoutY="18.0" prefHeight="25.0" prefWidth="200.0" promptText="Nome" />
+      <Label fx:id="esito" alignment="CENTER" contentDisplay="CENTER" layoutX="829.0" layoutY="308.0" prefHeight="17.0" prefWidth="361.0" />
+      <Label fx:id="info" layoutX="918.0" layoutY="541.0" text="Label" />
+      <Button fx:id="manageElector" layoutX="877.0" layoutY="365.0" mnemonicParsing="false" onAction="#manageElector" prefHeight="59.0" prefWidth="110.0" style="-fx-background-color: #659ff1;" text="Modifica&#10;Elettore" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font size="16.0" />
          </font>
       </Button>
       <Label layoutX="14.0" layoutY="15.0" text="Elettori presenti:" />
-      <TextField fx:id="surname" layoutX="416.0" layoutY="65.0" prefHeight="25.0" prefWidth="200.0" promptText="Cognome" />
-      <TextField fx:id="comune" layoutX="416.0" layoutY="148.0" prefHeight="25.0" prefWidth="200.0" promptText="Comune" />
-      <TextField fx:id="cf" layoutX="416.0" layoutY="231.0" prefHeight="25.0" prefWidth="200.0" promptText="Codice Fiscale" />
-      <ChoiceBox fx:id="gender" layoutX="417.0" layoutY="275.0" prefHeight="25.0" prefWidth="200.0" />
-      <DatePicker fx:id="born" layoutX="415.0" layoutY="106.0" prefHeight="25.0" prefWidth="200.0" promptText="Nascita" />
+      <TextField fx:id="surname" layoutX="833.0" layoutY="60.0" prefHeight="25.0" prefWidth="200.0" promptText="Cognome" />
+      <TextField fx:id="comune" layoutX="833.0" layoutY="143.0" prefHeight="25.0" prefWidth="200.0" promptText="Comune" />
+      <TextField fx:id="cf" layoutX="833.0" layoutY="226.0" prefHeight="25.0" prefWidth="200.0" promptText="Codice Fiscale" />
+      <ChoiceBox fx:id="gender" layoutX="834.0" layoutY="270.0" prefHeight="25.0" prefWidth="200.0" />
+      <DatePicker fx:id="born" layoutX="832.0" layoutY="101.0" prefHeight="25.0" prefWidth="200.0" promptText="Nascita" />
+      <TableView fx:id="elettori" prefHeight="572.0" prefWidth="816.0">
+        <columns>
+          <TableColumn fx:id="cfTable" prefWidth="184.0" text="CF" />
+          <TableColumn fx:id="nameTable" prefWidth="107.0" text="Nome" />
+            <TableColumn fx:id="surnameTable" prefWidth="104.0" text="Cognome" />
+            <TableColumn fx:id="nationTable" prefWidth="89.0" text="Nazione" />
+            <TableColumn fx:id="comuneTable" prefWidth="149.0" text="Comune" />
+            <TableColumn fx:id="bornTable" prefWidth="104.0" text="Nascita" />
+            <TableColumn fx:id="genderTable" prefWidth="78.0" text="Sesso" />
+        </columns>
+      </TableView>
    </children>
 </AnchorPane>

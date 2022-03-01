@@ -1,10 +1,12 @@
 package Controller;
 import java.util.List;
+import java.util.Objects;
 
 import DAO.*;
 import Model.*;
 import Singleton.*;
-
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,10 +16,15 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellDataFeatures;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
@@ -40,46 +47,67 @@ public class ElectorsManagementController {
     private Button back;
     
     @FXML
-    private DatePicker born;
+    private Button manageElector;
 
     @FXML
-    private TextField cf;
+    private Button removeElector;
+    
+    @FXML
+    private TableView<Elettore> elettori;
 
     @FXML
-    private TextField comune;
+    private TableColumn<Elettore, LocalDate> bornTable;
+
+    @FXML
+    private TableColumn<Elettore, String> cfTable;
+
+    @FXML
+    private TableColumn<Elettore, String> comuneTable;
+    
+    @FXML
+    private TableColumn<Elettore, String> genderTable;
+    
+    @FXML
+    private TableColumn<Elettore, String> nameTable;
+
+    @FXML
+    private TableColumn<Elettore, String> nationTable;
+    
+    @FXML
+    private TableColumn<Elettore, String> surnameTable;
 
     @FXML
     private Label esito;
 
     @FXML
-    private ChoiceBox<String> gender;
-
-    @FXML
     private Label info;
-
+    
     @FXML
-    private ListView<String> elettori;
-
-    @FXML
-    private Button manageElector;
-
+    private TextField cf;
+    
     @FXML
     private TextField name;
-
-    @FXML
-    private TextField nation;
-
-    @FXML
-    private Button removeElector;
-
+    
     @FXML
     private TextField surname;
+    
+    @FXML
+    private TextField nation;
+    
+    @FXML
+    private TextField comune;
+    
+    @FXML
+    private ChoiceBox<String> gender;
+    
+    @FXML
+    private DatePicker born;
 
     @FXML
     void addList(ActionEvent event) throws Exception {
     	
     	
-    	if(!name.getText().equals("") && !surname.getText().equals("") && !nation.getText().equals("") && !comune.getText().equals("") && !cf.getText().equals("") && !gender.getValue().equals("") && !born.getValue().equals(""))  {
+    	if(!name.getText().equals("") && !surname.getText().equals("") && !nation.getText().equals("") && !comune.getText().equals("") && !cf.getText().equals("") && Objects.nonNull(gender.getValue()) && Objects.nonNull(born.getValue()))  {
     		String nome = name.getText();
     		String cognome = surname.getText();
     		String nazione  = nation.getText();
@@ -88,19 +116,20 @@ public class ElectorsManagementController {
     		LocalDate nascita = born.getValue();
     		String CF = cf.getText();
     		char gen ='f';
-    		if (genere == "Maschio") {gen = 'm';}
+    		if (genere.equals("Maschio")) {gen = 'm';}
     		
     		try {
-				Elettore toadd = new Elettore(CF, nome, cognome, nascita, comun, nazione, 'm');
+				Elettore toadd = new Elettore(CF, nome, cognome, nascita, comun, nazione, gen);
 				if(!electorDAO.addElettore(toadd, "")){
 					esito.setText("l'elettore " +CF+" è già presente nel sistema");
 					return;
-				};
+				}
 	    		this.initialize();
 	        	esito.setText("aggiunta elettore " + CF);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
+				esito.setText("il codice fiscale " +CF+" non combacia con i dati inseriti");
 				e.printStackTrace();
+				return;
 			}
     	} else
 			try {
@@ -131,7 +160,7 @@ public class ElectorsManagementController {
     	Scene tableViewScene = new Scene(tableViewParent);
     	
     	ElectorsModifyController controller = loader.getController();
-    	controller.initialize(electorDAO.getElettore(elettori.getSelectionModel().getSelectedItem()));
+    	controller.initialize(electorDAO.getElettore(elettori.getSelectionModel().getSelectedItem().getCF()));
     	
 
 		Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -141,13 +170,13 @@ public class ElectorsManagementController {
 
     @FXML
     void removeElector(ActionEvent event) throws Exception {
-    	String name = elettori.getSelectionModel().getSelectedItem();
-    	if (!electorDAO.deleteElettore(name)) {
-    		info.setText("impossibile rimuovere " + name);
+    	Elettore e = elettori.getSelectionModel().getSelectedItem();
+    	if (!electorDAO.deleteElettore(e.getCF())) {
+    		info.setText("impossibile rimuovere " + elettori.getSelectionModel().getSelectedItem().getCF());
         	return;
     	}
-    	elettori.getItems().remove(name);
-    	info.setText("rimosso elettore " + name);
+    	elettori.getItems().remove(elettori.getSelectionModel().getSelectedItem());
+    	info.setText("rimosso elettore " + elettori.getSelectionModel().getSelectedItem().getCF());
     	return;
     }
     
@@ -155,12 +184,16 @@ public class ElectorsManagementController {
     void initialize() throws Exception {
     	info.setText("");
     	esito.setText("");
-    	List<Elettore> electors = electorDAO.getAllElettori();
-    	for(int i = 0; i < electors.size(); i++) {
-    		if(!elettori.getItems().contains(electors.get(i).getCF())) {
-    			elettori.getItems().add(electors.get(i).getCF());
-    		}
-    	}
+    	cfTable.setCellValueFactory(new PropertyValueFactory<Elettore, String>("CF"));
+        nameTable.setCellValueFactory(new PropertyValueFactory<Elettore, String>("name"));
+        surnameTable.setCellValueFactory(new PropertyValueFactory<Elettore, String>("surname"));
+        bornTable.setCellValueFactory(new PropertyValueFactory<Elettore, LocalDate>("nascita"));
+        comuneTable.setCellValueFactory(new PropertyValueFactory<Elettore, String>("comune"));
+        genderTable.setCellValueFactory(new PropertyValueFactory<Elettore, String>("sesso"));
+        nationTable.setCellValueFactory(new PropertyValueFactory<Elettore, String>("nazione"));
+        
+    	elettori.setItems(FXCollections.observableList(electorDAO.getAllElettori()));
+
     	if (!gender.getItems().contains("Maschio")) {
         	gender.getItems().add("Maschio");
         	gender.getItems().add("Femmina");

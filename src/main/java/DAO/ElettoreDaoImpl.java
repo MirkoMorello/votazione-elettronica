@@ -45,7 +45,7 @@ public class ElettoreDaoImpl implements ElettoreDao{
 	            String comune = rs.getString("comune");
 	            String sesso = rs.getString("sesso");
 	            char sessoChar = sesso.charAt(0);
-	            String nazione = rs.getString("nazione");
+	            String nazione = rs.getString("nazione").toUpperCase();
 	            Elettore e = new Elettore( CF, nome, cognome, nascitald, comune, nazione, sessoChar);
 	            
 	            elettori.add(e);
@@ -76,7 +76,7 @@ public class ElettoreDaoImpl implements ElettoreDao{
             String comune = rs.getString("comune");
             String sesso = rs.getString("sesso");
             char sessoChar = sesso.charAt(0);
-            String nazione = rs.getString("nazione");
+            String nazione = rs.getString("nazione").toUpperCase();
             
   
             e = new Elettore(Code, nome, cognome, nascitald, comune, nazione, sessoChar);
@@ -138,7 +138,7 @@ public class ElettoreDaoImpl implements ElettoreDao{
 			
 			updatedCmd.setString(6, e.getSesso());
 			
-			updatedCmd.setString(7, e.getNazione());
+			updatedCmd.setString(7, e.getNazione().toUpperCase());
 			
 			updatedCmd.setString(8, e.getCF());
 			
@@ -252,7 +252,7 @@ public class ElettoreDaoImpl implements ElettoreDao{
 		updatedCmd.setString(3, String.valueOf(e.getNascita().toString()));
 		updatedCmd.setString(4, String.valueOf(e.getComune()));
 		updatedCmd.setString(5, String.valueOf(e.getSesso()));
-		updatedCmd.setString(6, String.valueOf(e.getNazione()));
+		updatedCmd.setString(6, String.valueOf(e.getNazione().toUpperCase()));
 		updatedCmd.setString(7, String.valueOf(e.getCF()));
 		int rs = updatedCmd.executeUpdate();
 		if(rs <= 0) {

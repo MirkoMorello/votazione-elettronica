@@ -86,6 +86,7 @@ public class ElectorsModifyController {
 	    		this.initialize(toadd);
 	        	esito.setText("modificato elettore " + CF);
 			} catch (Exception e) {
+	        	esito.setText("le informazioni inserite non combaciano con il CF");
 				e.printStackTrace();
 			}
     	} else
