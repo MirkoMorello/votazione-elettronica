@@ -85,7 +85,7 @@ public class ListManagementController {
 
     @FXML
     void back(ActionEvent event) throws IOException {
-    	Parent root = FXMLLoader.load(getClass().getResource("fxml/AdminDashBoard.fxml"));
+    	Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/AdminDashBoard.fxml"));
 		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		scene = new Scene(root);
 		stage.setScene(scene);
@@ -122,7 +122,7 @@ public class ListManagementController {
     	}
     	Lista list = ld.getList(name);
     	CurrentListSingleton.getIstance().setList(list.getName(), list.getDesc());
-    	Parent root = FXMLLoader.load(getClass().getResource("fxml/ManageCandidates.fxml"));
+    	Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/ManageCandidates.fxml"));
 		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		scene = new Scene(root);
 		stage.setScene(scene);
@@ -133,7 +133,7 @@ public class ListManagementController {
     
     @FXML
     void manageIndependentCandidates(ActionEvent event) throws IOException {
-    	Parent root = FXMLLoader.load(getClass().getResource("fxml/ManageIndependentCandidates.fxml"));
+    	Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/ManageIndependentCandidates.fxml"));
 		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		scene = new Scene(root);
 		stage.setScene(scene);

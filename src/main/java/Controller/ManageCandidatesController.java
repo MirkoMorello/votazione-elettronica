@@ -62,7 +62,7 @@ public class ManageCandidatesController {
 
     @FXML
     void back(ActionEvent event) throws IOException {
-    	Parent root = FXMLLoader.load(getClass().getResource("fxml/ListManagement.fxml"));
+    	Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/ListManagement.fxml"));
 		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		scene = new Scene(root);
 		stage.setScene(scene);

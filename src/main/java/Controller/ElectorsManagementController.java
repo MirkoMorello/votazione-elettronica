@@ -115,7 +115,7 @@ public class ElectorsManagementController {
 
     @FXML
     void back(ActionEvent event) throws IOException {
-    	Parent root = FXMLLoader.load(getClass().getResource("fxml/AdminDashboard.fxml"));
+    	Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/AdminDashboard.fxml"));
 		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		scene = new Scene(root);
 		stage.setScene(scene);
@@ -125,7 +125,7 @@ public class ElectorsManagementController {
     @FXML
     void manageElector(ActionEvent event) throws Exception {
     	FXMLLoader loader = new FXMLLoader();
-    	loader.setLocation(getClass().getResource("fxml/ElectorsModify.fxml"));
+    	loader.setLocation(getClass().getClassLoader().getResource("fxml/ElectorsModify.fxml"));
     	Parent tableViewParent = loader.load();
     	
     	Scene tableViewScene = new Scene(tableViewParent);

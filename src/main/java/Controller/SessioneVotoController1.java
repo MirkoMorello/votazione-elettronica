@@ -62,13 +62,13 @@ public class SessioneVotoController1 extends Controller{
     	CreatingElezioneSingleton.getIstance().setTipo(tipologia.getValue());
     	
     	if(tipologia.getValue().equals("categorico con preferenze")) {
-    		Parent root = FXMLLoader.load(getClass().getResource("fxml/SessioneVoto1.5.fxml"));
+    		Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/SessioneVoto1.5.fxml"));
     		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
     		scene = new Scene(root);
     		stage.setScene(scene);
     		stage.show();
     	}else {
-    		Parent root = FXMLLoader.load(getClass().getResource("fxml/SessioneVoto2.fxml"));
+    		Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/SessioneVoto2.fxml"));
     		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
     		scene = new Scene(root);
     		stage.setScene(scene);

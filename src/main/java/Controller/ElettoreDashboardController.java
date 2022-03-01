@@ -40,7 +40,7 @@ public class ElettoreDashboardController {
     @FXML
     void Logout(ActionEvent event) throws IOException {
     	CurrentElettoreSingleton.getIstance().destroyElettore();
-    	Parent root = FXMLLoader.load(getClass().getResource("fxml/ex.fxml"));
+    	Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/ex.fxml"));
 		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		scene = new Scene(root);
 		stage.setScene(scene);

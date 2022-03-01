@@ -26,7 +26,7 @@ public class SessioneVotoController3 extends Controller{
     void continua(ActionEvent event) throws IOException {
     	boolean liste = electiondomain.getValue().equals("liste");
     	CreatingElezioneSingleton.getIstance().setListe(liste);
-    	Parent root = FXMLLoader.load(getClass().getResource("fxml/SessioneVoto4.fxml"));
+    	Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/SessioneVoto4.fxml"));
 		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		scene = new Scene(root);
 		stage.setScene(scene);

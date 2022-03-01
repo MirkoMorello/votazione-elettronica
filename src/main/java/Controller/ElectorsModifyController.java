@@ -102,7 +102,7 @@ public class ElectorsModifyController {
 
     @FXML
     void back(ActionEvent event) throws IOException {
-    	Parent root = FXMLLoader.load(getClass().getResource("fxml/ElectorsManagement.fxml"));
+    	Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/ElectorsManagement.fxml"));
 		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		scene = new Scene(root);
 		stage.setScene(scene);

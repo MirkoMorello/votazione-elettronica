@@ -51,7 +51,7 @@ public class ManageElectionsController {
 
     @FXML
     void back(ActionEvent event) throws IOException {
-    	Parent root = FXMLLoader.load(getClass().getResource("fxml/AdminDashBoard.fxml"));
+    	Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/AdminDashBoard.fxml"));
 		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		scene = new Scene(root);
 		stage.setScene(scene);
@@ -60,7 +60,7 @@ public class ManageElectionsController {
 
     @FXML
     void createElection(ActionEvent event) throws IOException {
-    	root = FXMLLoader.load(getClass().getResource("fxml/SessioneVoto1.fxml"));
+    	root = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/SessioneVoto1.fxml"));
         Stage stage = new Stage();
         stage.setTitle("Configurazione sessione di voto");
         stage.setScene(new Scene(root));
@@ -89,7 +89,7 @@ public class ManageElectionsController {
 
     @FXML
     void votazioniConcluse(ActionEvent event) throws IOException {
-    	Parent root = FXMLLoader.load(getClass().getResource("fxml/VotazioniConcluse.fxml"));
+    	Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/VotazioniConcluse.fxml"));
 		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		scene = new Scene(root);
 		stage.setScene(scene);

@@ -53,7 +53,7 @@ public class SessioneVotoController4 extends Controller{
     	} else {
     		DaoFactorySingleton.getDaoFactory().getElezioneDao().pushListe(selected);
     	}
-    	Parent root = FXMLLoader.load(getClass().getResource("fxml/ConfirmCreation.fxml"));
+    	Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/ConfirmCreation.fxml"));
 		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		scene = new Scene(root);
 		stage.setScene(scene);

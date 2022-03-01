@@ -36,7 +36,7 @@ public class SessioneVotoControllerComunale extends Controller{
     	if(comunale.getValue().equals("si")) {
     		CreatingElezioneSingleton.getIstance().setComunale(comune.getText(), Integer.parseInt(popolazione.getText()));
     	}
-    	Parent root = FXMLLoader.load(getClass().getResource("fxml/SessioneVoto2.fxml"));
+    	Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/SessioneVoto2.fxml"));
 		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		scene = new Scene(root);
 		stage.setScene(scene);
