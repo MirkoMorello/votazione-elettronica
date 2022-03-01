@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="610.0" prefWidth="682.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.SessioneVotoController4">
+   <children>
+      <Label layoutX="168.0" layoutY="36.0" text="Configurazione Sessione di voto ">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Button fx:id="termina" layoutX="535.0" layoutY="517.0" mnemonicParsing="false" onAction="#Termina" prefHeight="59.0" prefWidth="110.0" style="-fx-background-color: #659ff1;" text="Termina" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <ListView fx:id="nonselezionati" layoutX="39.0" layoutY="115.0" prefHeight="340.0" prefWidth="258.0" />
+      <Label layoutX="46.0" layoutY="93.0" text="Liste(gruppi/partiti) o candidati:" />
+      <Label layoutX="396.0" layoutY="93.0" text="selezionati:" />
+      <ListView fx:id="selezionati" layoutX="387.0" layoutY="115.0" prefHeight="340.0" prefWidth="258.0" />
+      <Button fx:id="addSelected" layoutX="306.0" layoutY="219.0" mnemonicParsing="false" onAction="#addSelected" prefHeight="59.0" prefWidth="72.0" style="-fx-background-color: #659ff1;" text="&gt;" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Button>
+      <Button fx:id="removeSelected" layoutX="305.0" layoutY="291.0" mnemonicParsing="false" onAction="#removeSelected" prefHeight="59.0" prefWidth="72.0" style="-fx-background-color: #659ff1;" text="&lt;" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

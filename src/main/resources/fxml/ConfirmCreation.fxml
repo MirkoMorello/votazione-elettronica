@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="256.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ConfirmCreationController">
+   <children>
+      <Label layoutX="133.0" layoutY="65.0" text="Votazione creata correttamente">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Button fx:id="close" layoutX="245.0" layoutY="139.0" mnemonicParsing="false" onAction="#close" prefHeight="59.0" prefWidth="110.0" style="-fx-background-color: #d75246;" text="Chiudi" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>
