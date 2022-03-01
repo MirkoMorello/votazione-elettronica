@@ -15,7 +15,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
-public class AdminDashboardController {
+public class AdminDashboardController extends Controller{
 
 	private Stage stage;
 	private Scene scene;
@@ -23,7 +23,7 @@ public class AdminDashboardController {
 
 	
 	@FXML
-    private Button AP;
+    private Button gestamministratori;
 
     @FXML
     private Button gesteklettori;
@@ -54,6 +54,9 @@ public class AdminDashboardController {
 
     @FXML
     void initialize() {
+    	if(!CurrentAdminSingleton.getIstance().getSuperuser()){
+    		gestamministratori.setDisable(true);
+    	}
     	idcode.setText(String.valueOf(CurrentAdminSingleton.getIstance().getAdmin().getId()));
     	if(CurrentAdminSingleton.getIstance().getAdmin() == null) {
     		logout.fire();
@@ -82,8 +85,14 @@ public class AdminDashboardController {
     }
 
     @FXML
-    void gestPA(ActionEvent event) {
-
+    void gestAmministratori(ActionEvent event) throws IOException {
+    	Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/AdminManagement.fxml"));
+		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+		scene = new Scene(root);
+		stage.setScene(scene);
+		stage.setResizable(false);
+		stage.setTitle("Gestione liste (gruppi/partiti)");
+		stage.show();
     }
 
     @FXML

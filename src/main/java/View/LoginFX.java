@@ -19,6 +19,7 @@ public class LoginFX extends Application  {
 		Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/ex.fxml"));
 		
 		primaryStage.setTitle("Login Votazione Elettronica");
+		primaryStage.setResizable(false);
 		primaryStage.setScene(new Scene(root, 400, 600));
 		primaryStage.show();
 	}

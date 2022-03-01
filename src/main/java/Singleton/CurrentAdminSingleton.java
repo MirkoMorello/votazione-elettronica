@@ -24,4 +24,8 @@ public final class CurrentAdminSingleton {
 		this.admin = null;
 	}
 	
+	public boolean getSuperuser() {
+		return DaoFactorySingleton.getDaoFactory().getAdminDao().isAdmin(admin.getUsername());
+	}
+	
 }

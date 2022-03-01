@@ -5,31 +5,31 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="333.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.AdminDashboardController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="563.0" prefWidth="382.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.AdminDashboardController">
    <children>
       <Label layoutX="45.0" layoutY="33.0" text="ID:" />
       <Label fx:id="idcode" layoutX="68.0" layoutY="33.0" text="IDCODE" />
-      <Button fx:id="gestliste" layoutX="45.0" layoutY="85.0" mnemonicParsing="false" onAction="#gestListe" prefHeight="59.0" prefWidth="110.0" style="-fx-background-color: #659ff1;" text="Gestione &#10;Liste&#10;" textAlignment="CENTER" textFill="WHITE">
+      <Button fx:id="gestliste" layoutX="70.0" layoutY="95.0" mnemonicParsing="false" onAction="#gestListe" prefHeight="59.0" prefWidth="242.0" style="-fx-background-color: #659ff1;" text="Gestione &#10;Liste&#10;" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font size="16.0" />
          </font>
       </Button>
-      <Button fx:id="gestvotazioni" layoutX="180.0" layoutY="85.0" mnemonicParsing="false" onAction="#gestVotazioni" prefHeight="59.0" prefWidth="110.0" style="-fx-background-color: #659ff1;" text="Gestione&#10;Votazioni" textAlignment="CENTER" textFill="WHITE">
+      <Button fx:id="gestvotazioni" layoutX="70.0" layoutY="176.0" mnemonicParsing="false" onAction="#gestVotazioni" prefHeight="59.0" prefWidth="242.0" style="-fx-background-color: #659ff1;" text="Gestione&#10;Votazioni" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font size="16.0" />
          </font>
       </Button>
-      <Button fx:id="gesteklettori" layoutX="45.0" layoutY="171.0" mnemonicParsing="false" onAction="#gestElettori" prefHeight="59.0" prefWidth="110.0" style="-fx-background-color: #659ff1;" text="Gestione&#10;Elettori&#10;" textAlignment="CENTER" textFill="WHITE">
+      <Button fx:id="gesteklettori" layoutX="70.0" layoutY="259.0" mnemonicParsing="false" onAction="#gestElettori" prefHeight="59.0" prefWidth="242.0" style="-fx-background-color: #659ff1;" text="Gestione&#10;Elettori&#10;" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font size="16.0" />
          </font>
       </Button>
-      <Button fx:id="AP" layoutX="180.0" layoutY="171.0" mnemonicParsing="false" onAction="#gestPA" prefHeight="59.0" prefWidth="110.0" style="-fx-background-color: #659ff1;" text="Area&#10;Personale&#10;&#10;" textAlignment="CENTER" textFill="WHITE">
+      <Button fx:id="gestamministratori" layoutX="70.0" layoutY="342.0" mnemonicParsing="false" onAction="#gestAmministratori" prefHeight="59.0" prefWidth="242.0" style="-fx-background-color: #659ff1;" text="Gestione&#10;Amministratori&#10;&#10;" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font size="16.0" />
          </font>
       </Button>
-      <Button fx:id="logout" layoutX="111.0" layoutY="278.0" mnemonicParsing="false" onAction="#Logout" prefHeight="59.0" prefWidth="110.0" style="-fx-background-color: #d75246;" text="Logout" textAlignment="CENTER" textFill="WHITE">
+      <Button fx:id="logout" layoutX="136.0" layoutY="463.0" mnemonicParsing="false" onAction="#Logout" prefHeight="59.0" prefWidth="110.0" style="-fx-background-color: #d75246;" text="Logout" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font size="16.0" />
          </font>
