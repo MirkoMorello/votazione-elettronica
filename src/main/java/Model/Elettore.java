@@ -1,7 +1,10 @@
 package Model;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class Elettore{
@@ -47,8 +50,9 @@ public class Elettore{
 	}
 	
 	public void setCF(String CF) throws Exception {
-		if(CF.length() != 16) {
-			throw new Exception("La lunghezza del codice fiscale deve essere di 16 caratteri");
+		if(!checkCF(CF)) {
+			//throw new Exception("La lunghezza del codice fiscale deve essere di 16 caratteri");
+			System.out.println("error");
 		}
 		this.CF = new char[16];
 		for(int i = 0; i < CF.length(); i++) {
@@ -56,22 +60,64 @@ public class Elettore{
 		}
 	}
 	
-	private boolean checkCF() {
-		if(!nazione.equals("italia")) {
-			if(this.CF[11] != 'Z') {
+	private boolean checkCF(String codice) {
+		//0-3 cifre
+				String calculated_CF = this.surname.replaceAll("[AEIOUaeiou]", "");
+				
+				if (calculated_CF.length() < 3){
+					calculated_CF = calculated_CF.concat(this.name.replaceAll("[AEIOUaeiou]", ""));
+					if (calculated_CF.length() < 3){
+						calculated_CF += "XXX";
+					}
+				}
+				calculated_CF = calculated_CF.substring(0,3);
+				
+				//3-6 cifre
+				String consonanti_nome = this.name.replaceAll("[AEIOUaeiou]", "");
+				if (consonanti_nome.length() <= 3){
+					consonanti_nome += "XXX";
+					calculated_CF += consonanti_nome.substring(0,3);
+				}else{
+					calculated_CF += consonanti_nome.substring(0,1);
+					calculated_CF += consonanti_nome.substring(2,3);
+					calculated_CF += consonanti_nome.substring(3,4);
+				}
+				
+				// 6-8 cifre
+				DateFormat dateFormat = new SimpleDateFormat("yy");  
+				calculated_CF += this.nascita.format(DateTimeFormatter.ofPattern("yy"));
+				
+				// 9 cifra
+				dateFormat = new SimpleDateFormat("MM");
+				String mesi = "ABCDEHLMPRST";
+				String mese = mesi.substring(Integer.parseInt(this.nascita.format(DateTimeFormatter.ofPattern("MM")))-1, Integer.parseInt(this.nascita.format(DateTimeFormatter.ofPattern("MM"))));
+				calculated_CF += mese;
+				
+				//10-11 cifre
+				calculated_CF += this.nascita.format(DateTimeFormatter.ofPattern("dd"));
+				
+				// -----------------test e debug
+				//dateFormat = new SimpleDateFormat("yyy/MMMM/dd");
+				//String test = dateFormat.format(this.nascita);
+				
+				// -----------------
+				
+				//11 cifra se estero e return
+				if (codice.length() < 15){
+					return false;
+				}
+				if (!this.nazione.toUpperCase().equals("ITALIA")){
+					calculated_CF += "Z";
+					if (codice.startsWith(calculated_CF.toUpperCase())){
+						return true;
+					}
+					System.out.print("nope");
+					return false;
+				}
+				if (codice.startsWith(calculated_CF.toUpperCase())){
+					return true;
+				}
 				return false;
-			}
-		}
-		if(!Character.isAlphabetic(this.CF[11])) {
-			return false;
-		}
-		if(!(Character.isDigit(this.CF[12]) && Character.isDigit(this.CF[13]) && Character.isDigit(this.CF[14]))){
-			return false;
-		}
-		if(!Character.isAlphabetic(this.CF[15])) {
-			return false;
-		}
-		return true;
 		
 	}
 	
