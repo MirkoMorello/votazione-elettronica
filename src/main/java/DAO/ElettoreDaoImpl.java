@@ -261,5 +261,7 @@ public class ElettoreDaoImpl implements ElettoreDao{
 		return true;
 	}
 
+
+
 	
 }

@@ -22,5 +22,4 @@ public interface ElettoreDao {
 	public boolean register(String CF, String password) throws NoSuchAlgorithmException, SQLException;
 	public boolean updateElettore(Elettore e) throws Exception;
 	
-	
 }

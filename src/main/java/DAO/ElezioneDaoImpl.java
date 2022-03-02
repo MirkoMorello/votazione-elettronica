@@ -16,7 +16,7 @@ public class ElezioneDaoImpl implements ElezioneDao{
 	@Override
 	public List<Elezione> getElezioniAttive() throws SQLException {
 		List<Elezione> elezioni = new ArrayList<Elezione>();
-		String command = "SELECT * FROM \"elezione\" where closed != 1;";
+		String command = "SELECT * FROM \"elezione\" where (closed = 0 or closed is null);";
 		PreparedStatement updatedCmd= c.prepareStatement(command);
 		ResultSet rs = updatedCmd.executeQuery();
 		while(rs.next()) {
@@ -38,7 +38,6 @@ public class ElezioneDaoImpl implements ElezioneDao{
 				break;
 			}
 		}
-		System.out.println(elezioni.size());
 		
 		
 		return elezioni;
@@ -80,9 +79,18 @@ public class ElezioneDaoImpl implements ElezioneDao{
 	}
 
 	@Override
-	public boolean closeElezione(String titolo) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean closeElezione(String titolo) throws Exception {
+		String command = "update elezione set closed = 1 where titolo = ?";
+		PreparedStatement updatedCmd= c.prepareStatement(command);
+		updatedCmd.setString(1, titolo);
+		
+		try{
+			updatedCmd.executeUpdate();
+			return true;
+		}catch(SQLException ex) {
+			ex.printStackTrace();
+			return false;
+		}
 	}
 
 	@Override
@@ -362,5 +370,98 @@ public class ElezioneDaoImpl implements ElezioneDao{
 		rs.next();
 		return rs.getInt("count(*)")/2;
 	}
+
+	@Override
+	public List<Elezione> getElezioniAttiveUtente(String comune) throws Exception {
+		List<Elezione> elezioni = new ArrayList<Elezione>();
+		String command = "SELECT * FROM elezione, comune where (closed = 0 or closed is null) and (elezione.comunale is null or elezione.comunale = comune.id and comune.nome = ?);";
+		PreparedStatement updatedCmd= c.prepareStatement(command);
+		updatedCmd.setString(1, comune);
+		ResultSet rs = updatedCmd.executeQuery();
+		while(rs.next()) {
+			System.out.println(rs.getString("tipologia"));
+			switch(rs.getString("tipologia")){
+			case "ordinale":
+				elezioni.add(new VotoOrdinale(rs.getString("titolo"), rs.getString("descrizione")));
+				break;
+			case "categorico":
+				elezioni.add(new VotoCategorico(rs.getString("titolo"), rs.getString("descrizione")));
+				break;
+			case "categorico con preferenze":
+				elezioni.add(new VotoCategoricoConPreferenze(rs.getString("titolo"), rs.getString("descrizione")));
+				break;
+			case "referendum":
+				elezioni.add(new VotoOrdinale(rs.getString("titolo"), rs.getString("descrizione")));
+				break;
+			default:
+				break;
+			}
+		}
+		
+		
+		return elezioni;
+	}
+
+	@Override
+	public Elezione getElezione(String titolo) throws SQLException {
+		System.out.println(titolo);
+		String command = "SELECT * FROM elezione where titolo = ?";
+		PreparedStatement updatedCmd= c.prepareStatement(command);
+		updatedCmd.setString(1, titolo);
+		ResultSet rs = updatedCmd.executeQuery();
+		Elezione e = null;
+		switch(rs.getString("tipologia")){
+		case "ordinale":
+			e = new VotoOrdinale(rs.getString("titolo"), rs.getString("descrizione"));
+			break;
+		case "categorico":
+			e = new VotoCategorico(rs.getString("titolo"), rs.getString("descrizione"));
+			break;
+		case "categorico con preferenze":
+			e = new VotoCategoricoConPreferenze(rs.getString("titolo"), rs.getString("descrizione"));
+			break;
+		case "referendum":
+			e = new Referendum(rs.getString("titolo"), rs.getString("descrizione"));
+			break;
+		default:
+			break;
+		}
+		
+		return e;
+	}
+
+	@Override
+	public void setUserVoted(String titolo, String CF) throws Exception{
+		int id = getElezioneId(titolo);
+		String command = "insert into elettore_voted (elettore, elezione) values (?, ?)";
+		PreparedStatement updatedCmd= c.prepareStatement(command);
+		updatedCmd.setString(1, CF);
+		updatedCmd.setInt(2, id);
+		updatedCmd.executeUpdate();
+	}
+
+	@Override
+	public void incrementVoterCount(String titolo) throws Exception {
+		String command = "update elezione set voters_count = voters_count + 1 where titolo = ?";
+		PreparedStatement updatedCmd= c.prepareStatement(command);
+		updatedCmd.setString(1, titolo);
+		updatedCmd.executeUpdate();
+	}
+
+	@Override
+	public void voteReferendum(String value, String titolo) throws Exception {
+		int id = getElezioneId(titolo);
+		if(value.equals("si")) {
+			String command = "update referendum set si = si + 1";
+			PreparedStatement updatedCmd= c.prepareStatement(command);
+			updatedCmd.executeUpdate();
+		}else {
+			String command = "update referendum set no = no + 1";
+			PreparedStatement updatedCmd= c.prepareStatement(command);
+			updatedCmd.executeUpdate();
+		}
+		
+	}
+	
 
 }

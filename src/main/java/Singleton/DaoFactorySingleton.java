@@ -8,6 +8,7 @@ public class DaoFactorySingleton {
 	private ElezioneDao elezionedao = new ElezioneDaoImpl();
 	private ComuneDao comunedao = new ComuneDaoImpl();
 	private AdminDAO admindao = new AdminDaoImpl();
+	private ElettoreDao elettoredao = new ElettoreDaoImpl();
 	
 	private DaoFactorySingleton() {
 	}
@@ -34,5 +35,9 @@ public class DaoFactorySingleton {
 	
 	public AdminDAO getAdminDao() {
 		return this.admindao;
+	}
+
+	public Object getElettoreDao() {
+		return this.elettoredao;
 	}
 }

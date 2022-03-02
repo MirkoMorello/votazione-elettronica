@@ -83,8 +83,17 @@ public class ManageElectionsController {
     }
 
     @FXML
-    void terminaElezione(ActionEvent event) {
-
+    void terminaElezione(ActionEvent event) throws Exception {
+    	String titolo = currentelections.getSelectionModel().getSelectedItem();
+    	if (titolo == null || titolo.equals("")) {
+    		Alert alert = new Alert(AlertType.ERROR);
+    		alert.setContentText("Seleziona prima una votazione dalla lista");
+    		alert.showAndWait();
+    		this.initialize();
+    		return;
+    	}
+    	DaoFactorySingleton.getDaoFactory().getElezioneDao().closeElezione(titolo);
+    	this.initialize();
     }
 
     @FXML

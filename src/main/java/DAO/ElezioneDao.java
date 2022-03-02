@@ -7,7 +7,8 @@ import java.util.List;
 public interface ElezioneDao {
 	public List<Elezione> getElezioniAttive() throws SQLException;
 	public boolean createElezione(String titolo, String descrizione, String tipologia, boolean maggioranza_assoluta, boolean liste, boolean quorum, Integer comunale) throws SQLException;
-	public boolean closeElezione(String titolo);
+	public Elezione getElezione(String titolo) throws SQLException;
+	public boolean closeElezione(String titolo) throws Exception;
 	public boolean deleteElezione(String titolo) throws SQLException;
 	public void pushCandidati(List<String> selected) throws SQLException;
 	public void pushListe(List<String> selected) throws SQLException;
@@ -17,4 +18,8 @@ public interface ElezioneDao {
 	public String getVincitoreCategorico(String titolo) throws SQLException;
 	public String getVincitoreOrdinale(String titolo) throws SQLException;
 	public String getVincitoreCatConPref(String titolo) throws SQLException;
+	public List<Elezione> getElezioniAttiveUtente(String comune) throws Exception;
+	public void setUserVoted(String titolo, String CF) throws Exception;
+	public void incrementVoterCount(String titolo) throws Exception;
+	public void voteReferendum(String value, String titolo) throws Exception;
 }

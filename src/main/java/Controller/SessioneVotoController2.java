@@ -3,6 +3,7 @@ import DAO.*;
 import Model.*;
 import Singleton.*;
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -23,7 +24,7 @@ public class SessioneVotoController2 extends Controller{
     private ComboBox<String> tipologiavincitore;
 
     @FXML
-    void continua(ActionEvent event) throws IOException {
+    void continua(ActionEvent event) throws IOException, SQLException {
     	
     	if(tipologiavincitore.getValue() != "") {
     		CreatingElezioneSingleton.getIstance().setSelezione(tipologiavincitore.getValue());
@@ -34,6 +35,7 @@ public class SessioneVotoController2 extends Controller{
     	if(CreatingElezioneSingleton.getIstance().getTipo().equals("referendum")) {
     		CreatingElezioneSingleton.getIstance().pushReferendum();
     		Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/ConfirmCreation.fxml"));
+        	DaoFactorySingleton.getDaoFactory().getElezioneDao().pushReferendum();
     		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
     		scene = new Scene(root);
     		stage.setScene(scene);
