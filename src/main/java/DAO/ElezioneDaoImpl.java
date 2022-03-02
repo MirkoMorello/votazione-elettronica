@@ -184,6 +184,183 @@ public class ElezioneDaoImpl implements ElezioneDao{
 			ex.printStackTrace();
 		}
 	}
+
+	@Override
+	public String getVincitoreReferendum(String titolo) throws SQLException {
+		String command = "SELECT * FROM elezione, referendum where elezione.id = referendum.elezione and elezione.titolo = ?";
+		PreparedStatement updatedCmd= c.prepareStatement(command);
+		updatedCmd.setString(1, titolo);
+		ResultSet rs = updatedCmd.executeQuery();
+		rs.next();
+		int si = rs.getInt("si");
+		int no = rs.getInt("no");
+		int quorum = getQuorum();
+		if(si > no)
+			if(si > quorum)
+				return "si";
+			else
+				return "quorum non raggiunto";
+		else 
+			if(no > quorum)
+				return "no";
+			else
+				return "quorum non raggiunto";
+	}
+
+	@Override
+	public String getVincitoreCategorico(String titolo) throws SQLException {
+		boolean votingForLists = votingByList(titolo);
+		boolean maggAssoluta = getMajority(titolo);
+		String command;
+		String returnValue;
+		int votes;
+		if(votingForLists) {
+			command = "select nome, MAX(punteggio) from elezione, elezione_lista, lista where elezione.id = elezione_lista.elezione and elezione_lista.lista = lista.id and titolo = ?";
+			PreparedStatement updatedCmd= c.prepareStatement(command);
+			updatedCmd.setString(1, titolo);
+			ResultSet rs = updatedCmd.executeQuery();
+			rs.next();
+			votes = rs.getInt("MAX(punteggio)");
+			returnValue = rs.getString("nome");
+		} else {
+			command = "select candidato.nome, candidato.cognome, MAX(punteggio) from elezione, elezione_candidato, candidato where elezione.id = elezione_candidato.elezione and elezione_candidato.candidato = candidato.id and titolo = ?";
+			PreparedStatement updatedCmd= c.prepareStatement(command);
+			updatedCmd.setString(1, titolo);
+			ResultSet rs = updatedCmd.executeQuery();
+			rs.next();
+			votes = rs.getInt("MAX(punteggio)");
+			returnValue = rs.getString("nome") +" "+ rs.getString("cognome");
+		}
+		
+		if(maggAssoluta) {
+			command = "select SUM(punteggio) from elezione, elezione_candidato, candidato where elezione.id = elezione_candidato.elezione and elezione_candidato.candidato = candidato.id and titolo = ?";
+			PreparedStatement updatedCmd= c.prepareStatement(command);
+			updatedCmd.setString(1, titolo);
+			ResultSet rs = updatedCmd.executeQuery();
+			rs.next();
+			int totVoti = rs.getInt("SUM(punteggio)");
+			if(votes < (totVoti/2) + 1) {
+				returnValue = "maggioranza assoluta non raggiunta";
+			}
+		}
+		
+		return returnValue;
+	}
+
+	@Override
+	public String getVincitoreOrdinale(String titolo) throws SQLException {
+		boolean votingForLists = votingByList(titolo);
+		boolean maggAssoluta = getMajority(titolo);
+		String command;
+		String returnValue;
+		int votes;
+		if(votingForLists) {
+			command = "select nome, MAX(punteggio) from elezione, elezione_lista, lista where elezione.id = elezione_lista.elezione and elezione_lista.lista = lista.id and titolo = ?";
+			PreparedStatement updatedCmd= c.prepareStatement(command);
+			updatedCmd.setString(1, titolo);
+			ResultSet rs = updatedCmd.executeQuery();
+			rs.next();
+			votes = rs.getInt("MAX(punteggio)");
+			returnValue = rs.getString("nome");
+		} else {
+			command = "select candidato.nome, candidato.cognome, MAX(punteggio) from elezione, elezione_candidato, candidato where elezione.id = elezione_candidato.elezione and elezione_candidato.candidato = candidato.id and titolo = ?";
+			PreparedStatement updatedCmd= c.prepareStatement(command);
+			updatedCmd.setString(1, titolo);
+			ResultSet rs = updatedCmd.executeQuery();
+			rs.next();
+			votes = rs.getInt("MAX(punteggio)");
+			returnValue = rs.getString("nome") +" "+ rs.getString("cognome");
+		}
+		
+		if(maggAssoluta) {
+			command = "select SUM(punteggio) from elezione, elezione_candidato, candidato where elezione.id = elezione_candidato.elezione and elezione_candidato.candidato = candidato.id and titolo = ?";
+			PreparedStatement updatedCmd= c.prepareStatement(command);
+			updatedCmd.setString(1, titolo);
+			ResultSet rs = updatedCmd.executeQuery();
+			rs.next();
+			int totVoti = rs.getInt("SUM(punteggio)");
+			if(votes < (totVoti/2) + 1) {
+				returnValue = "maggioranza assoluta non raggiunta";
+			}
+		}
+		
+		return returnValue;
+	}
+
+	@Override
+	public String getVincitoreCatConPref(String titolo) throws SQLException {
+		
+		boolean votingForLists = votingByList(titolo);
+		boolean maggAssoluta = getMajority(titolo);
+		String command;
+		String returnValue;
+		int votes;
+		if(votingForLists) {
+			command = "select nome, MAX(punteggio) from elezione, elezione_lista_preferenza, lista where elezione.id = elezione_lista_preferenza.elezione and elezione_lista_preferenza.lista = lista.id and titolo = ?";
+			PreparedStatement updatedCmd= c.prepareStatement(command);
+			updatedCmd.setString(1, titolo);
+			ResultSet rs = updatedCmd.executeQuery();
+			rs.next();
+			votes = rs.getInt("MAX(punteggio)");
+			returnValue = rs.getString("nome");
+		} else {
+			command = "select candidato.nome, candidato.cognome, MAX(punteggio) from elezione, elezione_lista_preferenza, lista where elezione.id = elezione_lista_preferenza.elezione and elezione_lista_preferenza.lista = lista.id and titolo = ?";
+			PreparedStatement updatedCmd= c.prepareStatement(command);
+			updatedCmd.setString(1, titolo);
+			ResultSet rs = updatedCmd.executeQuery();
+			rs.next();
+			votes = rs.getInt("MAX(punteggio)");
+			returnValue = rs.getString("nome") +" "+ rs.getString("cognome");
+		}
+		
+		if(maggAssoluta) {
+			command = "select SUM(punteggio) from elezione, elezione_lista_preferenza, lista where elezione.id = elezione_lista_preferenza.elezione and elezione_lista_preferenza.lista = lista.id and titolo = ?";
+			PreparedStatement updatedCmd= c.prepareStatement(command);
+			updatedCmd.setString(1, titolo);
+			ResultSet rs = updatedCmd.executeQuery();
+			rs.next();
+			int totVoti = rs.getInt("SUM(punteggio)");
+			if(votes < (totVoti/2) + 1) {
+				returnValue = "maggioranza assoluta non raggiunta";
+				return returnValue;
+			}
+		}
+		
+		command = "select candidato.nome, candidato.cognome, MAX(elezione_lista_preferenza.punteggio) from elezione, elezione_lista_preferenza, candidato, lista where elezione.id = elezione_lista_preferenza.elezione and elezione_lista_preferenza.candidato = candidato.id and titolo = ? and elezione_lista_preferenza.lista = lista.id and lista.nome = ?";
+		PreparedStatement updatedCmd= c.prepareStatement(command);
+		updatedCmd.setString(1, titolo);
+		updatedCmd.setString(2, returnValue);
+		ResultSet rs = updatedCmd.executeQuery();
+		rs.next();
+		returnValue = returnValue + " - " + rs.getString("candidato.nome") + " " + rs.getString("candidato.cognome");
+		
+		return returnValue;
+	}
 	
+	private boolean votingByList(String titolo) throws SQLException {
+		String command = "SELECT liste FROM elezione where titolo = ?";
+		PreparedStatement updatedCmd= c.prepareStatement(command);
+		updatedCmd.setString(1, titolo);
+		ResultSet rs = updatedCmd.executeQuery();
+		rs.next();
+		return (rs.getInt("liste")==1);
+	}
+	
+	private boolean getMajority(String titolo) throws SQLException {
+		String command = "SELECT liste FROM elezione where titolo = ?";
+		PreparedStatement updatedCmd= c.prepareStatement(command);
+		updatedCmd.setString(1, titolo);
+		ResultSet rs = updatedCmd.executeQuery();
+		rs.next();
+		return (rs.getInt("maggioranza_assoluta")==1);
+	}
+	
+	private int getQuorum() throws SQLException {
+		String command = "SELECT COUNT(*) from elettori";
+		PreparedStatement updatedCmd= c.prepareStatement(command);
+		ResultSet rs = updatedCmd.executeQuery();
+		rs.next();
+		return rs.getInt("count(*)")/2;
+	}
 
 }

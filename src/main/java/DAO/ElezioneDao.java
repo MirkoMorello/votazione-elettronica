@@ -13,4 +13,8 @@ public interface ElezioneDao {
 	public void pushListe(List<String> selected) throws SQLException;
 	public void pushListeCandidati(List<String> selected) throws Exception;
 	public void pushReferendum() throws SQLException ;
+	public String getVincitoreReferendum(String titolo) throws SQLException;
+	public String getVincitoreCategorico(String titolo) throws SQLException;
+	public String getVincitoreOrdinale(String titolo) throws SQLException;
+	public String getVincitoreCatConPref(String titolo) throws SQLException;
 }
