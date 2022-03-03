@@ -44,6 +44,7 @@ public class SessioneVotoController4 extends Controller{
     	}
     	if(CreatingElezioneSingleton.getTipo().equals("categorico con preferenze")) {
     		DaoFactorySingleton.getDaoFactory().getElezioneDao().pushListeCandidati(selected);
+    		DaoFactorySingleton.getDaoFactory().getElezioneDao().pushListe(selected);
     	}else if(!CreatingElezioneSingleton.getListe()) {
     		List<String> parsed = new ArrayList<String>();
     		for(int i = 0; i < selected.size(); i++) {

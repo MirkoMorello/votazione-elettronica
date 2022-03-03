@@ -6,6 +6,7 @@ public abstract class Elezione {
 	String titolo;
 	String descrizione;
 	boolean liste;
+	String vincitore;
 	
 	public Elezione(String titolo, String descrizione) {
 		this.titolo = titolo;
@@ -20,7 +21,15 @@ public abstract class Elezione {
 		return descrizione;
 	}
 	
-	public abstract String getVincitore();
+	public boolean isComunale() {
+		return false;
+	}
+	
+	public abstract String setVincitore();
+	
+	public String getVincitore() {
+		return vincitore;
+	}
 	
 	public abstract boolean getListe();
 }

@@ -84,6 +84,7 @@ public class ManageElectionsController {
 
     @FXML
     void terminaElezione(ActionEvent event) throws Exception {
+    	System.out.println("terminating election");
     	String titolo = currentelections.getSelectionModel().getSelectedItem();
     	if (titolo == null || titolo.equals("")) {
     		Alert alert = new Alert(AlertType.ERROR);
@@ -93,12 +94,13 @@ public class ManageElectionsController {
     		return;
     	}
     	DaoFactorySingleton.getDaoFactory().getElezioneDao().closeElezione(titolo);
+    	currentelections.getItems().remove(titolo);
     	this.initialize();
     }
 
     @FXML
     void votazioniConcluse(ActionEvent event) throws IOException {
-    	Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/VotazioniConcluse.fxml"));
+    	Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/VotazioniTerminateAdmin.fxml"));
 		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		scene = new Scene(root);
 		stage.setScene(scene);

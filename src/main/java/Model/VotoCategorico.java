@@ -1,5 +1,9 @@
 package Model;
 
+import java.sql.SQLException;
+
+import Singleton.DaoFactorySingleton;
+
 public class VotoCategorico extends Elezione{
 
 	boolean liste;
@@ -11,9 +15,14 @@ public class VotoCategorico extends Elezione{
 	}
 
 	@Override
-	public String getVincitore() {
-		// TODO Auto-generated method stub
-		return null;
+	public String setVincitore() {
+		try {
+			vincitore = DaoFactorySingleton.getDaoFactory().getElezioneDao().getVincitoreCategorico(titolo);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return vincitore;
 	}
 
 	@Override

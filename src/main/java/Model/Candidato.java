@@ -30,4 +30,9 @@ public class Candidato {
 	public String getSesso() {
 		return sesso;
 	}
+	
+	@Override
+	public String toString() {
+		return name + " " + surname;
+	}
 }

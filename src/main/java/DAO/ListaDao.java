@@ -13,4 +13,5 @@ public interface ListaDao {
 	public boolean addList(String name, String decsription) throws NoSuchAlgorithmException, Exception;
 	public Integer getListID(String listname);
 	public List<Lista> getParticipatingLists(String titolo) throws Exception;
+	List<Lista> getParticipatingListsPref(String titolo) throws Exception;
 }

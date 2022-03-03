@@ -29,7 +29,12 @@ public class ElezioneDaoImpl implements ElezioneDao{
 				elezioni.add(new VotoCategorico(rs.getString("titolo"), rs.getString("descrizione"), (rs.getInt("liste") == 1)));
 				break;
 			case "categorico con preferenze":
-				elezioni.add(new VotoCategoricoConPreferenze(rs.getString("titolo"), rs.getString("descrizione")));
+				Integer comunale = rs.getInt("comunale");
+				boolean com = false;
+				if(comunale !=  null) {
+					com = true;
+				}
+				elezioni.add(new VotoCategoricoConPreferenze(rs.getString("titolo"), rs.getString("descrizione"), com));
 				break;
 			case "referendum":
 				elezioni.add(new Referendum(rs.getString("titolo"), rs.getString("descrizione")));
@@ -56,7 +61,7 @@ public class ElezioneDaoImpl implements ElezioneDao{
 			list = 1;
 		if(quorum)
 			quo = 1;
-		String command = "INSERT INTO elezione (titolo, descrizione, tipologia, maggioranza_assoluta, liste, voters_count, closed, comunale) values (?, ?, ?, ?, ?, ?, ?, ?);";
+		String command = "INSERT INTO elezione (titolo, descrizione, tipologia, maggioranza_assoluta, liste, voters_count, closed, comunale, quorum) values (?, ?, ?, ?, ?, ?, ?, ?, ?);";
 		PreparedStatement updatedCmd= c.prepareStatement(command);
 		updatedCmd.setString(1, titolo);
 		updatedCmd.setString(2, descrizione);
@@ -65,9 +70,12 @@ public class ElezioneDaoImpl implements ElezioneDao{
 		updatedCmd.setInt(5, list);
 		updatedCmd.setInt(6, 0);
 		updatedCmd.setInt(7, 0);
+		
 		if(comunale != null) {
 			updatedCmd.setInt(8, comunale);
 		}
+		
+		updatedCmd.setInt(9, quo);
 		
 		try{
 			updatedCmd.executeUpdate();
@@ -200,19 +208,29 @@ public class ElezioneDaoImpl implements ElezioneDao{
 		updatedCmd.setString(1, titolo);
 		ResultSet rs = updatedCmd.executeQuery();
 		rs.next();
+		boolean quo = (rs.getInt("quorum") == 1);
 		int si = rs.getInt("si");
 		int no = rs.getInt("no");
 		int quorum = getQuorum();
-		if(si > no)
-			if(si > quorum)
+		
+		if(quo) {
+			if(si > no)
+				if(si > quorum)
+					return "si";
+				else
+					return "quorum non raggiunto";
+			else 
+				if(no > quorum)
+					return "no";
+				else
+					return "quorum non raggiunto";
+		} else {
+			if(si > no)
 				return "si";
 			else
-				return "quorum non raggiunto";
-		else 
-			if(no > quorum)
 				return "no";
-			else
-				return "quorum non raggiunto";
+		}
+		
 	}
 
 	@Override
@@ -223,6 +241,7 @@ public class ElezioneDaoImpl implements ElezioneDao{
 		String returnValue;
 		int votes;
 		if(votingForLists) {
+			System.out.println("should arrive here");
 			command = "select nome, MAX(punteggio) from elezione, elezione_lista, lista where elezione.id = elezione_lista.elezione and elezione_lista.lista = lista.id and titolo = ?";
 			PreparedStatement updatedCmd= c.prepareStatement(command);
 			updatedCmd.setString(1, titolo);
@@ -298,49 +317,19 @@ public class ElezioneDaoImpl implements ElezioneDao{
 	@Override
 	public String getVincitoreCatConPref(String titolo) throws SQLException {
 		
-		boolean votingForLists = votingByList(titolo);
+		String lista = getVincitoreCategorico(titolo);
 		boolean maggAssoluta = getMajority(titolo);
 		String command;
-		String returnValue;
+		String returnValue = "";
 		int votes;
-		if(votingForLists) {
-			command = "select nome, MAX(punteggio) from elezione, elezione_lista_preferenza, lista where elezione.id = elezione_lista_preferenza.elezione and elezione_lista_preferenza.lista = lista.id and titolo = ?";
-			PreparedStatement updatedCmd= c.prepareStatement(command);
-			updatedCmd.setString(1, titolo);
-			ResultSet rs = updatedCmd.executeQuery();
-			rs.next();
-			votes = rs.getInt("MAX(punteggio)");
-			returnValue = rs.getString("nome");
-		} else {
-			command = "select candidato.nome, candidato.cognome, MAX(punteggio) from elezione, elezione_lista_preferenza, lista where elezione.id = elezione_lista_preferenza.elezione and elezione_lista_preferenza.lista = lista.id and titolo = ?";
-			PreparedStatement updatedCmd= c.prepareStatement(command);
-			updatedCmd.setString(1, titolo);
-			ResultSet rs = updatedCmd.executeQuery();
-			rs.next();
-			votes = rs.getInt("MAX(punteggio)");
-			returnValue = rs.getString("nome") +" "+ rs.getString("cognome");
-		}
-		
-		if(maggAssoluta) {
-			command = "select SUM(punteggio) from elezione, elezione_lista_preferenza, lista where elezione.id = elezione_lista_preferenza.elezione and elezione_lista_preferenza.lista = lista.id and titolo = ?";
-			PreparedStatement updatedCmd= c.prepareStatement(command);
-			updatedCmd.setString(1, titolo);
-			ResultSet rs = updatedCmd.executeQuery();
-			rs.next();
-			int totVoti = rs.getInt("SUM(punteggio)");
-			if(votes < (totVoti/2) + 1) {
-				returnValue = "maggioranza assoluta non raggiunta";
-				return returnValue;
-			}
-		}
 		
 		command = "select candidato.nome, candidato.cognome, MAX(elezione_lista_preferenza.punteggio) from elezione, elezione_lista_preferenza, candidato, lista where elezione.id = elezione_lista_preferenza.elezione and elezione_lista_preferenza.candidato = candidato.id and titolo = ? and elezione_lista_preferenza.lista = lista.id and lista.nome = ?";
 		PreparedStatement updatedCmd= c.prepareStatement(command);
 		updatedCmd.setString(1, titolo);
-		updatedCmd.setString(2, returnValue);
+		updatedCmd.setString(2, lista);
 		ResultSet rs = updatedCmd.executeQuery();
 		rs.next();
-		returnValue = returnValue + " - " + rs.getString("candidato.nome") + " " + rs.getString("candidato.cognome");
+		returnValue = lista + " - " + rs.getString("nome") + " " + rs.getString("cognome");
 		
 		return returnValue;
 	}
@@ -355,7 +344,7 @@ public class ElezioneDaoImpl implements ElezioneDao{
 	}
 	
 	private boolean getMajority(String titolo) throws SQLException {
-		String command = "SELECT liste FROM elezione where titolo = ?";
+		String command = "SELECT maggioranza_assoluta FROM elezione where titolo = ?";
 		PreparedStatement updatedCmd= c.prepareStatement(command);
 		updatedCmd.setString(1, titolo);
 		ResultSet rs = updatedCmd.executeQuery();
@@ -364,7 +353,7 @@ public class ElezioneDaoImpl implements ElezioneDao{
 	}
 	
 	private int getQuorum() throws SQLException {
-		String command = "SELECT COUNT(*) from elettori";
+		String command = "SELECT COUNT(*) from elettore";
 		PreparedStatement updatedCmd= c.prepareStatement(command);
 		ResultSet rs = updatedCmd.executeQuery();
 		rs.next();
@@ -389,7 +378,12 @@ public class ElezioneDaoImpl implements ElezioneDao{
 				elezioni.add(new VotoCategorico(rs.getString("titolo"), rs.getString("descrizione"), (rs.getInt("liste") == 1)));
 				break;
 			case "categorico con preferenze":
-				elezioni.add(new VotoCategoricoConPreferenze(rs.getString("titolo"), rs.getString("descrizione")));
+				Integer comunale = rs.getInt("comunale");
+				boolean com = false;
+				if(comunale !=  null) {
+					com = true;
+				}
+				elezioni.add(new VotoCategoricoConPreferenze(rs.getString("titolo"), rs.getString("descrizione"), com));
 				break;
 			case "referendum":
 				elezioni.add(new Referendum(rs.getString("titolo"), rs.getString("descrizione")));
@@ -419,7 +413,12 @@ public class ElezioneDaoImpl implements ElezioneDao{
 			e = new VotoCategorico(rs.getString("titolo"), rs.getString("descrizione"), (rs.getInt("liste") == 1));
 			break;
 		case "categorico con preferenze":
-			e = new VotoCategoricoConPreferenze(rs.getString("titolo"), rs.getString("descrizione"));
+			Integer comunale = rs.getInt("comunale");
+			boolean com = false;
+			if(comunale !=  null) {
+				com = true;
+			}
+			e = new VotoCategoricoConPreferenze(rs.getString("titolo"), rs.getString("descrizione"), com);
 			break;
 		case "referendum":
 			e = new Referendum(rs.getString("titolo"), rs.getString("descrizione"));
@@ -564,7 +563,12 @@ public class ElezioneDaoImpl implements ElezioneDao{
 				elezioni.add(new VotoCategorico(rs.getString("titolo"), rs.getString("descrizione"), (rs.getInt("liste") == 1)));
 				break;
 			case "categorico con preferenze":
-				elezioni.add(new VotoCategoricoConPreferenze(rs.getString("titolo"), rs.getString("descrizione")));
+				Integer comunale = rs.getInt("comunale");
+				boolean com = false;
+				if(comunale !=  null) {
+					com = true;
+				}
+				elezioni.add(new VotoCategoricoConPreferenze(rs.getString("titolo"), rs.getString("descrizione"), com));
 				break;
 			case "referendum":
 				elezioni.add(new Referendum(rs.getString("titolo"), rs.getString("descrizione")));
@@ -573,6 +577,76 @@ public class ElezioneDaoImpl implements ElezioneDao{
 				break;
 			}
 		}
+		return elezioni;
+	}
+
+	@Override
+	public void voteCategoricoPref(String lista, String titolo , List<Candidato> items) throws Exception {
+		if(lista == null) {
+			incrementVoterCount(titolo);
+			return;
+		}
+		System.out.println(titolo);
+		int id = getElezioneId(titolo);
+		int listid = DaoFactorySingleton.getDaoFactory().getListaDao().getListID(lista);
+		
+		for(int i = 0; i < items.size(); i++) {
+			System.out.println(items.get(i));
+			String nome = items.get(i).getNome();
+			String cognome = items.get(i).getCognome();
+			int candidatoid = DaoFactorySingleton.getDaoFactory().getCandidatoDao().getCandidatoID(nome, cognome);
+			System.out.println(candidatoid);
+			String command = "update elezione_lista_preferenza set punteggio = punteggio + 1 where candidato = ? and elezione = ? and lista = ?";
+			PreparedStatement updatedCmd= c.prepareStatement(command);
+			updatedCmd.setInt(1, candidatoid);
+			updatedCmd.setInt(2, id);
+			updatedCmd.setInt(3, listid);
+			updatedCmd.executeUpdate();
+			incrementVoterCount(titolo);
+		}
+	}
+
+	@Override
+	public List<Elezione> getElezioniTerminate() throws Exception {
+		List<Elezione> elezioni = new ArrayList<Elezione>();
+		String command = "SELECT * FROM \"elezione\" where closed = 1;";
+		PreparedStatement updatedCmd= c.prepareStatement(command);
+		ResultSet rs = updatedCmd.executeQuery();
+		Elezione e;
+		while(rs.next()) {
+			System.out.println(rs.getString("tipologia"));
+			switch(rs.getString("tipologia")){
+			case "ordinale":
+				e = new VotoOrdinale(rs.getString("titolo"), rs.getString("descrizione"), (rs.getInt("liste") == 1));
+				e.setVincitore();
+				elezioni.add(e);
+				break;
+			case "categorico":
+				e = new VotoCategorico(rs.getString("titolo"), rs.getString("descrizione"), (rs.getInt("liste") == 1));
+				e.setVincitore();
+				elezioni.add(e);
+				break;
+			case "categorico con preferenze":
+				Integer comunale = rs.getInt("comunale");
+				boolean com = false;
+				if(comunale !=  null) {
+					com = true;
+				}
+				e = new VotoCategoricoConPreferenze(rs.getString("titolo"), rs.getString("descrizione"), com);
+				e.setVincitore();
+				elezioni.add(e);
+				break;
+			case "referendum":
+				e = new Referendum(rs.getString("titolo"), rs.getString("descrizione"));
+				e.setVincitore();
+				elezioni.add(e);
+				break;
+			default:
+				break;
+			}
+		}
+		
+		
 		return elezioni;
 	}
 	

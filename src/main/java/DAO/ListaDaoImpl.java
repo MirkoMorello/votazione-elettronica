@@ -133,5 +133,20 @@ public class ListaDaoImpl implements ListaDao{
 		
 		return lists;
 	}
+	
+	@Override
+	public List<Lista> getParticipatingListsPref(String titolo) throws Exception {
+		List<Lista> lists = new ArrayList<Lista>();
+		String command = "SELECT nome, lista.descrizione FROM lista, elezione_lista_preferenza, elezione where elezione.titolo = ? and elezione.id = elezione_lista_preferenza.elezione and lista.id = elezione_lista_preferenza.lista";
+		PreparedStatement updatedCmd= c.prepareStatement(command);
+		updatedCmd.setString(1, titolo);
+		ResultSet rs = updatedCmd.executeQuery();
+		while(rs.next()) {
+			lists.add(new Lista(rs.getString("nome"), rs.getString("descrizione")));
+		}
+		
+		return lists;
+	}
+
 
 }

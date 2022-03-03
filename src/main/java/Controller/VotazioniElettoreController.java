@@ -82,7 +82,15 @@ public class VotazioniElettoreController extends Controller{
     		stage.setResizable(false);
     		stage.show();
     	}
-    	if(e instanceof VotoCategorico) {
+    	if(e instanceof VotoCategoricoConPreferenze) {
+    		Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/SchedaCategoricoPreferenze.fxml"));
+    		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+    		scene = new Scene(root);
+    		stage.setScene(scene);
+    		stage.setResizable(false);
+    		stage.show();
+    	}
+    	else if(e instanceof VotoCategorico) {
     		Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/SchedaCategorico.fxml"));
     		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
     		scene = new Scene(root);

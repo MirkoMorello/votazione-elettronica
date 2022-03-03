@@ -1,5 +1,9 @@
 package Model;
 
+import java.sql.SQLException;
+
+import Singleton.DaoFactorySingleton;
+
 public class Referendum extends Elezione{
 
 	
@@ -9,9 +13,14 @@ public class Referendum extends Elezione{
 	}
 
 	@Override
-	public String getVincitore() {
-		// TODO Auto-generated method stub
-		return null;
+	public String setVincitore() {
+		try {
+			vincitore = DaoFactorySingleton.getDaoFactory().getElezioneDao().getVincitoreReferendum(titolo);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return vincitore;
 	}
 
 	@Override

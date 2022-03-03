@@ -27,4 +27,6 @@ public interface ElezioneDao {
 	public void voteCategoricoListe(String opzione, String titolo) throws Exception;
 	public void voteCategoricoCandidati(String opzione, String titolo) throws Exception;
 	public List<Elezione> getElezioniVotate(String CF) throws Exception;
+	public void voteCategoricoPref(String titolo, String lista, List<Candidato> items) throws Exception;
+	public List<Elezione> getElezioniTerminate() throws Exception;
 }
