@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="716.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.SchedaCategoricoController">
+   <children>
+      <Label layoutX="45.0" layoutY="29.0" text="Titolo:">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <TextArea fx:id="description" editable="false" layoutX="45.0" layoutY="82.0" prefHeight="159.0" prefWidth="627.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </TextArea>
+      <Label fx:id="title" layoutX="124.0" layoutY="29.0" text="titolohere">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Button fx:id="conferma" layoutX="432.0" layoutY="355.0" mnemonicParsing="false" onAction="#confermaVoto" prefHeight="59.0" prefWidth="110.0" style="-fx-background-color: #659ff1;" text="Conferma&#10;Selezione" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <ListView fx:id="tochosefrom" layoutX="86.0" layoutY="303.0" prefHeight="279.0" prefWidth="256.0" />
+      <Separator layoutX="17.0" layoutY="259.0" prefHeight="2.0" prefWidth="685.0" />
+      <Button fx:id="bainca" layoutX="432.0" layoutY="476.0" mnemonicParsing="false" onAction="#confermaSchedaBianca" prefHeight="59.0" prefWidth="110.0" style="-fx-background-color: #659ff1;" text="Scheda &#10;Bianca" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <Label layoutX="86.0" layoutY="277.0" text="Selezonare un'opzione o lasciare scheda bianca:" />
+   </children>
+</AnchorPane>

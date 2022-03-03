@@ -18,8 +18,13 @@ public interface ElezioneDao {
 	public String getVincitoreCategorico(String titolo) throws SQLException;
 	public String getVincitoreOrdinale(String titolo) throws SQLException;
 	public String getVincitoreCatConPref(String titolo) throws SQLException;
-	public List<Elezione> getElezioniAttiveUtente(String comune) throws Exception;
+	public List<Elezione> getElezioniAttiveUtente(String CF, String comune) throws Exception;
 	public void setUserVoted(String titolo, String CF) throws Exception;
 	public void incrementVoterCount(String titolo) throws Exception;
 	public void voteReferendum(String value, String titolo) throws Exception;
+	public void voteOrdinaleListe(List<String> opzioni, String titolo) throws Exception;
+	public void voteOrdinaleCandidati(List<String> opzioni, String titolo) throws Exception;
+	public void voteCategoricoListe(String opzione, String titolo) throws Exception;
+	public void voteCategoricoCandidati(String opzione, String titolo) throws Exception;
+	public List<Elezione> getElezioniVotate(String CF) throws Exception;
 }

@@ -12,4 +12,5 @@ public interface CandidatoDao {
 	public boolean addCandidate(String name, String surname, LocalDate nascita, String listname, String sesso) throws NoSuchAlgorithmException, Exception;
 	String getCandidateList(String nome, String cognome) throws Exception;
 	public Integer getCandidatoID(String nome, String cognome);
+	public List<Candidato> getPartecipatingCandidates(String titolo)throws Exception;
 }

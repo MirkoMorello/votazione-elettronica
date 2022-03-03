@@ -13,5 +13,10 @@ public class Referendum extends Elezione{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public boolean getListe() {
+		return false;
+	}
 	
 }

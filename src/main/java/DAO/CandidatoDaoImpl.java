@@ -184,6 +184,20 @@ public class CandidatoDaoImpl implements CandidatoDao{
 		}
 		return null;
 	}
+
+	@Override
+	public List<Candidato> getPartecipatingCandidates(String titolo) throws Exception {
+		List<Candidato> candidates = new ArrayList<Candidato>();
+		String command = "SELECT nome, cognome FROM candidato, elezione_candidato, elezione where elezione.titolo = ? and elezione.id = elezione_candidato.elezione and candidato.id = elezione_candidato.candidato";
+		PreparedStatement updatedCmd= c.prepareStatement(command);
+		updatedCmd.setString(1, titolo);
+		ResultSet rs = updatedCmd.executeQuery();
+		while(rs.next()) {
+			candidates.add(new Candidato(rs.getString("nome"), rs.getString("congome"), LocalDate.parse(rs.getString("nascita")), rs.getString("sesso")));
+		}
+		
+		return candidates;
+	}
 	
 
 }

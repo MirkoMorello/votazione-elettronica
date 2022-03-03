@@ -40,7 +40,7 @@ public class VotazioniElettoreController extends Controller{
 
     @FXML
     void back(ActionEvent event) throws IOException {
-    	Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/ElettoreDasboard.fxml"));
+    	Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/ElettoreDashboard.fxml"));
 		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		scene = new Scene(root);
 		stage.setScene(scene);
@@ -74,17 +74,38 @@ public class VotazioniElettoreController extends Controller{
     		stage.setResizable(false);
     		stage.show();
     	}
+    	if(e instanceof VotoOrdinale) {
+    		Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/SchedaOrdinale.fxml"));
+    		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+    		scene = new Scene(root);
+    		stage.setScene(scene);
+    		stage.setResizable(false);
+    		stage.show();
+    	}
+    	if(e instanceof VotoCategorico) {
+    		Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/SchedaCategorico.fxml"));
+    		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+    		scene = new Scene(root);
+    		stage.setScene(scene);
+    		stage.setResizable(false);
+    		stage.show();
+    	}
     }
 
 	@Override
 	void initialize() {
 		try {
-			List<Elezione> elezioni = DaoFactorySingleton.getDaoFactory().getElezioneDao().getElezioniAttiveUtente(CurrentElettoreSingleton.getIstance().getElettore().getComune());
+			List<Elezione> elezioni = DaoFactorySingleton.getDaoFactory().getElezioneDao().getElezioniAttiveUtente(CurrentElettoreSingleton.getIstance().getElettore().getCF(), CurrentElettoreSingleton.getIstance().getElettore().getComune());
 	    	for(int i = 0; i < elezioni.size(); i++) {
 	    		if(!currentelections.getItems().contains(elezioni.get(i).getTitolo()))
 	    		currentelections.getItems().add(elezioni.get(i).getTitolo());
 	    	}
+	    	List<Elezione> votate = DaoFactorySingleton.getDaoFactory().getElezioneDao().getElezioniVotate(CurrentElettoreSingleton.getIstance().getElettore().getCF());
+	    	for(int i = 0; i < votate.size(); i++) {
+	    		currentelections.getItems().remove(votate.get(i).getTitolo());
+	    	}
 		}catch(Exception e) {
+			e.printStackTrace();
 		}
 	}
 

@@ -5,6 +5,7 @@ import java.time.LocalTime;
 public abstract class Elezione {
 	String titolo;
 	String descrizione;
+	boolean liste;
 	
 	public Elezione(String titolo, String descrizione) {
 		this.titolo = titolo;
@@ -20,4 +21,6 @@ public abstract class Elezione {
 	}
 	
 	public abstract String getVincitore();
+	
+	public abstract boolean getListe();
 }
