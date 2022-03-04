@@ -7,10 +7,12 @@ import Singleton.DaoFactorySingleton;
 public class VotoCategorico extends Elezione{
 
 	boolean liste;
+	boolean maggassoluta;
 	
-	public VotoCategorico(String titolo, String descrizione, boolean liste) {
+	public VotoCategorico(String titolo, String descrizione, boolean liste, boolean maggassoluta) {
 		super(titolo, descrizione);
 		this.liste = liste;
+		this.maggassoluta = maggassoluta;
 		// TODO Auto-generated constructor stub
 	}
 
@@ -27,7 +29,17 @@ public class VotoCategorico extends Elezione{
 
 	@Override
 	public boolean getListe() {
-		return true;
+		return liste;
+	}
+	
+	@Override
+	public boolean getMaggAssoluta() {
+		return maggassoluta;
+	}
+
+	@Override
+	public String getTipo() {
+		return "categorico";
 	}
 
 }

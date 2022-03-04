@@ -95,8 +95,8 @@ public class SessioneVotoController4 extends Controller{
 		String cognome;
 		String lista;
 		boolean liste = CreatingElezioneSingleton.getListe();
+		nonselezionati.getItems().clear();
 		if(!liste) {
-			System.out.println("si vota per candidati");
 			try {
 				List<Candidato> candidates = DaoFactorySingleton.getDaoFactory().getCandidatoDao().getAllCandidates();
 				System.out.println(candidates.size());
@@ -105,7 +105,6 @@ public class SessioneVotoController4 extends Controller{
 					cognome = candidates.get(i).getCognome();
 					System.out.println(nome + " " + cognome);
 					lista = DaoFactorySingleton.getDaoFactory().getCandidatoDao().getCandidateList(nome, cognome);
-		    		if(!nonselezionati.getItems().contains(nome + " " + cognome + "-" + lista))
 		    		nonselezionati.getItems().add(nome + " " + cognome + "-" + lista);
 		    	}
 			}catch(Exception e) {
@@ -116,9 +115,7 @@ public class SessioneVotoController4 extends Controller{
 			try {
 				lists = DaoFactorySingleton.getDaoFactory().getListaDao().getAllLists();
 				for(int i = 0; i < lists.size(); i++) {
-		    		if(!nonselezionati.getItems().contains(lists.get(i).getName())) {
-		    			nonselezionati.getItems().add(lists.get(i).getName());
-		    		}
+		    		nonselezionati.getItems().add(lists.get(i).getName());
 		    	}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block

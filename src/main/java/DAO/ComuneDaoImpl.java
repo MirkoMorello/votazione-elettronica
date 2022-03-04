@@ -22,7 +22,11 @@ public class ComuneDaoImpl implements ComuneDao{
 	}
 
 	@Override
-	public boolean createComune(String nome, int popolazione) {
+	public boolean createComune(Comune comune) {
+		
+		String nome = comune.getNome();
+		int popolazione = comune.getPopolazione(); 
+		
 		try {
 			String command = "insert into comune (nome, popolazione) values (?, ?)";
 			PreparedStatement updatedCmd= c.prepareStatement(command);

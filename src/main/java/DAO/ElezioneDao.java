@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ElezioneDao {
 	public List<Elezione> getElezioniAttive() throws SQLException;
-	public boolean createElezione(String titolo, String descrizione, String tipologia, boolean maggioranza_assoluta, boolean liste, boolean quorum, Integer comunale) throws SQLException;
+	public boolean createElezione(Elezione e) throws SQLException;
 	public Elezione getElezione(String titolo) throws SQLException;
 	public boolean closeElezione(String titolo) throws Exception;
 	public boolean deleteElezione(String titolo) throws SQLException;

@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface ComuneDao {
 	public Comune getComune(int id) throws SQLException;
-	public boolean createComune(String nome, int popolazione);
+	public boolean createComune(Comune c);
 	public int getComuneId(String nome) throws SQLException;
 }

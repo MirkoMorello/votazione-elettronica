@@ -8,8 +8,8 @@ public class VotoCategoricoConPreferenze extends VotoCategorico{
 
 	boolean comunale;
 	
-	public VotoCategoricoConPreferenze(String titolo, String descrizione, boolean comunale) {
-		super(titolo, descrizione, true);
+	public VotoCategoricoConPreferenze(String titolo, String descrizione, boolean comunale, boolean maggassoluta) {
+		super(titolo, descrizione, true, maggassoluta);
 		this.comunale = comunale;
 		// TODO Auto-generated constructor stub
 	}
@@ -28,6 +28,16 @@ public class VotoCategoricoConPreferenze extends VotoCategorico{
 			e.printStackTrace();
 		}
 		return vincitore;
+	}
+	
+	@Override
+	public boolean getListe() {
+		return true;
+	}
+	
+	@Override
+	public String getTipo() {
+		return "categorico con preferenze";
 	}
 
 }

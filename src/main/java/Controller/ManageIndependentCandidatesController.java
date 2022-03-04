@@ -31,7 +31,7 @@ public class ManageIndependentCandidatesController extends Controller{
     private Button back;
 
     @FXML
-    private ListView<String> currentcandidates;
+    private ListView<Candidato> currentcandidates;
 
     @FXML
     private DatePicker date;
@@ -61,8 +61,7 @@ public class ManageIndependentCandidatesController extends Controller{
     		this.initialize();
     		return;
     	}
-    	String lista = null;
-    	DaoFactorySingleton.getDaoFactory().getCandidatoDao().addCandidate(nome, cognome, nascita, null, sex);
+    	DaoFactorySingleton.getDaoFactory().getCandidatoDao().addCandidate(new Candidato(nome, cognome, nascita, sex, null));
     	this.initialize();
     }
 
@@ -79,19 +78,16 @@ public class ManageIndependentCandidatesController extends Controller{
 
     @FXML
     void removeCandidate(ActionEvent event) throws Exception {
-    	String namesurname = currentcandidates.getSelectionModel().getSelectedItem();
-    	if(namesurname == null) {
+    	Candidato cand = currentcandidates.getSelectionModel().getSelectedItem();
+    	if(cand == null) {
     		Alert alert = new Alert(AlertType.ERROR);
     		alert.setContentText("Seleziona prima un candidato da rimuovere dalla lista");
     		alert.showAndWait();
     		this.initialize();
     		return;
     	}
-    	String[] splitted = namesurname.split("\\s+");
-    	String name = splitted[0];
-    	String surname = splitted[1];
-    	DaoFactorySingleton.getDaoFactory().getCandidatoDao().deleteCandidate(name, surname, null);
-    	currentcandidates.getItems().remove(name + " " + surname);
+    	DaoFactorySingleton.getDaoFactory().getCandidatoDao().deleteCandidate(cand);
+    	currentcandidates.getItems().remove(cand);
     	this.initialize();
     }
     
@@ -100,11 +96,11 @@ public class ManageIndependentCandidatesController extends Controller{
     void initialize() {
     	
     	List<Candidato> candidates;
+    	currentcandidates.getItems().clear();
 		try {
 			candidates = DaoFactorySingleton.getDaoFactory().getCandidatoDao().getCandidatesOfList(null);
 			for(int i = 0; i < candidates.size(); i++) {
-	    		if(!currentcandidates.getItems().contains(candidates.get(i).getNome() +" " + candidates.get(i).getCognome()))
-	    		currentcandidates.getItems().add(candidates.get(i).getNome() + " " + candidates.get(i).getCognome());
+	    		currentcandidates.getItems().add(candidates.get(i));
 	    	}
 	    	sesso.getSelectionModel().select("M");
 	    	if(!sesso.getItems().contains("M"))

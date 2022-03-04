@@ -31,5 +31,15 @@ public abstract class Elezione {
 		return vincitore;
 	}
 	
+	public boolean getQuorum() {
+		return false;
+	}
+	
+	public boolean getMaggAssoluta() {
+		return false;
+	}
+	
+	public abstract String getTipo();
+	
 	public abstract boolean getListe();
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import Model.Candidato;
 import Model.Elettore;
+import Model.Lista;
 import Singleton.CurrentElettoreSingleton;
 import Singleton.CurrentElezioneSingleton;
 import Singleton.DaoFactorySingleton;
@@ -120,7 +121,7 @@ public class SceltaPreferenzeController extends Controller{
 		this.description.setText(desc);
 		List<Candidato> candidatiattivi;
 		try {
-			candidatiattivi = DaoFactorySingleton.getDaoFactory().getCandidatoDao().getCandidatesOfList(CurrentElezioneSingleton.getIstance().getNomeLista());
+			candidatiattivi = DaoFactorySingleton.getDaoFactory().getCandidatoDao().getCandidatesOfList(new Lista(CurrentElezioneSingleton.getIstance().getNomeLista(), ""));
 			for(int i = 0; i < candidatiattivi.size(); i++) {
 				notadded.getItems().add(candidatiattivi.get(i));
 			}

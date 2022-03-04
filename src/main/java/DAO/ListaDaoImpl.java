@@ -60,11 +60,11 @@ public class ListaDaoImpl implements ListaDao{
 	}
 
 	@Override
-	public boolean deleteList(String name) throws Exception {
+	public boolean deleteList(Lista l ) throws Exception {
 		try {
 			String command = "UPDATE \"lista\" set eliminata = 1 where nome = ?;";
 			PreparedStatement updatedCmd= c.prepareStatement(command);
-			updatedCmd.setString(1, name);
+			updatedCmd.setString(1, l.getName());
 			updatedCmd.executeUpdate();
 			
 			return true;
@@ -76,9 +76,9 @@ public class ListaDaoImpl implements ListaDao{
 	}
 
 	@Override
-	public boolean addList(String name, String desc) throws NoSuchAlgorithmException, Exception {
+	public boolean addList(Lista l) throws NoSuchAlgorithmException, Exception {
 		
-		Lista check = getList(name);
+		Lista check = getList(l.getName());
 		if(check != null) {
 			return false;
 		}
@@ -86,8 +86,8 @@ public class ListaDaoImpl implements ListaDao{
 		try {
 			String command = "INSERT INTO \"lista\" (nome, descrizione, eliminata) VALUES ( ?, ?, ?);";
 			PreparedStatement updatedCmd= c.prepareStatement(command);
-			updatedCmd.setString(1, name);
-			updatedCmd.setString(2, desc);
+			updatedCmd.setString(1, l.getName());
+			updatedCmd.setString(2, l.getDesc());
 			updatedCmd.setInt(3, 0);
 			updatedCmd.executeUpdate();
 			

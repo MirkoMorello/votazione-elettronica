@@ -11,8 +11,8 @@ public class CurrentListSingleton {
 		return instance;
 	}
 	
-	public void setList(String nome, String descrizione) {
-		this.list = new Lista(nome, descrizione);
+	public void setList(Lista l) {
+		this.list = l;
 	}
 	
 	public Lista getList() {

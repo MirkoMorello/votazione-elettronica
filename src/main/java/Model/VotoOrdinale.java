@@ -31,4 +31,10 @@ public class VotoOrdinale extends Elezione{
 		return liste;
 	}
 
+	@Override
+	public String getTipo() {
+		return "ordinale";
+	}
+	
+
 }

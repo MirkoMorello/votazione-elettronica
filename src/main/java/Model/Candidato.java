@@ -7,12 +7,14 @@ public class Candidato {
 	private String surname;
 	private LocalDate born;
 	private String sesso;
+	private Lista list;
 	
-	public Candidato(String name, String surname, LocalDate born, String sesso) {
+	public Candidato(String name, String surname, LocalDate born, String sesso, Lista list) {
 		this.name = name;
 		this.surname = surname;
 		this.born = born;
 		this.sesso = sesso;
+		this.list = list;
 	}
 	
 	public String getNome() {
@@ -29,6 +31,10 @@ public class Candidato {
 	
 	public String getSesso() {
 		return sesso;
+	}
+	
+	public Lista getList() {
+		return list;
 	}
 	
 	@Override

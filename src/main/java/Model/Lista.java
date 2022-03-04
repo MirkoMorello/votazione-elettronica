@@ -1,9 +1,12 @@
 package Model;
 
+import Singleton.DaoFactorySingleton;
+
 public class Lista {
 	
 	private String nome;
 	private String descrizione;
+	
 	
 	public Lista(String nome, String descrizione) {
 		this.nome = nome;
@@ -16,5 +19,14 @@ public class Lista {
 	
 	public String getDesc() {
 		return this.descrizione;
+	}
+	
+	@Override
+	public String toString() {
+		return nome;
+	}
+	
+	public int getId() {
+		return DaoFactorySingleton.getDaoFactory().getListaDao().getListID(nome);
 	}
 }

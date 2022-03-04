@@ -2,6 +2,8 @@ package Singleton;
 
 import Model.*;
 import DAO.*;
+
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -16,6 +18,7 @@ public class CreatingElezioneSingleton {
 	String comune = null;
 	Integer comuneid = null;
 	Integer popolazione = null;
+	boolean quorum = false;
 	String selezioneVincitore;
 	Elezione e;
 	
@@ -69,14 +72,18 @@ public class CreatingElezioneSingleton {
 	
 	public void setComunale(String comune, int popolazione) throws SQLException {
 		this.comunale = true;
-		DaoFactorySingleton.getDaoFactory().getComuneDao().createComune(comune, popolazione);
+		DaoFactorySingleton.getDaoFactory().getComuneDao().createComune(new Comune(comune, popolazione));
 		comuneid = DaoFactorySingleton.getDaoFactory().getComuneDao().getComuneId(comune);
+	}
+	
+	public int getComune() {
+		return comuneid;
 	}
 	
 	public void setSelezione(String selezione) {
 		this.selezioneVincitore = selezione;
 	}
-	
+		
 	public void destroy() {
 		titolo = null;
 		descrizione = null;
@@ -90,8 +97,8 @@ public class CreatingElezioneSingleton {
 	public boolean pushReferendum() {
 		boolean quorum = selezioneVincitore.equals("con quorum");
 		try {
-			Integer i = null;
-			DaoFactorySingleton.getDaoFactory().getElezioneDao().createElezione(titolo, descrizione, tipologia, false, false, quorum, i);
+			Elezione e = createElezione(titolo, descrizione, tipologia, false, false, quorum, false);
+			DaoFactorySingleton.getDaoFactory().getElezioneDao().createElezione(e);
 			return true;
 		}catch (SQLException e) {
 			e.printStackTrace();
@@ -103,7 +110,8 @@ public class CreatingElezioneSingleton {
 	public boolean pushVotazione(List<String> selected) {
 		boolean maggioranza = selezioneVincitore.equals("maggioranza assoluta");
 		try {
-			DaoFactorySingleton.getDaoFactory().getElezioneDao().createElezione(titolo, descrizione, tipologia, maggioranza, liste, false,  comuneid);
+			Elezione e = createElezione(titolo, descrizione, tipologia, maggioranza, liste, false, comunale);
+			DaoFactorySingleton.getDaoFactory().getElezioneDao().createElezione(e);
 			return true;
 		}catch (SQLException e) {
 			e.printStackTrace();
@@ -113,5 +121,27 @@ public class CreatingElezioneSingleton {
 
 	public static String getTitolo() {
 		return titolo;
+	}
+	
+	private Elezione createElezione(String titolo, String descrizione, String tipologia, boolean maggioranza_assoluta,
+			boolean liste, boolean quorum, boolean comunale) throws SQLException {
+		
+		Elezione e = null;
+		
+		switch(tipologia) {
+		case("categorico con preferenze"):
+			e = new VotoCategoricoConPreferenze(titolo, descrizione, comunale, maggioranza_assoluta);
+			break;
+		case("categorico"):
+			e = new VotoCategorico(titolo, descrizione, liste, maggioranza_assoluta);
+			break;
+		case("ordinale"):
+			e = new VotoOrdinale(titolo, descrizione, liste);
+			break;
+		case("referendum"):
+			e = new Referendum(titolo, descrizione, quorum);
+			break;
+		}
+		return e;
 	}
 }

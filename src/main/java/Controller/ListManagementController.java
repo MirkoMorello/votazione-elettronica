@@ -25,7 +25,6 @@ import javafx.stage.Stage;
 
 public class ListManagementController {
 	
-	ListaDao ld = new ListaDaoImpl();
 	private Stage stage;
 	private Scene scene;
 	private Parent root;
@@ -40,7 +39,7 @@ public class ListManagementController {
     private TextArea desc;
 
     @FXML
-    private ListView<String> liste;
+    private ListView<Lista> liste;
 
     @FXML
     private TextField name;
@@ -71,7 +70,7 @@ public class ListManagementController {
         		return;
     		}
     		String nome = name.getText();
-    		ld.addList(name.getText(), desc.getText());
+    		DaoFactorySingleton.getDaoFactory().getListaDao().addList(new Lista(name.getText(), desc.getText()));
     		this.initialize();
         	esito.setText("aggiunta lista " + nome);
     	}else {
@@ -96,38 +95,37 @@ public class ListManagementController {
 
     @FXML
     void removeList(ActionEvent event) throws Exception {
-    	String name = liste.getSelectionModel().getSelectedItem();
-    	if(name == null) {
+    	Lista list = liste.getSelectionModel().getSelectedItem();
+    	if(list == null) {
     		Alert alert = new Alert(AlertType.ERROR);
     		alert.setContentText("Seleziona prima una lista (gruppo/partito) da rimuovere dalla lista");
     		alert.showAndWait();
     		this.initialize();
     		return;
     	}
-    	ld.deleteList(name);
-    	liste.getItems().remove(name);
+    	DaoFactorySingleton.getDaoFactory().getListaDao().deleteList(list);
+    	liste.getItems().remove(list);
     	this.initialize();
     	removeresult.setText("rimossa lista " + name);
     }
     
     @FXML
     void manageCandidates(ActionEvent event) throws Exception {
-    	String name = liste.getSelectionModel().getSelectedItem();
-    	if(name == null) {
+    	Lista list = liste.getSelectionModel().getSelectedItem();
+    	if(list == null) {
     		Alert alert = new Alert(AlertType.ERROR);
     		alert.setContentText("Seleziona prima una lista (gruppo/partito) dalla lista");
     		alert.showAndWait();
     		this.initialize();
     		return;
     	}
-    	Lista list = ld.getList(name);
-    	CurrentListSingleton.getIstance().setList(list.getName(), list.getDesc());
+    	CurrentListSingleton.getIstance().setList(list);
     	Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/ManageCandidates.fxml"));
 		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		scene = new Scene(root);
 		stage.setScene(scene);
 		stage.setResizable(false);
-		stage.setTitle("Gestione candidati lista " + name);
+		stage.setTitle("Gestione candidati lista " + list.getName());
 		stage.show();
     }
     
@@ -146,11 +144,10 @@ public class ListManagementController {
     void initialize() throws Exception {
     	removeresult.setText("");
     	esito.setText("");
-    	List<Lista> lists = ld.getAllLists();
+    	liste.getItems().clear();
+    	List<Lista> lists = DaoFactorySingleton.getDaoFactory().getListaDao().getAllLists();
     	for(int i = 0; i < lists.size(); i++) {
-    		if(!liste.getItems().contains(lists.get(i).getName())) {
-    			liste.getItems().add(lists.get(i).getName());
-    		}
+    		liste.getItems().add(lists.get(i));
     	}
     }
 

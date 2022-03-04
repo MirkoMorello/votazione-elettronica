@@ -83,6 +83,7 @@ public class SchedaCategoricoController extends Controller{
 		this.description.setText(desc);
 		liste = CurrentElezioneSingleton.getIstance().getElezione().getListe();
 		if(liste) {
+			System.out.println("liste");
 			List<Lista> listeattive;
 			try {
 				listeattive = DaoFactorySingleton.getDaoFactory().getListaDao().getParticipatingLists(titolo);
@@ -94,6 +95,7 @@ public class SchedaCategoricoController extends Controller{
 				e.printStackTrace();
 			}
 		} else {
+			System.out.println("noliste");
 			List<Candidato> candidatiattivi;
 			try {
 				candidatiattivi = DaoFactorySingleton.getDaoFactory().getCandidatoDao().getPartecipatingCandidates(titolo);

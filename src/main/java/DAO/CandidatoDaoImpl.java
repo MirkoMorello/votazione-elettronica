@@ -18,14 +18,18 @@ public class CandidatoDaoImpl implements CandidatoDao{
 	private Connection c = ConnectionSingleton.getIstance().getConnection();
 
 	@Override
-	public List<Candidato> getCandidatesOfList(String listname) throws Exception {
+	public List<Candidato> getCandidatesOfList(Lista l) throws Exception {
 		
+		String listname = null;
+		try {
+			listname = l.getName();
+		}catch(NullPointerException e) {
+		}
 		if(listname != null) {
-			int listId = DaoFactorySingleton.getDaoFactory().getListaDao().getListID(listname);
 			List<Candidato> candList = new ArrayList<Candidato>();
-			String command = "SELECT * FROM candidato where candidato.listaId = ? and (eliminato = 0 or eliminato is null);";
+			String command = "SELECT candidato.nome, candidato.cognome, candidato.nascita, candidato.sesso, lista.descrizione FROM candidato, lista where candidato.listaId = lista.id and (eliminato = 0 or eliminato is null) and lista.nome = ?;";
 			PreparedStatement updatedCmd= c.prepareStatement(command);
-			updatedCmd.setInt(1, listId);
+			updatedCmd.setString(1, listname);
 			ResultSet rs = updatedCmd.executeQuery();
 			while(rs.next()) {
 				String nome = rs.getString("nome");
@@ -33,7 +37,9 @@ public class CandidatoDaoImpl implements CandidatoDao{
 				String nascita = rs.getString("nascita");
 	            LocalDate nascitald = LocalDate.parse(nascita);
 	            String sesso = rs.getString("sesso");
-	            candList.add(new Candidato(nome, cognome, nascitald, sesso));
+	            String listdesc = rs.getString("descrizione");
+	            
+	            candList.add(new Candidato(nome, cognome, nascitald, sesso, new Lista(listname, listdesc)));
 			}
 			return candList;
 		} else {
@@ -47,7 +53,7 @@ public class CandidatoDaoImpl implements CandidatoDao{
 				String nascita = rs.getString("nascita");
 	            LocalDate nascitald = LocalDate.parse(nascita);
 	            String sesso = rs.getString("sesso");
-	            candList.add(new Candidato(nome, cognome, nascitald, sesso));
+	            candList.add(new Candidato(nome, cognome, nascitald, sesso, null));
 			}
 			return candList;
 		}
@@ -56,15 +62,16 @@ public class CandidatoDaoImpl implements CandidatoDao{
 	}
 
 	@Override
-	public boolean deleteCandidate(String name, String surname, String listname) throws Exception {
+	public boolean deleteCandidate(Candidato cand) throws Exception {
+		String listname = cand.getList().getName();
 		if(listname != null) {
-			int listId = DaoFactorySingleton.getDaoFactory().getListaDao().getListID(listname);
+			int listId = cand.getList().getId();
 			
 			try {
 				String command = "DELETE FROM candidato where nome = ? AND cognome =  ? AND listaId = ?";
 				PreparedStatement updatedCmd= c.prepareStatement(command);
-				updatedCmd.setString(1, name);
-				updatedCmd.setString(2, surname);
+				updatedCmd.setString(1, cand.getNome());
+				updatedCmd.setString(2, cand.getCognome());
 				updatedCmd.setInt(3, listId);
 				updatedCmd.executeUpdate();
 			}catch (SQLException ex) {
@@ -77,8 +84,8 @@ public class CandidatoDaoImpl implements CandidatoDao{
 			try {
 				String command = "DELETE FROM candidato where nome = ? AND cognome =  ? AND listaId = is NULL";
 				PreparedStatement updatedCmd= c.prepareStatement(command);
-				updatedCmd.setString(1, name);
-				updatedCmd.setString(2, surname);
+				updatedCmd.setString(1, cand.getNome());
+				updatedCmd.setString(2, cand.getCognome());
 				updatedCmd.executeUpdate();
 			}catch (SQLException ex) {
 				return false;
@@ -90,18 +97,18 @@ public class CandidatoDaoImpl implements CandidatoDao{
 	}
 
 	@Override
-	public boolean addCandidate(String name, String surname, LocalDate nascita, String listname, String sesso) throws SQLException {
-		if(listname != null) {
-			int listId = DaoFactorySingleton.getDaoFactory().getListaDao().getListID(listname);
+	public boolean addCandidate(Candidato cand) throws SQLException {
+		if(cand.getList() != null) {
+			int listId = cand.getList().getId();
 			
 			try {
 				String command = "INSERT INTO candidato (nome, cognome, nascita, listaId, sesso) values (?, ?, ?, ?, ?)";
 				PreparedStatement updatedCmd= c.prepareStatement(command);
-				updatedCmd.setString(1, name);
-				updatedCmd.setString(2, surname);
-				updatedCmd.setString(3, nascita.toString());
+				updatedCmd.setString(1, cand.getNome());
+				updatedCmd.setString(2, cand.getCognome());
+				updatedCmd.setString(3, cand.getNascita().toString());
 				updatedCmd.setInt(4, listId);
-				updatedCmd.setString(5, sesso);
+				updatedCmd.setString(5, cand.getSesso());
 				System.out.println(updatedCmd.toString());
 				updatedCmd.executeUpdate();
 				
@@ -116,10 +123,10 @@ public class CandidatoDaoImpl implements CandidatoDao{
 			try {
 				String command = "INSERT INTO candidato (nome, cognome, nascita, listaId, sesso) values (?, ?, ?, null, ?)";
 				PreparedStatement updatedCmd= c.prepareStatement(command);
-				updatedCmd.setString(1, name);
-				updatedCmd.setString(2, surname);
-				updatedCmd.setString(3, nascita.toString());
-				updatedCmd.setString(4, sesso);
+				updatedCmd.setString(1, cand.getNome());
+				updatedCmd.setString(2, cand.getCognome());
+				updatedCmd.setString(3, cand.getNascita().toString());
+				updatedCmd.setString(4, cand.getSesso());
 				System.out.println(updatedCmd.toString());
 				updatedCmd.executeUpdate();
 				
@@ -136,21 +143,21 @@ public class CandidatoDaoImpl implements CandidatoDao{
 	@Override
 	public List<Candidato> getAllCandidates() throws Exception {
 		List<Candidato> candList = new ArrayList<Candidato>();
-		String command = "SELECT * FROM candidato where eliminato is NULL or eliminato = 0;";
+		String command = "SELECT candidato.nome AS nomecand, candidato.cognome, candidato.nascita, candidato.sesso, lista.nome AS nomelista, lista.descrizione FROM candidato, lista where (eliminato is NULL or eliminato = 0) and candidato.listaId = lista.id UNION SELECT candidato.nome AS nomecand, candidato.cognome, candidato.nascita, candidato.sesso, null, null FROM candidato, lista where (eliminato is NULL or eliminato = 0) and candidato.listaId is null";
 		PreparedStatement updatedCmd= c.prepareStatement(command);
 		ResultSet rs = updatedCmd.executeQuery();
 		while(rs.next()) {
-			String nome = rs.getString("nome");
+			String nome = rs.getString("nomecand");
 			String cognome = rs.getString("cognome");
 			String nascita = rs.getString("nascita");
             LocalDate nascitald = LocalDate.parse(nascita);
             String sesso = rs.getString("sesso");
-            candList.add(new Candidato(nome, cognome, nascitald, sesso));
+            Lista lista = new Lista(rs.getString("nomelista"), rs.getString("descrizione"));
+            candList.add(new Candidato(nome, cognome, nascitald, sesso, lista));
 		}
 		return candList;
 	}
 
-	@Override
 	public String getCandidateList(String nome, String cognome) throws Exception {
 		String command = "SELECT lista.nome FROM candidato, lista where lista.eliminata != 1 and candidato.listaId = lista.id and candidato.nome = ? and candidato.cognome = ?";
 		PreparedStatement updatedCmd= c.prepareStatement(command);
@@ -188,12 +195,14 @@ public class CandidatoDaoImpl implements CandidatoDao{
 	@Override
 	public List<Candidato> getPartecipatingCandidates(String titolo) throws Exception {
 		List<Candidato> candidates = new ArrayList<Candidato>();
-		String command = "SELECT nome, cognome FROM candidato, elezione_candidato, elezione where elezione.titolo = ? and elezione.id = elezione_candidato.elezione and candidato.id = elezione_candidato.candidato";
+		String command = "SELECT candidato.nome, cognome, nascita, sesso, lista.nome as listanome, lista.descrizione as listadesc  FROM lista, candidato, elezione_candidato, elezione where elezione.titolo = ? and elezione.id = elezione_candidato.elezione and candidato.id = elezione_candidato.candidato and candidato.listaId = lista.id \r\n"
+				+ "UNION \r\n"
+				+ "SELECT candidato.nome, cognome, nascita, sesso, null, null FROM lista, candidato, elezione_candidato, elezione where elezione.titolo = \"categorico con cand\" and elezione.id = elezione_candidato.elezione and candidato.id = elezione_candidato.candidato and candidato.listaId is null";
 		PreparedStatement updatedCmd= c.prepareStatement(command);
 		updatedCmd.setString(1, titolo);
 		ResultSet rs = updatedCmd.executeQuery();
 		while(rs.next()) {
-			candidates.add(new Candidato(rs.getString("nome"), rs.getString("congome"), LocalDate.parse(rs.getString("nascita")), rs.getString("sesso")));
+			candidates.add(new Candidato(rs.getString("nome"), rs.getString("cognome"), LocalDate.parse(rs.getString("nascita")), rs.getString("sesso"), new Lista(rs.getString("listanome"), rs.getString("listadesc"))));
 		}
 		
 		return candidates;

@@ -6,9 +6,11 @@ import Singleton.DaoFactorySingleton;
 
 public class Referendum extends Elezione{
 
+	boolean quorum;
 	
-	public Referendum(String titolo, String descrizione) {
+	public Referendum(String titolo, String descrizione, boolean quorum) {
 		super(titolo, descrizione);
+		this.quorum = quorum;
 		// TODO Auto-generated constructor stub
 	}
 
@@ -26,6 +28,16 @@ public class Referendum extends Elezione{
 	@Override
 	public boolean getListe() {
 		return false;
+	}
+	
+	@Override
+	public boolean getQuorum() {
+		return quorum;
+	}
+
+	@Override
+	public String getTipo() {
+		return "referendum";
 	}
 	
 }

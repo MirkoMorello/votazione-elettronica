@@ -36,7 +36,7 @@ public class ManageCandidatesController {
     private Button back;
 
     @FXML
-    private ListView<String> currentcandidates;
+    private ListView<Candidato> currentcandidates;
 
     @FXML
     private DatePicker date;
@@ -84,26 +84,23 @@ public class ManageCandidatesController {
     		this.initialize();
     		return;
     	}
-    	String lista = CurrentListSingleton.getIstance().getList().getName();
-    	DaoFactorySingleton.getDaoFactory().getCandidatoDao().addCandidate(nome, cognome, nascita, lista, sex);
+    	Lista lista = CurrentListSingleton.getIstance().getList();
+    	DaoFactorySingleton.getDaoFactory().getCandidatoDao().addCandidate(new Candidato(nome, cognome, nascita, sex, lista));
     	this.initialize();
     }
     
     @FXML
     void removeCandidate(ActionEvent event) throws Exception {
-    	String namesurname = currentcandidates.getSelectionModel().getSelectedItem();
-    	if(namesurname == null) {
+    	Candidato toremove = currentcandidates.getSelectionModel().getSelectedItem();
+    	if(toremove == null) {
     		Alert alert = new Alert(AlertType.ERROR);
     		alert.setContentText("Seleziona prima un candidato da rimuovere dalla lista");
     		alert.showAndWait();
     		this.initialize();
     		return;
     	}
-    	String[] splitted = namesurname.split("\\s+");
-    	String name = splitted[0];
-    	String surname = splitted[1];
-    	DaoFactorySingleton.getDaoFactory().getCandidatoDao().deleteCandidate(name, surname, CurrentListSingleton.getIstance().getList().getName());
-    	currentcandidates.getItems().remove(name + " " + surname);
+    	DaoFactorySingleton.getDaoFactory().getCandidatoDao().deleteCandidate(toremove);
+    	currentcandidates.getItems().remove(toremove);
     	this.initialize();
     }
     
@@ -112,10 +109,10 @@ public class ManageCandidatesController {
     	listname.setText(String.valueOf(CurrentListSingleton.getIstance().getList().getName()));
     	listdesc.setText(String.valueOf(CurrentListSingleton.getIstance().getList().getDesc()));
     	
-    	List<Candidato> candidates = DaoFactorySingleton.getDaoFactory().getCandidatoDao().getCandidatesOfList(CurrentListSingleton.getIstance().getList().getName());
+    	List<Candidato> candidates = DaoFactorySingleton.getDaoFactory().getCandidatoDao().getCandidatesOfList(CurrentListSingleton.getIstance().getList());
+    	currentcandidates.getItems().clear();
     	for(int i = 0; i < candidates.size(); i++) {
-    		if(!currentcandidates.getItems().contains(candidates.get(i).getNome() +" " + candidates.get(i).getCognome()))
-    		currentcandidates.getItems().add(candidates.get(i).getNome() + " " + candidates.get(i).getCognome());
+    		currentcandidates.getItems().add(candidates.get(i));
     	}
     	sesso.getSelectionModel().select("M");
     	if(!sesso.getItems().contains("M"))
