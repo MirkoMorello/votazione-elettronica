@@ -7,7 +7,7 @@ public interface AdminDAO {
 	public List<Admin> getAllAdmins() throws Exception;
 	public Admin getAdmin(String username) throws Exception;
 	public boolean deleteAdmin(String username) throws Exception;
-	public boolean addAdmin(String username, String password, boolean superuser) throws NoSuchAlgorithmException, Exception;
+	public boolean addAdmin(Admin a, String password) throws NoSuchAlgorithmException, Exception;
 	public Admin loginAdmin(String username, String password) throws Exception;
 	public boolean isAdmin(String username);
 }

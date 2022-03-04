@@ -33,10 +33,10 @@ public class VotazioniTerminateAdminController extends Controller{
     private TableView<Elezione> terminatedelections;
     
     @FXML
-    private TableColumn<String, String> elezioni;
+    private TableColumn<Elezione, String> elezioni;
 
     @FXML
-    private TableColumn<String, String> vincitori;
+    private TableColumn<Elezione, String> vincitori;
 
     @FXML
     void back(ActionEvent event) throws IOException {
@@ -55,6 +55,11 @@ public class VotazioniTerminateAdminController extends Controller{
 			for(int i = 0; i < term.size(); i++) {
 				System.out.println(term.get(i).getVincitore());
 			}
+			
+			elezioni.setCellValueFactory(new PropertyValueFactory<Elezione, String>("titolo"));
+			vincitori.setCellValueFactory(new PropertyValueFactory<Elezione, String>("vincitore"));
+			
+			terminatedelections.setItems(FXCollections.observableList(DaoFactorySingleton.getDaoFactory().getElezioneDao().getElezioniTerminate()));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

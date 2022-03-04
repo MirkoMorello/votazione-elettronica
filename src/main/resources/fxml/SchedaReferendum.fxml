@@ -33,5 +33,10 @@
             <Font size="16.0" />
          </font>
       </Button>
+      <Button fx:id="bianca" layoutX="312.0" layoutY="429.0" mnemonicParsing="false" onAction="#schedaBianca" prefHeight="59.0" prefWidth="110.0" style="-fx-background-color: #659ff1;" text="Bianca" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

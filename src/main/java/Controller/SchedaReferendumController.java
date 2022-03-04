@@ -28,6 +28,9 @@ public class SchedaReferendumController extends Controller{
 
     @FXML
     private Label title;
+    
+    @FXML
+    private Button bianca;
 
     @FXML
     void no(ActionEvent event) throws Exception {
@@ -54,6 +57,24 @@ public class SchedaReferendumController extends Controller{
 
     	if (alert.getResult() == ButtonType.YES) {
     		CurrentElezioneSingleton.getIstance().voteReferendum("si");
+    		DaoFactorySingleton.getDaoFactory().getElezioneDao().setUserVoted(CurrentElezioneSingleton.getIstance().getElezione().getTitolo(), CurrentElettoreSingleton.getIstance().getElettore().getCF());
+    		DaoFactorySingleton.getDaoFactory().getElezioneDao().incrementVoterCount(CurrentElezioneSingleton.getIstance().getElezione().getTitolo());
+    		Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/VotazioniElettore.fxml"));
+    		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+    		scene = new Scene(root);
+    		stage.setScene(scene);
+    		stage.setResizable(false);
+    		stage.show();
+    	}
+    }
+    
+    @FXML
+    void schedaBianca(ActionEvent event) throws Exception {
+    	Alert alert = new Alert(AlertType.CONFIRMATION, "Confermi voto SI?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+    	alert.showAndWait();
+
+    	if (alert.getResult() == ButtonType.YES) {
+    		CurrentElezioneSingleton.getIstance().voteReferendum("bianca");
     		DaoFactorySingleton.getDaoFactory().getElezioneDao().setUserVoted(CurrentElezioneSingleton.getIstance().getElezione().getTitolo(), CurrentElettoreSingleton.getIstance().getElettore().getCF());
     		DaoFactorySingleton.getDaoFactory().getElezioneDao().incrementVoterCount(CurrentElezioneSingleton.getIstance().getElezione().getTitolo());
     		Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/VotazioniElettore.fxml"));

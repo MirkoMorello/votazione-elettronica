@@ -60,7 +60,7 @@ public class AdminManagementController extends Controller{
     	}
     	
     	try {
-			DaoFactorySingleton.getDaoFactory().getAdminDao().addAdmin(username.getText(), password.getText(), superuser.isSelected());
+			DaoFactorySingleton.getDaoFactory().getAdminDao().addAdmin(new Admin(username.getText(), superuser.isSelected()), password.getText());
 			this.initialize();
 		} catch (Exception e) {
 			Alert alert = new Alert(AlertType.ERROR);

@@ -39,8 +39,9 @@ public class AdminDaoImpl implements AdminDAO{
 			}
 			int id = rs.getInt("id");
             String user = rs.getString("username");
+            int superuser = rs.getInt("superuser");
             
-            admin = new Admin(id, user);
+            admin = new Admin( user, superuser == 1);
             
             return admin;
 			
@@ -58,10 +59,12 @@ public class AdminDaoImpl implements AdminDAO{
 	}
 
 	@Override
-	public boolean addAdmin(String username, String password, boolean superuser) throws NoSuchAlgorithmException, Exception {
+	public boolean addAdmin(Admin a, String password) throws NoSuchAlgorithmException, Exception {
+		
+		String username = a.getUsername();
 		
 		int suser = 0;
-		if(superuser) {
+		if(a.isSuperUser()) {
 			suser = 1;
 		}
 		
@@ -111,8 +114,9 @@ public class AdminDaoImpl implements AdminDAO{
 			}
 			int id = rs.getInt("id");
             String user = rs.getString("username");
+            int superuser = rs.getInt("superuser");
             
-            admin = new Admin(id, user);
+            admin = new Admin( user, superuser == 1);
             
             return admin;
 			
@@ -130,7 +134,7 @@ public class AdminDaoImpl implements AdminDAO{
 		PreparedStatement updatedCmd= c.prepareStatement(command);
 		ResultSet rs = updatedCmd.executeQuery();
 		while(rs.next()) {
-			admins.add(new Admin(rs.getInt("id"), rs.getString("username")));
+			admins.add(new Admin( rs.getString("username"), (rs.getInt("superuser") == 1)));
 		}
 		return admins;
 	}

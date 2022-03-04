@@ -2,8 +2,9 @@ package Model;
 public class Admin {
 	private int id;
 	private String username;
+	private boolean superuser;
 	
-	public Admin(int id, String username) {
+	public Admin(String username, boolean superuser) {
 		this.id = id;
 		this.username = username;
 	}
@@ -12,7 +13,11 @@ public class Admin {
 		return this.username;
 	}
 	
-	public int getId() {
-		return this.id;
+	public String getId() {
+		return this.username;
+	}
+	
+	public boolean isSuperUser() {
+		return superuser;
 	}
 }
