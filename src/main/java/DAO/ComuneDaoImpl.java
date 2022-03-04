@@ -33,8 +33,9 @@ public class ComuneDaoImpl implements ComuneDao{
 			updatedCmd.setString(1, nome);
 			updatedCmd.setInt(2, popolazione);
 			updatedCmd.executeUpdate();
+			LoggerSingleton.getIstance().log("admin " + CurrentAdminSingleton.getIstance().getAdmin().getUsername() + " addedo to database comune " + nome);
 			return true;
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return false;

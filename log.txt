@@ -1,0 +1,6 @@
+mar 04, 2022 8:09:04 PM Singleton.LoggerSingleton log
+INFORMAZIONI: admin admin logged
+mar 04, 2022 8:09:11 PM Singleton.LoggerSingleton log
+INFORMAZIONI: admin admin added list 45gwtrgwra
+mar 04, 2022 8:09:20 PM Singleton.LoggerSingleton log
+INFORMAZIONI: admin admin added to database candidate dfwerf fwefwef

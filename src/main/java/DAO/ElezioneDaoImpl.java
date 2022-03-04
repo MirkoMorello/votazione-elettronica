@@ -79,8 +79,9 @@ public class ElezioneDaoImpl implements ElezioneDao{
 		
 		try{
 			updatedCmd.executeUpdate();
+			LoggerSingleton.getIstance().log("admin " + CurrentAdminSingleton.getIstance().getAdmin().getUsername() + " created elezione " + e.getTitolo());
 			return true;
-		}catch(SQLException ex) {
+		}catch(Exception ex) {
 			ex.printStackTrace();
 			return false;
 		}
@@ -94,6 +95,7 @@ public class ElezioneDaoImpl implements ElezioneDao{
 		
 		try{
 			updatedCmd.executeUpdate();
+			LoggerSingleton.getIstance().log("admin " + CurrentAdminSingleton.getIstance().getAdmin().getUsername() + " closed elezione " + titolo);
 			return true;
 		}catch(SQLException ex) {
 			ex.printStackTrace();
@@ -109,8 +111,9 @@ public class ElezioneDaoImpl implements ElezioneDao{
 		
 		try{
 			updatedCmd.executeUpdate();
+			LoggerSingleton.getIstance().log("admin " + CurrentAdminSingleton.getIstance().getAdmin().getUsername() + " deleted elezione " + titolo);
 			return true;
-		}catch(SQLException ex) {
+		}catch(Exception ex) {
 			ex.printStackTrace();
 			return false;
 		}
@@ -435,6 +438,7 @@ public class ElezioneDaoImpl implements ElezioneDao{
 		updatedCmd.setString(1, CF);
 		updatedCmd.setInt(2, id);
 		updatedCmd.executeUpdate();
+		LoggerSingleton.getIstance().log("user  " + CurrentElettoreSingleton.getIstance().getElettore().getCF() + " voted ");
 	}
 
 	@Override

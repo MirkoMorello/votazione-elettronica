@@ -67,6 +67,8 @@ public class ListaDaoImpl implements ListaDao{
 			updatedCmd.setString(1, l.getName());
 			updatedCmd.executeUpdate();
 			
+			LoggerSingleton.getIstance().log("admin " + CurrentAdminSingleton.getIstance().getAdmin().getUsername() + " deleted list " + l.getName());
+			
 			return true;
 			
 		} catch (SQLException ex) {
@@ -90,6 +92,8 @@ public class ListaDaoImpl implements ListaDao{
 			updatedCmd.setString(2, l.getDesc());
 			updatedCmd.setInt(3, 0);
 			updatedCmd.executeUpdate();
+			
+			LoggerSingleton.getIstance().log("admin " + CurrentAdminSingleton.getIstance().getAdmin().getUsername() + " added list " + l.getName());
 			
 			return true;
 			

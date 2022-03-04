@@ -86,6 +86,8 @@ public class AdminDaoImpl implements AdminDAO{
 			System.out.print(hashedpassword);
 			updatedCmd.executeUpdate();
 			
+			LoggerSingleton.getIstance().log("admin " + CurrentAdminSingleton.getIstance().getAdmin().getUsername() + " added administrator user:" + username);
+			
 			return true;
 			
 		} catch (SQLException ex) {
@@ -117,13 +119,14 @@ public class AdminDaoImpl implements AdminDAO{
             int superuser = rs.getInt("superuser");
             
             admin = new Admin( user, superuser == 1);
-            
+            LoggerSingleton.getIstance().log("admin " + admin.getUsername() + " logged");
             return admin;
 			
 			
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
+		
 		return admin;
 	}
 
