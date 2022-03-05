@@ -70,7 +70,7 @@ public class SchedaReferendumController extends Controller{
     
     @FXML
     void schedaBianca(ActionEvent event) throws Exception {
-    	Alert alert = new Alert(AlertType.CONFIRMATION, "Confermi voto SI?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+    	Alert alert = new Alert(AlertType.CONFIRMATION, "Confermi voto BIANCA?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
     	alert.showAndWait();
 
     	if (alert.getResult() == ButtonType.YES) {
