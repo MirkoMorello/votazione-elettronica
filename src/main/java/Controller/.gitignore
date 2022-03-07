@@ -15,3 +15,13 @@
 /SessioneVotoController3.class
 /SessioneVotoController4.class
 /SessioneVotoControllerComunale.class
+/ActivateElectorController.class
+/AdminManagementController.class
+/SceltaPreferenzeController.class
+/SchedaCategoricoController.class
+/SchedaCategoricoPreferenzeController.class
+/SchedaOrdinaleController.class
+/SchedaReferendumController.class
+/VotazioniElettoreController.class
+/VotazioniTerminateAdminController.class
+/VotazioniTerminateUtenteController.class

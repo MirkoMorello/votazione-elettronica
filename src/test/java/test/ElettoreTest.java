@@ -8,9 +8,9 @@ public class ElettoreTest {
 	
 	@Test
 	public void givenCFtest() {
-		Elettore elettore = new Elettore(null, null, null, null, null, null, 0);   //Given
+		Elettore elettore = new Elettore('mrlmrk', null, null, null, null, null, 0);   //Given
 		
-		int result = Elettore.sarcazzo();										// when
+		String result = elettore.getCF();			// when
 		
 		
 		/*

@@ -4,3 +4,5 @@
 /CurrentElettoreSingleton.class
 /CurrentListSingleton.class
 /DaoFactorySingleton.class
+/CurrentElezioneSingleton.class
+/LoggerSingleton.class

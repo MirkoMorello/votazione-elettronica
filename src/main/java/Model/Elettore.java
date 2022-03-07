@@ -99,7 +99,7 @@ public class Elettore{
 				//3-6 cifre
 				String consonanti_nome = this.name.replaceAll("[AEIOUaeiou]", "");
 				if (consonanti_nome.length() <= 3){
-					consonanti_nome += "XXX";
+					consonanti_nome += "AAA";
 					calculated_CF += consonanti_nome.substring(0,3);
 				}else{
 					calculated_CF += consonanti_nome.substring(0,1);
@@ -120,6 +120,7 @@ public class Elettore{
 				//10-11 cifre
 				calculated_CF += this.nascita.format(DateTimeFormatter.ofPattern("dd"));
 				
+				System.out.println(calculated_CF);
 				//11 cifra se estero e return
 				if (codice.length() < 15){
 					return false;
