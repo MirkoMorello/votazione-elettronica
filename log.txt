@@ -1,6 +1,16 @@
-mar 04, 2022 8:09:04 PM Singleton.LoggerSingleton log
+mar 06, 2022 11:21:28 PM Singleton.LoggerSingleton log
 INFORMAZIONI: admin admin logged
-mar 04, 2022 8:09:11 PM Singleton.LoggerSingleton log
-INFORMAZIONI: admin admin added list 45gwtrgwra
-mar 04, 2022 8:09:20 PM Singleton.LoggerSingleton log
-INFORMAZIONI: admin admin added to database candidate dfwerf fwefwef
+mar 06, 2022 11:38:33 PM Singleton.LoggerSingleton log
+INFORMAZIONI: admin admin created elezione fds
+mar 06, 2022 11:38:59 PM Singleton.LoggerSingleton log
+INFORMAZIONI: admin admin created elezione fdsafdsa
+mar 06, 2022 11:54:13 PM Singleton.LoggerSingleton log
+INFORMAZIONI: admin admin created elezione gfdsgfdsgfdsgfds
+mar 06, 2022 11:54:30 PM Singleton.LoggerSingleton log
+INFORMAZIONI: admin admin created elezione ytreytre
+mar 07, 2022 12:28:29 AM Singleton.LoggerSingleton log
+INFORMAZIONI: admin admin created elezione fdsa
+mar 07, 2022 12:28:39 AM Singleton.LoggerSingleton log
+INFORMAZIONI: admin admin created elezione ffdfdsfds
+mar 07, 2022 12:28:49 AM Singleton.LoggerSingleton log
+INFORMAZIONI: admin admin created elezione fdsafdsa

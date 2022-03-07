@@ -76,7 +76,7 @@ public class ElettoreDashboardController {
 
     @FXML
     void informazioniElettore(ActionEvent event) throws IOException {
-    	Parent root = FXMLLoader.load(getClass().getResource("fxml/ex.fxml"));
+    	Parent root = FXMLLoader.load(getClass().getResource("fxml/InformazioniElettore.fxml"));
 		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		scene = new Scene(root);
 		stage.setScene(scene);
