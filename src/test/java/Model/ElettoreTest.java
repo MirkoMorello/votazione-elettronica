@@ -15,7 +15,7 @@ public class ElettoreTest {
 
 	@Test
 	public void testElettore1() throws Exception {
-		Elettore e = new Elettore("MRTNNA97C07F205Z", "anna", "Mariotti", LocalDate.parse("1997-03-07"), "Milano", "Italia", 'f');
+		Elettore e = new Elettore("MRTNNA97C07F205Z", "Anna", "Mariotti", LocalDate.parse("1997-03-07"), "Milano", "Italia", 'f');
 		assertNotNull(e);
 	}
 	
@@ -27,7 +27,7 @@ public class ElettoreTest {
 	
 	@Test(expected = java.lang.Exception.class)
 	public void testWrongElettore1() throws Exception {
-		Elettore e = new Elettore("MRRNNA97C07F205Z", "anna", "Mariotti", LocalDate.parse("1997-03-07"), "Milano", "Italia", 'm');
+		Elettore e = new Elettore("MRRNNA97C07F205Z", "Anna", "Mariotti", LocalDate.parse("1997-03-07"), "Milano", "Italia", 'f');
 	}
 	
 	@Test(expected = java.lang.Exception.class)
@@ -37,7 +37,7 @@ public class ElettoreTest {
 	
 	@Test(expected = java.lang.Exception.class)
 	public void testSetCF() throws Exception {
-		Elettore e = new Elettore("MRTNNA97C07F205Z", "anna", "Mariotti", LocalDate.parse("1997-03-07"), "Milano", "Italia", 'm');
+		Elettore e = new Elettore("MRTNNA97C07F205Z", "Anna", "Mariotti", LocalDate.parse("1997-03-07"), "Milano", "Italia", 'f');
 		assertNotNull(e);
 		e.setCF("MRRNNA97C07F205Z");
 	}

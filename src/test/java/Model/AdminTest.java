@@ -10,22 +10,26 @@ public class AdminTest {
 
 	@Test
 	public void testAdmin() {
-		fail("Not yet implemented");
+		Admin a = new Admin("gabe", true);
+		assertNotNull(a);
 	}
 
 	@Test
 	public void testGetUsername() {
-		fail("Not yet implemented");
+		Admin a = new Admin("giyo", true);
+		assertNotNull(a);
 	}
 
 	@Test
-	public void testGetId() {
-		fail("Not yet implemented");
+	public void testIsSuperUser1() {
+		Admin a = new Admin("fret", false);
+		assertFalse(a.isSuperUser());
 	}
-
+	
 	@Test
-	public void testIsSuperUser() {
-		fail("Not yet implemented");
+	public void testIsSuperUser2() {
+		Admin a = new Admin("ghemon", true);
+		assertFalse(a.isSuperUser());
 	}
 
 }
