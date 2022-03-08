@@ -7,23 +7,27 @@ import org.junit.Test;
 public class VotoOrdinaleTest {
 
 	@Test
-	public void testSetVincitore() {
-		fail("Not yet implemented");
-	}
-
-	@Test
 	public void testGetTipo() {
-		fail("Not yet implemented");
+		VotoOrdinale v = new VotoOrdinale("Questo è il titolo","Questa è la descrizione dell'elezione ordinale", false);
+		assertEquals("ordinale",v.getTipo());
 	}
 
 	@Test
-	public void testGetListe() {
-		fail("Not yet implemented");
+	public void testGetListe1() {
+		VotoOrdinale v = new VotoOrdinale("Titolo","Questa è la descrizione", true);
+		assertTrue(v.getListe());
+	}
+	
+	@Test
+	public void testGetListe2() {
+		VotoOrdinale v = new VotoOrdinale("Titolo","Questa è la descrizione", false);
+		assertFalse(v.getListe());
 	}
 
 	@Test
 	public void testVotoOrdinale() {
-		fail("Not yet implemented");
+		VotoOrdinale v = new VotoOrdinale("Questo è il titolo","Questa è la descrizione dell'elezione ordinale", false);
+		assertNotNull(v);
 	}
 
 }
