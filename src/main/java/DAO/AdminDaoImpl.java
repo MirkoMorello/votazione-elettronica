@@ -54,8 +54,19 @@ public class AdminDaoImpl implements AdminDAO{
 
 	@Override
 	public boolean deleteAdmin(String username) throws Exception {
-		// TODO Auto-generated method stub
-		return false;
+		try {
+			String command = "DELETE FROM admin WHERE admin.username = ?;";
+			PreparedStatement updatedCmd= c.prepareStatement(command);
+			updatedCmd.setString(1, String.valueOf(username));
+			int rs = updatedCmd.executeUpdate();
+			if (rs == 0) {
+				return false;
+			}
+            return true;
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+			return false;
+		}
 	}
 
 	@Override
@@ -86,7 +97,12 @@ public class AdminDaoImpl implements AdminDAO{
 			System.out.print(hashedpassword);
 			updatedCmd.executeUpdate();
 			
-			LoggerSingleton.getIstance().log("admin " + CurrentAdminSingleton.getIstance().getAdmin().getUsername() + " added administrator user:" + username);
+			try {
+				LoggerSingleton.getIstance().log("admin " + CurrentAdminSingleton.getIstance().getAdmin().getUsername() + " added administrator user:" + username);
+			}catch(java.lang.NullPointerException ex) {
+				LoggerSingleton.getIstance().log(username + "was added as administrator");
+			}
+			
 			
 			return true;
 			

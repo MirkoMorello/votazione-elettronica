@@ -67,7 +67,12 @@ public class ListaDaoImpl implements ListaDao{
 			updatedCmd.setString(1, l.getName());
 			updatedCmd.executeUpdate();
 			
-			LoggerSingleton.getIstance().log("admin " + CurrentAdminSingleton.getIstance().getAdmin().getUsername() + " deleted list " + l.getName());
+			try {
+				LoggerSingleton.getIstance().log("admin " + CurrentAdminSingleton.getIstance().getAdmin().getUsername() + " deleted list " + l.getName());
+			}catch(java.lang.NullPointerException ex) {
+				LoggerSingleton.getIstance().log("deleted list " + l.getName());
+			}
+			
 			
 			return true;
 			
@@ -93,7 +98,12 @@ public class ListaDaoImpl implements ListaDao{
 			updatedCmd.setInt(3, 0);
 			updatedCmd.executeUpdate();
 			
-			LoggerSingleton.getIstance().log("admin " + CurrentAdminSingleton.getIstance().getAdmin().getUsername() + " added list " + l.getName());
+			try {
+				LoggerSingleton.getIstance().log("admin " + CurrentAdminSingleton.getIstance().getAdmin().getUsername() + " added list " + l.getName());				
+			}catch(java.lang.NullPointerException ex) {
+				LoggerSingleton.getIstance().log("added list " + l.getName());
+			}
+			
 			
 			return true;
 			

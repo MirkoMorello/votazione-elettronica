@@ -29,4 +29,11 @@ public class Lista {
 	public int getId() {
 		return DaoFactorySingleton.getDaoFactory().getListaDao().getListID(nome);
 	}
+	
+	public boolean equals(Lista tocompare) {
+		if (this.nome.equals(tocompare.getName()) && this.descrizione.equals(tocompare.getDesc())) {
+			return true;
+		}
+		return false;
+	}
 }

@@ -74,7 +74,12 @@ public class CandidatoDaoImpl implements CandidatoDao{
 				updatedCmd.setString(2, cand.getCognome());
 				updatedCmd.setInt(3, listId);
 				updatedCmd.executeUpdate();
-				LoggerSingleton.getIstance().log("admin " + CurrentAdminSingleton.getIstance().getAdmin().getUsername() + " removed from database candidate " + cand);
+				try {
+					LoggerSingleton.getIstance().log("admin " + CurrentAdminSingleton.getIstance().getAdmin().getUsername() + " removed from database candidate " + cand);
+				}catch(java.lang.NullPointerException ex){
+					LoggerSingleton.getIstance().log("removed from database candidate " + cand);
+				}
+				
 			}catch (SQLException ex) {
 				return false;
 			}
@@ -113,7 +118,12 @@ public class CandidatoDaoImpl implements CandidatoDao{
 				updatedCmd.setString(5, cand.getSesso());
 				System.out.println(updatedCmd.toString());
 				updatedCmd.executeUpdate();
-				LoggerSingleton.getIstance().log("admin " + CurrentAdminSingleton.getIstance().getAdmin().getUsername() + " added to database candidate " + cand);
+				try {
+					LoggerSingleton.getIstance().log("admin " + CurrentAdminSingleton.getIstance().getAdmin().getUsername() + " added to database candidate " + cand);
+				}
+				catch(java.lang.NullPointerException ex) {
+					LoggerSingleton.getIstance().log("added to database candidate " + cand);
+				}
 				
 			}catch (Exception ex) {
 				ex.printStackTrace();
