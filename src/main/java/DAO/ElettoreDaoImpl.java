@@ -103,7 +103,12 @@ public class ElettoreDaoImpl implements ElettoreDao{
 			PreparedStatement updatedCmd= c.prepareStatement(command);
 			updatedCmd.setString(1, String.valueOf(CF));
 			updatedCmd.executeUpdate();
-			LoggerSingleton.getIstance().log("admin " + CurrentAdminSingleton.getIstance().getAdmin().getUsername() + " deleted from database elettore " + CF);
+			try {
+				LoggerSingleton.getIstance().log("admin " + CurrentAdminSingleton.getIstance().getAdmin().getUsername() + " deleted from database elettore " + CF);
+			}catch(Exception ex) {
+				LoggerSingleton.getIstance().log(" deleted from database elettore " + CF);
+			}
+			
 			
 			return true;
 			
@@ -148,9 +153,12 @@ public class ElettoreDaoImpl implements ElettoreDao{
 			
 
 			updatedCmd.executeUpdate();
-			
+			try {
 			LoggerSingleton.getIstance().log("admin " + CurrentAdminSingleton.getIstance().getAdmin().getUsername() + " added to database elettore " + e.getCF());
-			
+			}
+			catch(Exception ex){
+				LoggerSingleton.getIstance().log("added to database elettore " + e.getCF());
+			}
 			return true;
 			
 		} catch (SQLException ex) {
@@ -192,8 +200,8 @@ public class ElettoreDaoImpl implements ElettoreDao{
             String nazione = rs.getString("nazione");
             
             e = new Elettore( Code, nome, cognome, nascitald, comune, nazione, sessoChar);
-            
             LoggerSingleton.getIstance().log("Elettore " + Code + " logged");
+            
             
             return e;
 			
@@ -267,7 +275,11 @@ public class ElettoreDaoImpl implements ElettoreDao{
 		updatedCmd.setString(6, String.valueOf(e.getNazione().toUpperCase()));
 		updatedCmd.setString(7, String.valueOf(e.getCF()));
 		int rs = updatedCmd.executeUpdate();
-		LoggerSingleton.getIstance().log("admin " + CurrentAdminSingleton.getIstance().getAdmin().getUsername() + " modified from database elettore " + e.getCF());
+		try {
+			LoggerSingleton.getIstance().log("admin " + CurrentAdminSingleton.getIstance().getAdmin().getUsername() + " modified from database elettore " + e.getCF());
+		}catch(Exception ex) {
+			LoggerSingleton.getIstance().log("modified from database elettore " + e.getCF());
+		}
 		if(rs <= 0) {
 			return false;
 		}

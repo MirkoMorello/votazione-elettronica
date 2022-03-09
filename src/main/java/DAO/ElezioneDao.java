@@ -10,8 +10,8 @@ public interface ElezioneDao {
 	public Elezione getElezione(String titolo) throws SQLException;
 	public boolean closeElezione(String titolo) throws Exception;
 	public boolean deleteElezione(String titolo) throws SQLException;
-	public void pushCandidati(List<String> selected) throws SQLException;
-	public void pushListe(List<String> selected) throws SQLException;
+	public boolean pushCandidati(List<String> selected) throws SQLException;
+	public boolean pushListe(List<String> selected) throws SQLException;
 	public void pushListeCandidati(List<String> selected) throws Exception;
 	public void pushReferendum() throws SQLException ;
 	public String getVincitoreReferendum(String titolo) throws SQLException;
@@ -21,7 +21,7 @@ public interface ElezioneDao {
 	public List<Elezione> getElezioniAttiveUtente(String CF, String comune) throws Exception;
 	public void setUserVoted(String titolo, String CF) throws Exception;
 	public void incrementVoterCount(String titolo) throws Exception;
-	public void voteReferendum(String value, String titolo) throws Exception;
+	public boolean voteReferendum(String value, String titolo) throws Exception;
 	public void voteOrdinaleListe(List<String> opzioni, String titolo) throws Exception;
 	public void voteOrdinaleCandidati(List<String> opzioni, String titolo) throws Exception;
 	public void voteCategoricoListe(String opzione, String titolo) throws Exception;

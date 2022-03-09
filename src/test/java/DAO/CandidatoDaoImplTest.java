@@ -83,8 +83,8 @@ public class CandidatoDaoImplTest {
 		System.out.print(l.getName());
 		assertTrue(dao.getPartecipatingCandidates(l.getName()).get(0) instanceof Candidato);
 		assertTrue(dao.getPartecipatingCandidates(l.getName()).get(0).equals(c1));
-		//dao2.deleteList(l);
-		//dao.deleteCandidate(c1);
+		dao.deleteCandidate(c1);
+		dao2.deleteList(l);
 	}
 	
 /*

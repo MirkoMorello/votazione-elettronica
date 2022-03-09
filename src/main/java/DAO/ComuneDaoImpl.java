@@ -33,7 +33,12 @@ public class ComuneDaoImpl implements ComuneDao{
 			updatedCmd.setString(1, nome);
 			updatedCmd.setInt(2, popolazione);
 			updatedCmd.executeUpdate();
-			LoggerSingleton.getIstance().log("admin " + CurrentAdminSingleton.getIstance().getAdmin().getUsername() + " addedo to database comune " + nome);
+			try {
+				LoggerSingleton.getIstance().log("admin " + CurrentAdminSingleton.getIstance().getAdmin().getUsername() + " added to database comune " + nome);
+			}catch(Exception e) {
+				LoggerSingleton.getIstance().log("added to database comune " + nome);
+			}
+			
 			return true;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -51,6 +56,17 @@ public class ComuneDaoImpl implements ComuneDao{
 		ResultSet rs = updatedCmd.executeQuery();
 		rs.next();
 		return rs.getInt("id");
+	}
+	
+	public boolean deleteComune(Comune comune) throws SQLException{
+		String command = "DELETE FROM \"comune\" where nome = ?";
+		PreparedStatement updatedCmd= c.prepareStatement(command);
+		updatedCmd.setString(1, comune.getNome());
+		int rs = updatedCmd.executeUpdate();;
+		if (rs == 0) {
+			return false;
+		}
+		return true;
 	}
 
 }

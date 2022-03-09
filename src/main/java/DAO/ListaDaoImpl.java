@@ -81,6 +81,31 @@ public class ListaDaoImpl implements ListaDao{
 			return false;
 		}
 	}
+	
+	public boolean destroyList(Lista l ) throws Exception {
+		try {
+			String command = "delete from \"lista\" where nome = ?;";
+			PreparedStatement updatedCmd= c.prepareStatement(command);
+			updatedCmd.setString(1, l.getName());
+			int rs = updatedCmd.executeUpdate();
+			if (rs == 0) {
+				return false;
+			}
+			
+			try {
+				LoggerSingleton.getIstance().log("admin " + CurrentAdminSingleton.getIstance().getAdmin().getUsername() + " deleted list " + l.getName());
+			}catch(java.lang.NullPointerException ex) {
+				LoggerSingleton.getIstance().log("deleted list " + l.getName());
+			}
+			
+			
+			return true;
+			
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+			return false;
+		}
+	}
 
 	@Override
 	public boolean addList(Lista l) throws NoSuchAlgorithmException, Exception {

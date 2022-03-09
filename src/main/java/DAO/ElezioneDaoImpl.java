@@ -79,7 +79,12 @@ public class ElezioneDaoImpl implements ElezioneDao{
 		
 		try{
 			updatedCmd.executeUpdate();
-			LoggerSingleton.getIstance().log("admin " + CurrentAdminSingleton.getIstance().getAdmin().getUsername() + " created elezione " + e.getTitolo());
+			try {
+				LoggerSingleton.getIstance().log("admin " + CurrentAdminSingleton.getIstance().getAdmin().getUsername() + " created elezione " + e.getTitolo());
+			}catch(Exception ex) {
+				LoggerSingleton.getIstance().log("created elezione " + e.getTitolo());
+			}
+				
 			return true;
 		}catch(Exception ex) {
 			ex.printStackTrace();
@@ -95,7 +100,9 @@ public class ElezioneDaoImpl implements ElezioneDao{
 		
 		try{
 			updatedCmd.executeUpdate();
-			LoggerSingleton.getIstance().log("admin " + CurrentAdminSingleton.getIstance().getAdmin().getUsername() + " closed elezione " + titolo);
+			try {
+				LoggerSingleton.getIstance().log("admin " + CurrentAdminSingleton.getIstance().getAdmin().getUsername() + " closed elezione " + titolo);
+			}catch(Exception e) {}
 			return true;
 		}catch(SQLException ex) {
 			ex.printStackTrace();
@@ -111,7 +118,9 @@ public class ElezioneDaoImpl implements ElezioneDao{
 		
 		try{
 			updatedCmd.executeUpdate();
-			LoggerSingleton.getIstance().log("admin " + CurrentAdminSingleton.getIstance().getAdmin().getUsername() + " deleted elezione " + titolo);
+			try {
+				LoggerSingleton.getIstance().log("admin " + CurrentAdminSingleton.getIstance().getAdmin().getUsername() + " deleted elezione " + titolo);
+			}catch(Exception e) {}
 			return true;
 		}catch(Exception ex) {
 			ex.printStackTrace();
@@ -119,7 +128,44 @@ public class ElezioneDaoImpl implements ElezioneDao{
 		}
 	}
 	
-	public void pushListe(List<String> selected) throws SQLException {
+	
+	public boolean deleteElezioneLista(Lista l) throws SQLException {
+		String command = "delete from elezione_lista where lista = ?;";
+		PreparedStatement updatedCmd= c.prepareStatement(command);
+		updatedCmd.setLong(1, l.getId());
+		
+		try{
+			updatedCmd.executeUpdate();
+			try {
+				LoggerSingleton.getIstance().log("admin " + CurrentAdminSingleton.getIstance().getAdmin().getUsername() + " deleted elezione_lista " + l.getName());
+			}catch(Exception e) {}
+			return true;
+		}catch(Exception ex) {
+			ex.printStackTrace();
+			return false;
+		}
+	}
+	
+	public boolean deleteElezioneCandidato(Candidato can) throws SQLException {
+		String command = "delete from elezione_lista where lista = ?;";
+		PreparedStatement updatedCmd= c.prepareStatement(command);
+		String[] splitted = can.toString().split(" ");
+		int candidatoid = DaoFactorySingleton.getDaoFactory().getCandidatoDao().getCandidatoID(splitted[0], splitted[1] );
+		
+		updatedCmd.setLong(1, candidatoid);
+		try{
+			updatedCmd.executeUpdate();
+			try {
+				LoggerSingleton.getIstance().log("admin " + CurrentAdminSingleton.getIstance().getAdmin().getUsername() + " deleted elezione_candidato " + can.toString());
+			}catch(Exception e) {}
+			return true;
+		}catch(Exception ex) {
+			ex.printStackTrace();
+			return false;
+		}
+	}
+	
+	public boolean pushListe(List<String> selected) throws SQLException {
 		int elezioneid;
 		int listaid;
 		String titolo = CreatingElezioneSingleton.getTitolo();
@@ -134,11 +180,13 @@ public class ElezioneDaoImpl implements ElezioneDao{
 				updatedCmd.executeUpdate();
 			}catch(SQLException ex) {
 				ex.printStackTrace();
+				return false;
 			}
 		}
+		return true;
 	}
 	
-	public void pushCandidati(List<String> selected) throws SQLException {
+	public boolean pushCandidati(List<String> selected) throws SQLException {
 		int elezioneid;
 		int candidatoid;
 		String titolo = CreatingElezioneSingleton.getTitolo();
@@ -152,10 +200,13 @@ public class ElezioneDaoImpl implements ElezioneDao{
 			updatedCmd.setInt(2, candidatoid);
 			try {
 				updatedCmd.executeUpdate();
+				return true;
 			}catch(SQLException ex) {
 				ex.printStackTrace();
+				return false;
 			}
 		}
+		return true;
 	}
 	
 	public void pushListeCandidati(List<String> selected) throws Exception {
@@ -450,7 +501,7 @@ public class ElezioneDaoImpl implements ElezioneDao{
 	}
 
 	@Override
-	public void voteReferendum(String value, String titolo) throws Exception {
+	public boolean voteReferendum(String value, String titolo) throws Exception {
 		int id = getElezioneId(titolo);
 		if(value.equals("si")) {
 			String command = "update referendum set si = si + 1 where elezione = ?";
@@ -468,6 +519,7 @@ public class ElezioneDaoImpl implements ElezioneDao{
 			updatedCmd.setInt(1, id);
 			updatedCmd.executeUpdate();
 		}
+		return true;
 		
 	}
 

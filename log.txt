@@ -1,24 +1,32 @@
-mar 08, 2022 9:52:13 PM Singleton.LoggerSingleton log
-INFORMAZIONI: deleted list titolo della lista
-mar 08, 2022 9:52:13 PM Singleton.LoggerSingleton log
-INFORMAZIONI: removed from database candidate Mario Draghi
-mar 08, 2022 9:52:13 PM Singleton.LoggerSingleton log
+mar 09, 2022 3:10:50 AM Singleton.LoggerSingleton log
+INFORMAZIONI: created elezione Questo è il titolo
+mar 09, 2022 3:10:50 AM Singleton.LoggerSingleton log
+INFORMAZIONI: created elezione Questo è il titolo
+mar 09, 2022 3:10:50 AM Singleton.LoggerSingleton log
+INFORMAZIONI: created elezione Questo è il titolo
+mar 09, 2022 3:10:50 AM Singleton.LoggerSingleton log
+INFORMAZIONI: added list Titolo della lista
+mar 09, 2022 3:10:50 AM Singleton.LoggerSingleton log
+INFORMAZIONI: deleted list Titolo della lista
+mar 09, 2022 3:10:50 AM Singleton.LoggerSingleton log
+INFORMAZIONI: created elezione Questo è il titolo
+mar 09, 2022 3:10:50 AM Singleton.LoggerSingleton log
+INFORMAZIONI: added list Titolo della lista
+mar 09, 2022 3:10:50 AM Singleton.LoggerSingleton log
 INFORMAZIONI: added to database candidate Mario Draghi
-mar 08, 2022 9:52:13 PM Singleton.LoggerSingleton log
+mar 09, 2022 3:10:50 AM Singleton.LoggerSingleton log
 INFORMAZIONI: removed from database candidate Mario Draghi
-mar 08, 2022 9:52:13 PM Singleton.LoggerSingleton log
-INFORMAZIONI: deleted list titolo della lista
-mar 08, 2022 9:52:13 PM Singleton.LoggerSingleton log
-INFORMAZIONI: removed from database candidate Mario Draghi
-mar 08, 2022 9:52:13 PM Singleton.LoggerSingleton log
-INFORMAZIONI: added to database candidate Mario Draghi
-mar 08, 2022 9:52:13 PM Singleton.LoggerSingleton log
-INFORMAZIONI: deleted list titolo della lista
-mar 08, 2022 9:52:13 PM Singleton.LoggerSingleton log
-INFORMAZIONI: removed from database candidate Mario Draghi
-mar 08, 2022 9:52:13 PM Singleton.LoggerSingleton log
-INFORMAZIONI: added to database candidate Mario Draghi
-mar 08, 2022 9:52:13 PM Singleton.LoggerSingleton log
-INFORMAZIONI: deleted list titolo della lista
-mar 08, 2022 9:52:13 PM Singleton.LoggerSingleton log
-INFORMAZIONI: removed from database candidate Mario Draghi
+mar 09, 2022 3:10:50 AM Singleton.LoggerSingleton log
+INFORMAZIONI: deleted list Titolo della lista
+mar 09, 2022 3:10:51 AM Singleton.LoggerSingleton log
+INFORMAZIONI: created elezione Questo è il titolo
+mar 09, 2022 3:10:51 AM Singleton.LoggerSingleton log
+INFORMAZIONI: created elezione Questo è il titolo
+mar 09, 2022 3:10:51 AM Singleton.LoggerSingleton log
+INFORMAZIONI: created elezione Questo è il titolo
+mar 09, 2022 3:10:51 AM Singleton.LoggerSingleton log
+INFORMAZIONI: created elezione Questo è il titolo del referendum
+mar 09, 2022 3:10:51 AM Singleton.LoggerSingleton log
+INFORMAZIONI: created elezione Questo è il titolo del referendum
+mar 09, 2022 3:10:51 AM Singleton.LoggerSingleton log
+INFORMAZIONI: created elezione Questo è il titolo
